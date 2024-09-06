@@ -13,7 +13,9 @@
     "react-scripts": "4.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",  
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "keywords": [],
   "author": "",

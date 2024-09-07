@@ -1,0 +1,82 @@
+.user-stats {
+    padding: 20px;
+    background-color: #1a1a1a; /* Dark background for a game-like feel */
+    color: #e0e0e0; /* Light text for contrast */
+  }
+  
+  .user-stats h2 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px #000;
+  }
+  
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .match-card, .live-match, .player-card, .event-card {
+    border: 2px solid #4CAF50;
+    border-radius: 15px;
+    padding: 15px;
+    background: linear-gradient(145deg, #2a2a2a, #3a3a3a);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Each card takes up the full width of the container */
+    max-width: 100%; /* Ensure cards don't exceed the viewport width */
+  }
+  
+  .match-card img, .player-card img, .participant img {
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+  }
+  
+  .participant {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .participant.highlight {
+    background-color: rgba(255, 215, 0, 0.2);
+  }
+  
+  .match-details, .live-match-details, .event-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Split into two columns */
+    gap: 10px;
+  }
+  
+  .player-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-card {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  h3, h4 {
+    margin-top: 10px;
+    color: #ffd700;
+  }
+  
+  @media (max-width: 768px) {
+    .match-details, .live-match-details, .event-details {
+      grid-template-columns: 1fr; /* Stack details on top of each other on smaller screens */
+    }
+  }
+  

@@ -1,55 +1,61 @@
-const MatchHistory = ({ matchHistory }) => {
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const MatchHistory = ({ riotId }) => {
+  const [matchHistory, setMatchHistory] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMatchHistory = async () => {
+      try {
+        const [gameName, tagLine] = riotId.split('#');
+
+        const graphqlQuery = `
+          query getMatchHistory($gameName: String!, $tagLine: String!) {
+            matchHistory(gameName: $gameName, tagLine: $tagLine) {
+              matchId
+              champion
+              kills
+              deaths
+              assists
+            }
+          }
+        `;
+
+        const response = await axios.post('/graphql', {
+          query: graphqlQuery,
+          variables: { gameName, tagLine }
+        });
+
+        setMatchHistory(response.data.data.matchHistory);
+      } catch (error) {
+        console.error('Error fetching match history:', error);
+        setError('Failed to fetch match history');
+      }
+    };
+
+    fetchMatchHistory();
+  }, [riotId]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!matchHistory) {
+    return <div>Loading match history...</div>;
+  }
+
   return (
     <div>
-    <h2>Match History</h2>
-    <div className="flex-container">
-      {matchHistory.map((match, index) => (
-        <div key={index} className="match-card">
-          <div className="match-summary">
-            <p><strong>Champion:</strong> {match.championName}</p>
-            <img src={`https://ddragon.leagueoflegends.com/cdn/14.14.1/img/champion/${match.championName}.png`} alt={match.championName} />
-            <p><strong>Win:</strong> {match.win ? 'Yes' : 'No'}</p>
-            <p><strong>K/D/A:</strong> {match.kills}/{match.deaths}/{match.assists}</p>
-          </div>
-          <div className="match-details">
-            <p><strong>Gold Earned:</strong> {match.goldEarned}</p>
-            <p><strong>Total Damage Dealt:</strong> {match.totalDamageDealt}</p>
-            <p><strong>Wards Placed:</strong> {match.wardsPlaced}</p>
-            <h4>Participants</h4>
-            {match.participants.map((participant, idx) => (
-              <div key={idx} className={`participant ${participant.puuid === match.puuid ? 'highlight' : ''}`}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <span>{participant.championName}</span>
-                  <img src={`https://ddragon.leagueoflegends.com/cdn/14.14.1/img/champion/${participant.championName}.png`} alt={participant.championName} style={{ marginLeft: '10px' }} />
-                </div>
-                <div>
-                  <p><strong>K/D/A:</strong> {participant.kills}/{participant.deaths}/{participant.assists}</p>
-                  <p><strong>Gold Earned:</strong> {participant.goldEarned}</p>
-                  <p><strong>Total Damage Dealt:</strong> {participant.totalDamageDealt}</p>
-                  <p><strong>Wards Placed:</strong> {participant.wardsPlaced}</p>
-                  <div>
-                    <h4>Items</h4>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {participant.items.map((item, itemIdx) => (
-                        item !== 0 && (
-                          <img
-                            key={itemIdx}
-                            src={`https://ddragon.leagueoflegends.com/cdn/14.14.1/img/item/${item}.png`}
-                            alt={`Item ${item}`}
-                            style={{ width: '32px', height: '32px', margin: '2px' }}
-                          />
-                        )
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+      <h2>Match History</h2>
+      {matchHistory.map((match) => (
+        <div key={match.matchId}>
+          <p>Champion: {match.champion}</p>
+          <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
         </div>
       ))}
     </div>
-    </div>
   );
-}
+};
+
 export default MatchHistory;

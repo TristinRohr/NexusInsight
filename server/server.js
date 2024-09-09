@@ -10,6 +10,7 @@ const { typeDefs, resolvers } = require('./schemas');
 
 // Initialize express app
 const app = express();
+const API_PORT = process.env.API_PORT || 3001;
 
 // Start Apollo Server
 const server = new ApolloServer({
@@ -29,16 +30,22 @@ const server = new ApolloServer({
   },
 });
 
-// Start Apollo Server and apply middleware
-server.start().then(() => {
+// Apply middlewares and start the server
+async function startServer() {
+  await server.start();
+  
+  // Use CORS middleware before applying Apollo middleware
+  app.use(cors());
+  
+  // Apply Apollo middleware
   server.applyMiddleware({ app });
 
-  app.use(cors());
-
-  app.listen({ port: 3001 }, () => {
-    console.log(`Server ready at http://localhost:3001${server.graphqlPath}`);
+  app.listen(API_PORT, () => {
+    console.log(`Server ready at http://localhost:${API_PORT}${server.graphqlPath}`);
   });
-});
+}
+
+startServer();
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)

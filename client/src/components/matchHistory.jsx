@@ -48,8 +48,8 @@ const MatchHistory = ({ riotId }) => {
   return (
     <div>
       <h2>Match History</h2>
-      {matchHistory.map((match) => (
-        <div key={match.matchId}>
+      {matchHistory.map((match, index) => (
+        <div key={match.matchId || index}>  {/* Use index as fallback */}
           <p>Champion: {match.champion}</p>
           <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
         </div>

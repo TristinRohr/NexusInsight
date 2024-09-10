@@ -1,4 +1,3 @@
-// riotApiService.js
 const fetch = require('node-fetch');
 require('dotenv').config();
 
@@ -22,24 +21,6 @@ exports.fetchPuuidByRiotId = async (gameName, tagLine) => {
   return data.puuid;
 };
 
-exports.fetchUserStats = async (puuid) => {
-  console.log(`Fetching user stats for PUUID: ${puuid}`);
-  const url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`;
-  console.log(`Request URL: ${url}`);
-
-  const response = await fetch(url);
-  const responseBody = await response.text();
-
-  if (!response.ok) {
-    console.error('Failed to fetch user stats', response.status, responseBody);
-    throw new Error('Failed to fetch user stats');
-  }
-
-  const data = JSON.parse(responseBody);
-  console.log('Fetched user stats:', data);
-  return data;
-};
-
 exports.fetchMatchHistory = async (puuid) => {
   console.log(`Fetching match history for PUUID: ${puuid}`);
   const url = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${RIOT_API_KEY}`;
@@ -54,8 +35,8 @@ exports.fetchMatchHistory = async (puuid) => {
   }
 
   const data = JSON.parse(responseBody);
-  console.log('Fetched match history:', data);
-  return data;
+  console.log('Fetched match IDs:', data);
+  return data;  // Returning array of match IDs
 };
 
 exports.fetchMatchDetails = async (matchId) => {
@@ -72,50 +53,6 @@ exports.fetchMatchDetails = async (matchId) => {
   }
 
   const data = JSON.parse(responseBody);
-
-  const match = {
-    metadata: data.metadata,
-    info: {
-      ...data.info,
-      participants: data.info.participants.map(participant => ({
-        puuid: participant.puuid,
-        championName: participant.championName,
-        kills: participant.kills,
-        deaths: participant.deaths,
-        assists: participant.assists,
-        goldEarned: participant.goldEarned,
-        totalDamageDealt: participant.totalDamageDealt,
-        wardsPlaced: participant.wardsPlaced,
-        items: [
-          participant.item0,
-          participant.item1,
-          participant.item2,
-          participant.item3,
-          participant.item4,
-          participant.item5,
-          participant.item6
-        ]
-      }))
-    }
-  };
-  console.log('Fetched match details:', match);
-  return match;
-};
-
-exports.fetchLiveMatchData = async (puuid) => {
-  console.log(`Fetching live match data for PUUID: ${puuid}`);
-  const url = `https://na1.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${puuid}?api_key=${RIOT_API_KEY}`;
-  console.log(`Request URL: ${url}`);
-
-  const response = await fetch(url);
-  const responseBody = await response.text();
-
-  if (!response.ok) {
-    console.error('Failed to fetch live match data', response.status, responseBody);
-    throw new Error('Failed to fetch live match data');
-  }
-
-  const data = JSON.parse(responseBody);
-  console.log('Fetched live match data:', data);
-  return data;
+  console.log('Fetched match details:', data);
+  return data;  // Return the detailed match data
 };

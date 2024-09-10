@@ -8,6 +8,16 @@ const typeDefs = gql`
     name: String
     summonerLevel: Int
     profileIconId: Int
+    leagueInfo: [LeagueEntry]
+  }
+
+  type LeagueEntry {
+    queueType: String
+    tier: String
+    rank: String
+    leaguePoints: Int
+    wins: Int
+    losses: Int
   }
 
   type MatchHistory {
@@ -68,7 +78,7 @@ const typeDefs = gql`
     matchHistory(gameName: String!, tagLine: String!): [MatchHistory]
     matchDetails(matchId: String!): MatchDetails
     liveMatch(gameName: String!, tagLine: String!): LiveMatch
-    getUser: User  # Add getUser query here
+    getUser: User
   }
 
   type Mutation {

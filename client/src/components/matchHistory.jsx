@@ -4,6 +4,7 @@ import axios from 'axios';
 const MatchHistory = ({ riotId }) => {
   const [matchHistory, setMatchHistory] = useState(null);
   const [error, setError] = useState(null);
+  const [itemData, setItemData] = useState(null);
 
   useEffect(() => {
     const fetchMatchHistory = async () => {
@@ -51,6 +52,18 @@ const MatchHistory = ({ riotId }) => {
     fetchMatchHistory();
   }, [riotId]);
 
+  useEffect(() => {
+    const fetchItemData = async () => {
+      try {
+        const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/14.17.1/data/en_US/item.json');
+        setItemData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching item data:', error);
+      }
+    };
+    fetchItemData();
+  }, []);
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -93,8 +106,7 @@ const MatchHistory = ({ riotId }) => {
               Gold: {participant.goldEarned} | 
               Damage: {participant.totalDamageDealt} | 
               Wards: {participant.wardsPlaced}
-              <br/>
-              Items: 
+              <br/> 
               {participant.items.map((item, iIndex) => (
                 item !== 0 && (  // Ensure the item slot is not empty (ID of 0)
                   <img
@@ -103,7 +115,7 @@ const MatchHistory = ({ riotId }) => {
                     alt={`Item ${item}`}
                     width="30"
                     height="30"
-                    style={{ marginRight: '5px' }} // Optional: adds some space between item images
+                    title={itemData[item]?.description || 'No description available'}
                   />
                 )
               ))}
@@ -126,7 +138,6 @@ const MatchHistory = ({ riotId }) => {
              Damage: {participant.totalDamageDealt} | 
              Wards: {participant.wardsPlaced}
              <br/>
-             Items: 
              {participant.items.map((item, iIndex) => (
                item !== 0 && (  // Ensure the item slot is not empty (ID of 0)
                  <img
@@ -135,7 +146,7 @@ const MatchHistory = ({ riotId }) => {
                    alt={`Item ${item}`}
                    width="30"
                    height="30"
-                   style={{ marginRight: '5px' }} // Optional: adds some space between item images
+                   title={itemData[item]?.description || 'No description available'}
                  />
                )
              ))}

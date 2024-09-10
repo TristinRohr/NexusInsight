@@ -58,24 +58,53 @@ exports.fetchMatchDetails = async (matchId) => {
 };
 
 exports.fetchUserStats = async (gameName, tagLine) => {
-  console.log(`Fetching user stats for ${gameName}#${tagLine}`);
-  const puuid = await this.fetchPuuidByRiotId(gameName, tagLine);
-  const url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`;
-  console.log(`Request URL: ${url}`);
+  try {
+    console.log(`Fetching user stats for ${gameName}#${tagLine}`);
 
-  const response = await fetch(url);
-  const responseBody = await response.text();
+    // Step 1: Call the separate function to fetch PUUID by Riot ID
+    const puuid = await fetchPuuidByRiotId(gameName, tagLine);
+    console.log(`PUUID fetched: ${puuid}`);
 
-  if (!response.ok) {
-    console.error('Failed to fetch user stats', response.status, responseBody);
-    throw new Error('Failed to fetch user stats');
+    // Step 2: Fetch Summoner Data by PUUID
+    const summonerUrl = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`;
+    console.log(`Summoner Request URL: ${summonerUrl}`);
+
+    const summonerResponse = await fetch(summonerUrl);
+    const summonerData = await summonerResponse.json();
+
+    if (!summonerResponse.ok) {
+      console.error('Failed to fetch summoner stats', summonerResponse.status, summonerData);
+      throw new Error('Failed to fetch summoner stats');
+    }
+
+    console.log('Fetched Summoner Stats:', summonerData);
+
+    const { id, name, summonerLevel, profileIconId } = summonerData;
+
+    // Step 3: Use the summoner ID to fetch league information
+    const leagueUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${RIOT_API_KEY}`;
+    console.log(`League Request URL: ${leagueUrl}`);
+
+    const leagueResponse = await fetch(leagueUrl);
+    const leagueData = await leagueResponse.json();
+
+    if (!leagueResponse.ok) {
+      console.error('Failed to fetch league data', leagueResponse.status, leagueData);
+      throw new Error('Failed to fetch league data');
+    }
+
+    console.log('Fetched League Data:', leagueData);
+
+    // Step 4: Return the combined data
+    return {
+      name,
+      summonerLevel,
+      profileIconId,
+      leagueInfo: leagueData,  // This will include the league information retrieved
+    };
+
+  } catch (error) {
+    console.error('Error fetching user stats or league data:', error);
+    throw new Error('Failed to fetch user stats or league data');
   }
-
-  const data = JSON.parse(responseBody);
-  console.log('Fetched user stats:', data);
-  return {
-    name: data.name,
-    summonerLevel: data.summonerLevel,
-    profileIconId: data.profileIconId,
-  };
 };

@@ -49,7 +49,7 @@ const UserStats = ({ riotId }) => {
       <h2>{userStats.name}</h2>
       <p>Level: {userStats.summonerLevel}</p>
       <img
-        src={`https://ddragon.leagueoflegends.com/cdn/11.18.1/img/profileicon/${userStats.profileIconId}.png`}
+        src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/profileicon/${userStats.profileIconId}.png`}
         alt="Profile Icon"
       />
     </div>

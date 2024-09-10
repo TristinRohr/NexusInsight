@@ -28,6 +28,7 @@ const MatchHistory = ({ riotId }) => {
         });
 
         setMatchHistory(response.data.data.matchHistory);
+        console.log('Fetched match history:', response.data.data.matchHistory);
       } catch (error) {
         console.error('Error fetching match history:', error);
         setError('Failed to fetch match history');
@@ -49,8 +50,8 @@ const MatchHistory = ({ riotId }) => {
     <div>
       <h2>Match History</h2>
       {matchHistory.map((match, index) => (
-        <div key={match.matchId || index}>  {/* Use index as fallback */}
-          <p>Champion: {match.champion}</p>
+        <div key={match.matchId || index}>
+          <p>Champion: {match.champion || 'Unknown Champion'}</p>
           <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
         </div>
       ))}

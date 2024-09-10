@@ -1,51 +1,65 @@
-// server/schemas/riotResolvers.js
 const riotApiService = require('../utils/riotAPI');
 
 const riotResolvers = {
   Query: {
-    userStats: async (_, { gameName, tagLine }) => {
-      try {
-        const puuid = await riotApiService.fetchPuuidByRiotId(gameName, tagLine);
-        const userStats = await riotApiService.fetchUserStats(puuid);
-        return userStats;
-      } catch (error) {
-        console.error('Error in userStats resolver:', error);
-        throw new Error('Failed to fetch user stats');
-      }
-    },
     matchHistory: async (_, { gameName, tagLine }) => {
       try {
+        console.log(`Fetching match history for ${gameName}#${tagLine}`);
         const puuid = await riotApiService.fetchPuuidByRiotId(gameName, tagLine);
-        const matchHistory = await riotApiService.fetchMatchHistory(puuid);
-        return matchHistory;
+        console.log(`Fetched PUUID: ${puuid}`);
+        
+        const matchIds = await riotApiService.fetchMatchHistory(puuid);
+        console.log('Fetched match IDs:', matchIds);
+        
+        // Fetch detailed match information for each match ID
+        const matchDetailsPromises = matchIds.map(async (matchId) => {
+          const matchDetails = await riotApiService.fetchMatchDetails(matchId);
+          
+          if (!matchDetails || !matchDetails.info) {
+            console.error(`Failed to fetch match details for match ID: ${matchId}`);
+            return {
+              matchId: null,
+              champion: null,
+              kills: null,
+              deaths: null,
+              assists: null
+            };
+          }
+          
+          const userParticipant = matchDetails.info.participants.find(
+            participant => participant.puuid === puuid
+          );
+          
+          // If no participant data is found, handle the error
+          if (!userParticipant) {
+            console.error(`No participant found for PUUID: ${puuid} in match ID: ${matchId}`);
+            return {
+              matchId: matchId,
+              champion: null,
+              kills: null,
+              deaths: null,
+              assists: null
+            };
+          }
+          
+          return {
+            matchId: matchId,
+            champion: userParticipant.championName,
+            kills: userParticipant.kills,
+            deaths: userParticipant.deaths,
+            assists: userParticipant.assists
+          };
+        });
+
+        const matchDetails = await Promise.all(matchDetailsPromises);
+        console.log('Fetched match details:', matchDetails);
+        
+        return matchDetails;
       } catch (error) {
-        console.error('Error in matchHistory resolver:', error);
+        console.error('Error in matchHistory resolver:', error.message, error.stack);
         throw new Error('Failed to fetch match history');
       }
     },
-    matchDetails: async (_, { matchId }) => {
-      try {
-        const matchDetails = await riotApiService.fetchMatchDetails(matchId);
-        return matchDetails;
-      } catch (error) {
-        console.error('Error in matchDetails resolver:', error);
-        throw new Error('Failed to fetch match details');
-      }
-    },
-    liveMatch: async (_, { gameName, tagLine }) => {
-      try {
-        const puuid = await riotApiService.fetchPuuidByRiotId(gameName, tagLine);
-        const liveMatchData = await riotApiService.fetchLiveMatchData(puuid);
-        return liveMatchData;
-      } catch (error) {
-        if (error.message.includes('404')) {
-          console.log('No live match found');
-          return null;
-        }
-        console.error('Error in liveMatch resolver:', error);
-        throw new Error('Failed to fetch live match data');
-      }
-    }
   }
 };
 

@@ -42,6 +42,7 @@ const UserStats = ({ riotId }) => {
 
   if (!userStats) {
     return <div>Loading user stats...</div>;
+    
   }
 
   return (

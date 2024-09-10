@@ -18,6 +18,7 @@ const typeDefs = gql`
     kills: Int
     deaths: Int
     assists: Int
+    participants: [Participant]
   }
 
   type LiveMatch {

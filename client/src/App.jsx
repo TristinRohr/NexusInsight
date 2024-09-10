@@ -21,7 +21,7 @@ const App = () => {
       {isLoggedIn ? (
         <div>
           {/* Pass the summonerName and tagLine to the individual components */}
-          <UserStats riotId={`${summonerName}#${tagLine}`} />
+          <UserStats riotId={`${summonerName}#${tagLine}`} summonerName={summonerName} tagLine={tagLine}/>
           <MatchHistory riotId={`${summonerName}#${tagLine}`} />
           <LiveMatch riotId={`${summonerName}#${tagLine}`} />
         </div>

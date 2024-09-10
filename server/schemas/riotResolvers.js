@@ -34,6 +34,7 @@ const riotResolvers = {
               participant.item5,
               participant.item6,
             ],
+            teamId: participant.teamId,
           }));
 
           return {

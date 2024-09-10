@@ -38,6 +38,7 @@ const typeDefs = gql`
     totalDamageDealt: Int
     wardsPlaced: Int
     items: [Int]
+    teamId: Int
   }
 
   type MatchDetails {

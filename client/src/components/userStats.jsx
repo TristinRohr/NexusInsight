@@ -70,7 +70,7 @@ const UserStats = ({ riotId, summonerName, tagLine }) => {
   // Display the fetched user stats
   return (
     <div>
-      <h2>Summoner Name: {summonerName}#{tagLine}</h2>
+      <h2>{summonerName}#{tagLine}</h2>
       <p>Summoner Level: {userStats.summonerLevel}</p>
       <img
         src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/profileicon/${userStats.profileIconId}.png`}

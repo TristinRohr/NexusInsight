@@ -34,6 +34,7 @@ const riotResolvers = {
               participant.item5,
               participant.item6,
             ],
+            teamId: participant.teamId,
           }));
 
           return {
@@ -71,14 +72,27 @@ const riotResolvers = {
 
         console.log('Fetched Summoner Data:', summonerData);
 
-        // Step 3: Return the data in the format of UserStats type
+        // Step 3: Fetch league data using the summoner ID
+        const leagueUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=${process.env.RIOT_API_KEY}`;
+        const leagueResponse = await axios.get(leagueUrl);
+        const leagueData = leagueResponse.data;
+
+        // Step 4: Return the data in the format of UserStats type
         return {
           id: summonerData.id,
           accountId: summonerData.accountId,
           puuid: summonerData.puuid,
           name: summonerData.name,
           summonerLevel: summonerData.summonerLevel,
-          profileIconId: summonerData.profileIconId
+          profileIconId: summonerData.profileIconId,
+          leagueInfo: leagueData.map(leagueEntry => ({
+            queueType: leagueEntry.queueType,
+            tier: leagueEntry.tier,
+            rank: leagueEntry.rank,
+            leaguePoints: leagueEntry.leaguePoints,
+            wins: leagueEntry.wins,
+            losses: leagueEntry.losses
+          })),
         };
       } catch (error) {
         console.error('Error fetching user stats:', error.message);

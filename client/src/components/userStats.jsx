@@ -22,6 +22,14 @@ const UserStats = ({ riotId, summonerName, tagLine }) => {
               name
               summonerLevel
               profileIconId
+              leagueInfo {
+                queueType
+                tier
+                rank
+                leaguePoints
+                wins
+                losses
+              }
             }
           }
         `;
@@ -62,15 +70,21 @@ const UserStats = ({ riotId, summonerName, tagLine }) => {
   // Display the fetched user stats
   return (
     <div>
-      <h2>{userStats.name}</h2>
+      <h2>Summoner Name: {summonerName}#{tagLine}</h2>
       <p>Summoner Level: {userStats.summonerLevel}</p>
-      <p>PUUID: {userStats.puuid}</p>
-      <p>Account ID: {userStats.accountId}</p>
-      <p>Summoner Name: {summonerName}#{tagLine}</p>
       <img
         src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/profileicon/${userStats.profileIconId}.png`}
         alt="Profile Icon"
       />
+      <h3>Ranked</h3>
+      {userStats.leagueInfo.map((league, index) => (
+        <div key={index} className="league-info">
+          <p>{league.queueType}</p>
+          <p>{league.tier} {league.rank}</p>
+          <p>{league.leaguePoints} LP</p>
+          <p>{league.wins}W / {league.losses}L</p>
+        </div>
+      ))}
     </div>
   );
 };

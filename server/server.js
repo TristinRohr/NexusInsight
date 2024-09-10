@@ -1,5 +1,5 @@
 require('dotenv').config({ path: './.env' });
-console.log('NODE_ENV:', process.env.NODE_ENV);
+// console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
 const express = require('express');

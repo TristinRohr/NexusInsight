@@ -4,63 +4,57 @@ const riotResolvers = {
   Query: {
     matchHistory: async (_, { gameName, tagLine }) => {
       try {
-        console.log(`Fetching match history for ${gameName}#${tagLine}`);
         const puuid = await riotApiService.fetchPuuidByRiotId(gameName, tagLine);
-        console.log(`Fetched PUUID: ${puuid}`);
-        
         const matchIds = await riotApiService.fetchMatchHistory(puuid);
-        console.log('Fetched match IDs:', matchIds);
-        
+
         // Fetch detailed match information for each match ID
         const matchDetailsPromises = matchIds.map(async (matchId) => {
           const matchDetails = await riotApiService.fetchMatchDetails(matchId);
-          
-          if (!matchDetails || !matchDetails.info) {
-            console.error(`Failed to fetch match details for match ID: ${matchId}`);
-            return {
-              matchId: null,
-              champion: null,
-              kills: null,
-              deaths: null,
-              assists: null
-            };
-          }
           
           const userParticipant = matchDetails.info.participants.find(
             participant => participant.puuid === puuid
           );
           
-          // If no participant data is found, handle the error
-          if (!userParticipant) {
-            console.error(`No participant found for PUUID: ${puuid} in match ID: ${matchId}`);
-            return {
-              matchId: matchId,
-              champion: null,
-              kills: null,
-              deaths: null,
-              assists: null
-            };
-          }
-          
+          const participants = matchDetails.info.participants.map(participant => ({
+            summonerName: participant.summonerName,
+            championName: participant.championName,
+            kills: participant.kills,
+            deaths: participant.deaths,
+            assists: participant.assists,
+            goldEarned: participant.goldEarned,
+            totalDamageDealt: participant.totalDamageDealt,
+            wardsPlaced: participant.wardsPlaced,
+            items: [
+              participant.item0,
+              participant.item1,
+              participant.item2,
+              participant.item3,
+              participant.item4,
+              participant.item5,
+              participant.item6,
+            ],
+          }));
+
           return {
-            matchId: matchId,
-            champion: userParticipant.championName,
-            kills: userParticipant.kills,
-            deaths: userParticipant.deaths,
-            assists: userParticipant.assists
+            matchId: matchDetails.metadata.matchId,
+            gameStartTimestamp: matchDetails.info.gameStartTimestamp,
+            gameDuration: matchDetails.info.gameDuration,
+            champion: userParticipant ? userParticipant.championName : null,
+            kills: userParticipant ? userParticipant.kills : null,
+            deaths: userParticipant ? userParticipant.deaths : null,
+            assists: userParticipant ? userParticipant.assists : null,
+            participants
           };
         });
 
         const matchDetails = await Promise.all(matchDetailsPromises);
-        console.log('Fetched match details:', matchDetails);
-        
         return matchDetails;
       } catch (error) {
-        console.error('Error in matchHistory resolver:', error.message, error.stack);
+        console.error('Error in matchHistory resolver:', error.message);
         throw new Error('Failed to fetch match history');
       }
     },
-  }
+  },
 };
 
 module.exports = riotResolvers;

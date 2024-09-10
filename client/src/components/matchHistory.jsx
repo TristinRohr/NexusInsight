@@ -14,10 +14,23 @@ const MatchHistory = ({ riotId }) => {
           query getMatchHistory($gameName: String!, $tagLine: String!) {
             matchHistory(gameName: $gameName, tagLine: $tagLine) {
               matchId
+              gameStartTimestamp
+              gameDuration
               champion
               kills
               deaths
               assists
+              participants {
+                summonerName
+                championName
+                kills
+                deaths
+                assists
+                goldEarned
+                totalDamageDealt
+                wardsPlaced
+                items
+              }
             }
           }
         `;
@@ -28,7 +41,6 @@ const MatchHistory = ({ riotId }) => {
         });
 
         setMatchHistory(response.data.data.matchHistory);
-        console.log('Fetched match history:', response.data.data.matchHistory);
       } catch (error) {
         console.error('Error fetching match history:', error);
         setError('Failed to fetch match history');
@@ -51,8 +63,23 @@ const MatchHistory = ({ riotId }) => {
       <h2>Match History</h2>
       {matchHistory.map((match, index) => (
         <div key={match.matchId || index}>
-          <p>Champion: {match.champion || 'Unknown Champion'}</p>
+          <h3>Champion: {match.champion}</h3>
           <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
+          <p>Game Duration: {Math.floor(match.gameDuration / 60)} minutes</p>
+          <h4>Participants:</h4>
+          <ul>
+            {match.participants.map((participant, pIndex) => (
+              <li key={pIndex}>
+                <strong>{participant.summonerName}</strong> ({participant.championName}): 
+                {` ${participant.kills}/${participant.deaths}/${participant.assists}`} | 
+                Gold: {participant.goldEarned} | 
+                Damage: {participant.totalDamageDealt} | 
+                Wards: {participant.wardsPlaced}
+                <br/>
+                Items: {participant.items.join(', ')}
+              </li>
+            ))}
+          </ul>
         </div>
       ))}
     </div>

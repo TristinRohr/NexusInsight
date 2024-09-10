@@ -56,3 +56,26 @@ exports.fetchMatchDetails = async (matchId) => {
   console.log('Fetched match details:', data);
   return data;  // Return the detailed match data
 };
+
+exports.fetchUserStats = async (gameName, tagLine) => {
+  console.log(`Fetching user stats for ${gameName}#${tagLine}`);
+  const puuid = await this.fetchPuuidByRiotId(gameName, tagLine);
+  const url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`;
+  console.log(`Request URL: ${url}`);
+
+  const response = await fetch(url);
+  const responseBody = await response.text();
+
+  if (!response.ok) {
+    console.error('Failed to fetch user stats', response.status, responseBody);
+    throw new Error('Failed to fetch user stats');
+  }
+
+  const data = JSON.parse(responseBody);
+  console.log('Fetched user stats:', data);
+  return {
+    name: data.name,
+    summonerLevel: data.summonerLevel,
+    profileIconId: data.profileIconId,
+  };
+};

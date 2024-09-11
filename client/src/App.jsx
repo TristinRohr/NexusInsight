@@ -7,15 +7,15 @@ import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
 import Feed from './components/Feed';
 import FavoritePlayers from './components/FavoritePlayers';
+import Search from './components/Search'; // New search component
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
   const [tagLine, setTagLine] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token')); // Check login status on load
-  const navigate = useNavigate(); // Use navigate for programmatic navigation
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Re-check login status if the token changes in localStorage
     setIsLoggedIn(!!localStorage.getItem('token'));
   }, []);
 
@@ -25,11 +25,8 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    // Remove the token from localStorage
     localStorage.removeItem('token');
-    // Update the state
     setIsLoggedIn(false);
-    // Redirect to the login page
     navigate('/');
   };
 
@@ -48,25 +45,38 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Navigate to="/match-history" /> : <LoginRegister />}
+          element={isLoggedIn ? <Navigate to="/search" /> : <LoginRegister />}
         />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
+        <Route
+          path="/search"
+          element={
+            isLoggedIn ? (
+              <Search onSearch={handleSearch} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
         <Route
           path="/match-history"
           element={
-            isLoggedIn ? (
+            isLoggedIn && summonerName && tagLine ? (
               <div>
                 <UserStats riotId={`${summonerName}#${tagLine}`} />
                 <MatchHistory riotId={`${summonerName}#${tagLine}`} />
                 <LiveMatch riotId={`${summonerName}#${tagLine}`} />
               </div>
             ) : (
-              <Navigate to="/" />
+              <Navigate to="/search" />
             )
           }
         />
+        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
         <Route path="/feed" element={isLoggedIn ? <Feed /> : <Navigate to="/" />} />
-        <Route path="/favorite-players" element={isLoggedIn ? <FavoritePlayers /> : <Navigate to="/" />} />
+        <Route
+          path="/favorite-players"
+          element={isLoggedIn ? <FavoritePlayers /> : <Navigate to="/" />}
+        />
       </Routes>
     </div>
   );

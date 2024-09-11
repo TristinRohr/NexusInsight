@@ -80,6 +80,11 @@ const UserStats = ({ riotId, summonerName, tagLine }) => {
       {userStats.leagueInfo.map((league, index) => (
         <div key={index} className="league-info">
           <p>{league.queueType}</p>
+          <img src = {`/public/rankedEmblems/rank=${league.tier}.png`}
+            alt = "tier"
+            width = "50"
+            height = "50"
+          />
           <p>{league.tier} {league.rank}</p>
           <p>{league.leaguePoints} LP</p>
           <p>{league.wins}W / {league.losses}L</p>

@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Search = ({ onSearch }) => {
   const [summonerName, setSummonerName] = useState('');
   const [tagLine, setTagLine] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (summonerName && tagLine) {
-      onSearch(summonerName, tagLine);
+      onSearch(summonerName, tagLine);  // Pass summonerName and tagLine to App component
+      navigate('/match-history');       // Navigate to the match history page after search
     }
   };
 

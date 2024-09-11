@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 
-const Login = ({ onLogin }) => {
+const Search = ({ onSearch }) => {
   const [summonerName, setSummonerName] = useState('');
   const [tagLine, setTagLine] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (summonerName && tagLine) {
-      // Pass the summonerName and tagLine back to the App component
-      onLogin(summonerName, tagLine);
+      onSearch(summonerName, tagLine);
     }
   };
 
   return (
     <div>
-      <h2>Enter your Summoner Info</h2>
+      <h2>Enter Summoner Info</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Summoner Name:</label>
@@ -35,10 +33,10 @@ const Login = ({ onLogin }) => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Search</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Search;

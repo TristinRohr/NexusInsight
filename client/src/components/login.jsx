@@ -16,8 +16,8 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h2>Enter your Summoner Info</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ marginRight: '10px' }}>
           <label>Summoner Name:</label>
           <input
             type="text"
@@ -26,7 +26,7 @@ const Login = ({ onLogin }) => {
             required
           />
         </div>
-        <div>
+        <div style={{ marginRight: '10px' }}>
           <label>Tag Line:</label>
           <input
             type="text"

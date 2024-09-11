@@ -1,0 +1,99 @@
+.match-history-container {
+    max-width: 1200px; /* Set a maximum width to prevent overflow */
+    width: 90%; /* Maintain responsiveness with a dynamic width */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding for spacing */
+  }
+  
+  .match-card {
+    background-color: #f4f4f4;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    overflow: hidden; /* Ensure content stays within the parent */
+  }
+  
+  .match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .match-kda {
+    font-size: 1.5rem; /* Increase the font size for K/D/A */
+    font-weight: bold;
+    margin: 5px 0; /* Add margin to separate from other stats */
+    color: #ffcc00; /* Optional: change color to make it stand out */
+  }
+  
+  .match-stats {
+    font-size: 1rem; /* Normal size for other stats */
+    color: #ccc; /* Optional: change color to differentiate from K/D/A */
+    margin-top: 5px; /* Add space between K/D/A and other stats */
+  }
+  
+  .match-details {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%; /* Ensure the dropdown content fits within the parent */
+    box-sizing: border-box; /* Include padding and borders in width calculation */
+  }
+  
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow content to wrap if needed to avoid overflow */
+  }
+  
+  .red-side, .blue-side {
+    width: 48%;
+    box-sizing: border-box; /* Ensure padding is part of the width */
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column; /* Stack text and items vertically */
+  }
+  
+  .champion-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .item-icons {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 5px;
+    flex-wrap: nowrap; /* Ensure item icons remain on one row */
+  }
+  
+  .item-icon, .empty-item {
+    width: 30px; /* Ensure both item and empty boxes have the same size */
+    height: 30px;
+    margin-right: 5px;
+    border: 1px solid #ccc; /* Optional border for consistency */
+  }
+  
+  .empty-item {
+    background-color: #222; /* Gray color to represent empty slots */
+    border: 1px solid #666;
+  }
+  
+  @media (max-width: 768px) {
+    .red-side, .blue-side {
+      width: 100%; /* For smaller screens, allow sides to stack */
+      margin-bottom: 20px;
+    }
+  }

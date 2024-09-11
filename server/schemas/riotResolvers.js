@@ -23,7 +23,7 @@ const riotResolvers = {
             deaths: participant.deaths,
             assists: participant.assists,
             goldEarned: participant.goldEarned,
-            totalDamageDealt: participant.totalDamageDealt,
+            totalDamageDealtToChampions: participant.totalDamageDealtToChampions,
             wardsPlaced: participant.wardsPlaced,
             items: [
               participant.item0,
@@ -37,6 +37,12 @@ const riotResolvers = {
             teamId: participant.teamId,
           }));
 
+          const teams = matchDetails.info.teams.map(team => ({
+            teamId: team.teamId,
+            win: team.win,
+          }));
+          console.log('teams info:', teams);
+
           return {
             matchId: matchDetails.metadata.matchId,
             gameStartTimestamp: matchDetails.info.gameStartTimestamp,
@@ -45,7 +51,8 @@ const riotResolvers = {
             kills: userParticipant ? userParticipant.kills : null,
             deaths: userParticipant ? userParticipant.deaths : null,
             assists: userParticipant ? userParticipant.assists : null,
-            participants
+            participants,
+            teams
           };
         });
 

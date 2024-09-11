@@ -29,6 +29,12 @@ const typeDefs = gql`
     deaths: Int
     assists: Int
     participants: [Participant]
+    teams: [Team]
+  }
+
+  type Team {
+    teamId: Int
+    win: Boolean
   }
 
   type LiveMatch {
@@ -45,7 +51,7 @@ const typeDefs = gql`
     deaths: Int
     assists: Int
     goldEarned: Int
-    totalDamageDealt: Int
+    totalDamageDealtToChampions: Int
     wardsPlaced: Int
     items: [Int]
     teamId: Int

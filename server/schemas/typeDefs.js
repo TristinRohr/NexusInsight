@@ -95,7 +95,7 @@ const typeDefs = gql`
     matchDetails(matchId: String!): MatchDetails
     liveMatch(gameName: String!, tagLine: String!): LiveMatch
     getUser: User
-    queueTypes(queueId: Int!): QueueType
+    queueType(queueId: Int!): QueueType
   }
 
   type Mutation {

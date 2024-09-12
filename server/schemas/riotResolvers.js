@@ -3,7 +3,6 @@ const axios = require('axios');
 
 const riotResolvers = {
   Query: {
-    // Existing matchHistory resolver
     matchHistory: async (_, { gameName, tagLine }) => {
       try {
         const puuid = await riotApiService.fetchPuuidByRiotId(gameName, tagLine);
@@ -18,6 +17,7 @@ const riotResolvers = {
 
           const participants = matchDetails.info.participants.map(participant => ({
             summonerName: participant.summonerName,
+            riotIdTagline: participant.riotIdTagline,
             championName: participant.championName,
             kills: participant.kills,
             deaths: participant.deaths,
@@ -52,7 +52,8 @@ const riotResolvers = {
             deaths: userParticipant ? userParticipant.deaths : null,
             assists: userParticipant ? userParticipant.assists : null,
             participants,
-            teams
+            teams,
+            queueId
           };
         });
 
@@ -64,7 +65,6 @@ const riotResolvers = {
       }
     },
 
-    // New userStats resolver
     userStats: async (_, { gameName, tagLine }) => {
       try {
         console.log(`Resolving UserStats for Riot ID: ${gameName}#${tagLine}`);
@@ -105,8 +105,26 @@ const riotResolvers = {
         console.error('Error fetching user stats:', error.message);
         throw new Error('Failed to fetch user stats');
       }
+    },
+    queueType: async (_, { queueId }) => {
+      try {
+        console.log(`Fetching queue type for queueId: ${queueId}`);
+        const queueData = await riotApiService.queueTypes();  // Fetch static JSON
+
+        // Find the queue information that matches the provided queueId
+        const queueInfo = queueData.find(queue => queue.queueId === queueId);
+        if (!queueInfo) {
+          throw new Error(`Queue with ID ${queueId} not found.`);
+        }
+
+        console.log(`Fetched queue info:`, queueInfo);
+        return queueInfo;
+      } catch (error) {
+        console.error('Error fetching queue type:', error);
+        throw new Error('Failed to fetch queue type');
+      }
     }
-  },
+  }
 };
 
 module.exports = riotResolvers;

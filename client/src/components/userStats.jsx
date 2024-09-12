@@ -82,7 +82,7 @@ const UserStats = ({ riotId }) => {
         <h3>Ranked</h3>
         {userStats.leagueInfo.map((league, index) => (
           <div key={index} className="rank-info-item">
-            <p>{league.queueType}</p>
+            <p>{league.queueType.replace(/_/g, ' ')}</p>
             <img
               className="rank-icon"
               src={`/public/rankedEmblems/rank=${league.tier}.png`}

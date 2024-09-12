@@ -30,10 +30,19 @@ const typeDefs = gql`
     assists: Int
     participants: [Participant]
     teams: [Team]
+    queueId: Int
+    queueType: [QueueType]
+  }
+
+  type QueueType {
+    queueId: Int,
+    map: String,
+    description: String,
+    notes: String
   }
 
   type Team {
-    teamId: Int
+    teamId: Int,
     win: Boolean
   }
 
@@ -46,6 +55,7 @@ const typeDefs = gql`
 
   type Participant {
     summonerName: String
+    riotIdTagline: String
     championName: String
     kills: Int
     deaths: Int
@@ -85,6 +95,7 @@ const typeDefs = gql`
     matchDetails(matchId: String!): MatchDetails
     liveMatch(gameName: String!, tagLine: String!): LiveMatch
     getUser: User
+    queueTypes(queueId: Int!): QueueType
   }
 
   type Mutation {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MatchHistory.css'; // Ensure this file is linked correctly
+import QueueInfo from './queueType'; // Import the QueueInfo component
 
 const MatchHistory = ({ riotId }) => {
   const [matchHistory, setMatchHistory] = useState(null);
@@ -25,6 +26,7 @@ const MatchHistory = ({ riotId }) => {
               assists
               participants {
                 summonerName
+                riotIdTagline
                 championName
                 kills
                 deaths
@@ -137,6 +139,8 @@ const MatchHistory = ({ riotId }) => {
                   {determineWinStatus(userTeamId, match.teams) ? 'Victory' : 'Defeat'}
                 </p>
               </div>
+              <QueueInfo queueId={match.queueId} />
+              
               {openMatch === index && (
                 <div className="match-details">
                   <div className="team-section flex-row">
@@ -150,7 +154,7 @@ const MatchHistory = ({ riotId }) => {
                            alt={participant.championName}
                            className="champion-icon"
                          />
-                         <strong>{participant.summonerName}</strong>
+                         <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
                          <p className="match-kda">K/D/A: {participant.kills}/{participant.deaths}/{participant.assists}</p> {/* KDA on its own line */}
                          <p className="match-stats">
                            Gold: {participant.goldEarned} | Damage: {participant.totalDamageDealtToChampions} | Wards: {participant.wardsPlaced}
@@ -184,8 +188,8 @@ const MatchHistory = ({ riotId }) => {
                             alt={participant.championName}
                             className="champion-icon"
                           />
-                          <strong>{participant.summonerName}</strong>
-                          <p className="match-kda">K/D/A: {participant.kills}/{participant.deaths}/{participant.assists}</p> {/* KDA on its own line */}
+                          <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
+                          <p className="match-kda">K/D/A: {participant.kills}/{participant.deaths}/{participant.assists}</p>
                           <p className="match-stats">
                             Gold: {participant.goldEarned} | Damage: {participant.totalDamageDealtToChampions} | Wards: {participant.wardsPlaced}
                           </p>

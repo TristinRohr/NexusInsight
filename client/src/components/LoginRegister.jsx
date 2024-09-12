@@ -23,12 +23,13 @@ const LoginRegister = () => {
         ? { email, password }
         : { email, username, password };
 
-      await axios.post(
-        '/graphql',
-        { query, variables },
-        { withCredentials: true }  // Send cookies with the request
-      );
+      const response = await axios.post('/graphql', {
+        query,
+        variables,
+      });
 
+      const token = response.data.data.login || response.data.data.register;
+      localStorage.setItem('token', token);
       window.location.reload();  // Reload the page to apply the login state
     } catch (err) {
       setError('Authentication failed');

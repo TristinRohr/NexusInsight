@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
-  const [error, setError] = useState(null); // Track error state
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -35,7 +35,7 @@ const Profile = () => {
   }, []);
 
   if (error) {
-    return <div>{error}</div>; // Display the error message if any
+    return <div>{error}</div>;
   }
 
   if (!userData) {

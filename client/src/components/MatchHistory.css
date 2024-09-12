@@ -50,6 +50,39 @@
   border: 2px solid var(--accent-color);
 }
 
+/* KDA with color */
+.kda-kills {
+  color: #288A6F;
+}
+
+.kda-deaths {
+  color: #FF4E50;
+}
+
+.kda-assists {
+  color: #E2BE2A;
+}
+
+/* Damage */
+.damage {
+  color: #FF4E50;
+}
+
+/* Gold */
+.gold {
+  color: #E2BE2A;
+}
+
+/* Wards */
+.wards {
+  color: #CE9AFA;
+}
+
+/* CS */
+.cs {
+  color: #3273FA;
+}
+
 /* Participant teams */
 .match-participants {
   display: flex;
@@ -91,7 +124,7 @@
 
 .participant-grid-row {
   display: grid;
-  grid-template-columns: 50px 150px 100px 100px 80px 80px 60px 250px; /* Horizontal layout for larger screens */
+  grid-template-columns: 50px 150px 100px 100px 80px 80px 60px 250px;
   align-items: center;
   gap: 10px;
   padding: 10px 0;
@@ -108,38 +141,7 @@
 .participant-grid-summoner {
   font-weight: bold;
   color: var(--text-color);
-  overflow-x: clip; /* Prevent text overflow */
-}
-
-/* KDA */
-.participant-grid-kda {
-  text-align: center;
-  font-weight: bold;
-  color: var(--highlight-color);
-}
-
-/* Damage */
-.participant-grid-damage {
-  text-align: center;
-  color: var(--neutral-color);
-}
-
-/* Gold */
-.participant-grid-gold {
-  text-align: center;
-  color: var(--neutral-color);
-}
-
-/* CS */
-.participant-grid-cs {
-  text-align: center;
-  color: var(--neutral-color);
-}
-
-/* Wards */
-.participant-grid-wards {
-  text-align: center;
-  color: var(--neutral-color);
+  overflow-x: clip;
 }
 
 /* Items section */
@@ -162,6 +164,11 @@
 
 .empty-item {
   background-color: #333;
+}
+
+/* Blue Team Styling */
+.team.blue-team {
+  background-color: rgba(0, 0, 255, 0.1); /* Light blue background */
 }
 
 .team.red-side h4,
@@ -204,16 +211,16 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Small screen (Mobile & Tablets) - overflow management */
+/* Small screen (Mobile & Tablets) */
 @media (max-width: 768px) {
   .participant {
-    grid-template-columns: 1fr 1fr; /* Simplified grid for small screens */
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     overflow-x: auto;
   }
 }
 
-/* Larger screens - fit content within parent */
+/* Larger screens */
 @media (min-width: 769px) {
   .participant-grid-row {
     grid-template-columns: 6% 18% 7% 9% 9% 4% 6% 33%;

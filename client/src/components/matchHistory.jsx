@@ -165,7 +165,7 @@ const MatchHistory = ({ riotId }) => {
 
                 {/* Match summary and queue info */}
                 <div className="match-details-summary">
-                  <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
+                  <p>K/D/A: <span className="kda-kills">{match.kills}</span>/<span className="kda-deaths">{match.deaths}</span>/<span className="kda-assists">{match.assists}</span></p>
                   <p>Game Duration: {Math.floor(match.gameDuration / 60)} minutes</p>
                   <p className="match-result">
                     {determineWinStatus(userTeamId, match.teams) ? 'Victory' : 'Defeat'}
@@ -220,19 +220,19 @@ const MatchHistory = ({ riotId }) => {
                               <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
                             </div>
                             <div className="participant-grid-kda">
-                              <p>{participant.kills}/{participant.deaths}/{participant.assists}</p>
+                              <span className="kda-kills">{participant.kills}</span>/<span className="kda-deaths">{participant.deaths}</span>/<span className="kda-assists">{participant.assists}</span>
                             </div>
                             <div className="participant-grid-damage">
-                              <p>{participant.totalDamageDealtToChampions}</p>
+                              <p className="damage">{participant.totalDamageDealtToChampions}</p>
                             </div>
                             <div className="participant-grid-gold">
-                              <p>{participant.goldEarned}</p>
+                              <p className="gold">{participant.goldEarned}</p>
                             </div>
                             <div className="participant-grid-wards">
-                              <p>{participant.wardsPlaced}</p>
+                              <p className="wards">{participant.wardsPlaced}</p>
                             </div>
                             <div className="participant-grid-cs">
-                              <p>{participant.totalMinionsKilled}</p>
+                              <p className="cs">{participant.totalMinionsKilled}</p>
                             </div>
                             <div className="participant-grid-items">
                               <div className="item-icons">
@@ -258,7 +258,7 @@ const MatchHistory = ({ riotId }) => {
                     <div className="team blue-side">
                       <h4>Blue Side</h4>
                       <ul className="participant-grid">
-                          <li className="participant-grid-row">
+                      <li className="participant-grid-row">
                             <div className="participant-grid-champion">
                               <strong>Champion</strong>
                             </div>
@@ -283,8 +283,8 @@ const MatchHistory = ({ riotId }) => {
                             <div className="participant-grid-items">
                               <strong>Items</strong>
                             </div>
-                          </li>
-                          {blueTeam.map((participant, pIndex) => (
+                          </li>                        
+                        {blueTeam.map((participant, pIndex) => (
                           <li key={pIndex} className="participant-grid-row">
                             <div className="participant-grid-champion">
                               <img 
@@ -297,19 +297,19 @@ const MatchHistory = ({ riotId }) => {
                               <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
                             </div>
                             <div className="participant-grid-kda">
-                              <p>{participant.kills}/{participant.deaths}/{participant.assists}</p>
+                              <span className="kda-kills">{participant.kills}</span>/<span className="kda-deaths">{participant.deaths}</span>/<span className="kda-assists">{participant.assists}</span>
                             </div>
                             <div className="participant-grid-damage">
-                              <p>{participant.totalDamageDealtToChampions}</p>
+                              <p className="damage">{participant.totalDamageDealtToChampions}</p>
                             </div>
                             <div className="participant-grid-gold">
-                              <p>{participant.goldEarned}</p>
+                              <p className="gold">{participant.goldEarned}</p>
                             </div>
                             <div className="participant-grid-wards">
-                              <p>{participant.wardsPlaced}</p>
+                              <p className="wards">{participant.wardsPlaced}</p>
                             </div>
                             <div className="participant-grid-cs">
-                              <p>{participant.totalMinionsKilled}</p>
+                              <p className="cs">{participant.totalMinionsKilled}</p>
                             </div>
                             <div className="participant-grid-items">
                               <div className="item-icons">

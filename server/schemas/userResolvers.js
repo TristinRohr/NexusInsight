@@ -11,16 +11,20 @@ const userResolvers = {
   },
   Mutation: {
     register: async (_, { username, email, password }, { res }) => {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        throw new Error('User already exists');
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({ username, email, password: hashedPassword });
       await newUser.save();
 
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ _id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      // Set the token as an HTTP-only cookie
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Secure in production
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict',
         maxAge: 60 * 60 * 1000, // 1 hour
       });
@@ -34,9 +38,8 @@ const userResolvers = {
         throw new Error('Invalid credentials');
       }
 
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      // Set the token as an HTTP-only cookie
       res.cookie('token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -48,7 +51,7 @@ const userResolvers = {
     },
 
     logout: async (_, args, { res }) => {
-      res.clearCookie('token'); // Clear the cookie on logout
+      res.clearCookie('token');
       return 'Logged out successfully';
     },
   },

@@ -31,7 +31,7 @@ const typeDefs = gql`
     participants: [Participant]
     teams: [Team]
     queueId: Int
-    queueType: [QueueType]
+    queueType: QueueType
   }
 
   type QueueType {
@@ -61,6 +61,7 @@ const typeDefs = gql`
     deaths: Int
     assists: Int
     goldEarned: Int
+    totalMinionsKilled: Int
     totalDamageDealtToChampions: Int
     wardsPlaced: Int
     items: [Int]

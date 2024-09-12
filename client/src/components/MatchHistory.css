@@ -1,99 +1,231 @@
 .match-history-container {
-    max-width: 1200px; /* Set a maximum width to prevent overflow */
-    width: 90%; /* Maintain responsiveness with a dynamic width */
-    margin: 0 auto; /* Center the container */
-    padding: 20px; /* Add padding for spacing */
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  overflow-x: hidden; /* Prevent horizontal overflow for the container */
+}
+
+.match-history-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Match card structure */
+.match-card {
+  background-color: var(--card-background-color);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 15px;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.match-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.match-champion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.champion-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+}
+
+/* Participant teams */
+.match-participants {
+  display: flex;
+  justify-content: space-between;
+}
+
+.team-section {
+  display: block;
+  overflow-x: auto;
+  gap: 2%;
+}
+
+.participant-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participant {
+  display: grid;
+  grid-template-columns: 40px 10% 15% 10% 10% 10% 10% 35%; /* Adjusted grid layout */
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.participant-icon {
+  grid-column: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+}
+
+.participant strong {
+  grid-column: 2;
+  color: var(--text-color);
+}
+
+.participant-grid-row {
+  display: grid;
+  grid-template-columns: 50px 150px 100px 100px 80px 80px 60px 250px; /* Horizontal layout for larger screens */
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.participant-grid-champion img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+}
+
+.participant-grid-summoner {
+  font-weight: bold;
+  color: var(--text-color);
+  overflow-x: clip; /* Prevent text overflow */
+}
+
+/* KDA */
+.participant-grid-kda {
+  text-align: center;
+  font-weight: bold;
+  color: var(--highlight-color);
+}
+
+/* Damage */
+.participant-grid-damage {
+  text-align: center;
+  color: var(--neutral-color);
+}
+
+/* Gold */
+.participant-grid-gold {
+  text-align: center;
+  color: var(--neutral-color);
+}
+
+/* CS */
+.participant-grid-cs {
+  text-align: center;
+  color: var(--neutral-color);
+}
+
+/* Wards */
+.participant-grid-wards {
+  text-align: center;
+  color: var(--neutral-color);
+}
+
+/* Items section */
+.participant-grid-items {
+  display: flex;
+  gap: 5px;
+}
+
+.item-icons {
+  display: flex;
+  gap: 5px;
+}
+
+.item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.empty-item {
+  background-color: #333;
+}
+
+.team.red-side h4,
+.team.blue-side h4 {
+  color: var(--highlight-color);
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.match-details-summary {
+  text-align: right;
+}
+
+.queue-info {
+  text-align: right;
+  font-size: 1.2rem;
+  color: var(--neutral-color);
+}
+
+h2, h3, h4 {
+  color: var(--accent-color);
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Small screen (Mobile & Tablets) - overflow management */
+@media (max-width: 768px) {
+  .participant {
+    grid-template-columns: 1fr 1fr; /* Simplified grid for small screens */
+    gap: 10px;
+    overflow-x: auto;
   }
-  
-  .match-card {
-    background-color: #f4f4f4;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    overflow: hidden; /* Ensure content stays within the parent */
+}
+
+/* Larger screens - fit content within parent */
+@media (min-width: 769px) {
+  .participant-grid-row {
+    grid-template-columns: 6% 18% 7% 9% 9% 4% 6% 33%;
   }
-  
-  .match-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    cursor: pointer;
+
+  .participant-icon {
+    width: 36px;
+    height: 36px;
   }
-  
-  .match-kda {
-    font-size: 1.5rem; /* Increase the font size for K/D/A */
-    font-weight: bold;
-    margin: 5px 0; /* Add margin to separate from other stats */
-    color: #ffcc00; /* Optional: change color to make it stand out */
+
+  .item-icon {
+    width: 28px;
+    height: 28px;
   }
-  
-  .match-stats {
-    font-size: 1rem; /* Normal size for other stats */
-    color: #ccc; /* Optional: change color to differentiate from K/D/A */
-    margin-top: 5px; /* Add space between K/D/A and other stats */
-  }
-  
-  .match-details {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    width: 100%; /* Ensure the dropdown content fits within the parent */
-    box-sizing: border-box; /* Include padding and borders in width calculation */
-  }
-  
-  .flex-row {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap; /* Allow content to wrap if needed to avoid overflow */
-  }
-  
-  .red-side, .blue-side {
-    width: 48%;
-    box-sizing: border-box; /* Ensure padding is part of the width */
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column; /* Stack text and items vertically */
-  }
-  
-  .champion-icon {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-  }
-  
-  .item-icons {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 5px;
-    flex-wrap: nowrap; /* Ensure item icons remain on one row */
-  }
-  
-  .item-icon, .empty-item {
-    width: 30px; /* Ensure both item and empty boxes have the same size */
-    height: 30px;
-    margin-right: 5px;
-    border: 1px solid #ccc; /* Optional border for consistency */
-  }
-  
-  .empty-item {
-    background-color: #222; /* Gray color to represent empty slots */
-    border: 1px solid #666;
-  }
-  
-  @media (max-width: 768px) {
-    .red-side, .blue-side {
-      width: 100%; /* For smaller screens, allow sides to stack */
-      margin-bottom: 20px;
-    }
-  }
+}

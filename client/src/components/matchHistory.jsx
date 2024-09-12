@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './MatchHistory.css'; // Ensure this file is linked correctly
-import QueueInfo from './queueType'; // Import the QueueInfo component
+import './MatchHistory.css';
+import QueueInfo from './queueType';
 
 const MatchHistory = ({ riotId }) => {
   const [matchHistory, setMatchHistory] = useState(null);
@@ -24,6 +24,7 @@ const MatchHistory = ({ riotId }) => {
               kills
               deaths
               assists
+              queueId
               participants {
                 summonerName
                 riotIdTagline
@@ -32,6 +33,7 @@ const MatchHistory = ({ riotId }) => {
                 deaths
                 assists
                 goldEarned
+                totalMinionsKilled
                 totalDamageDealtToChampions
                 wardsPlaced
                 items
@@ -75,31 +77,21 @@ const MatchHistory = ({ riotId }) => {
   const toggleMatch = (index) => {
     setOpenMatch(openMatch === index ? null : index);
   };
-  
+
   const findUserTeamId = (participants, summonerName) => {
     const userParticipant = participants.find(p => p.summonerName === summonerName);
-    if (userParticipant) {
-      console.log('User found:', userParticipant);
-      return userParticipant.teamId;
-    }
-    console.error('User not found in participants list');
-    return null; // Return null if user is not found
+    return userParticipant ? userParticipant.teamId : null;
   };
 
   const determineWinStatus = (teamId, teams) => {
-    console.log('Team ID:', teamId, 'Teams Data:', teams);
-     // Log the team the user is on
-    console.log('User is on team:', teamId);
-    // Log the teams data for further debugging
-    console.log('Teams Data:', teams);
     const team = teams.find(t => t.teamId === teamId);
     return team ? team.win : false;
   };
 
   const generateItemSlots = (items) => {
-    const itemSlots = [...items]; // Copy items array
+    const itemSlots = [...items];
     while (itemSlots.length < 7) {
-      itemSlots.push(0); // Add zeroes to represent empty slots until there are 7 items
+      itemSlots.push(0);
     }
     return itemSlots;
   };
@@ -114,101 +106,228 @@ const MatchHistory = ({ riotId }) => {
 
   return (
     <div className="match-history-container">
-      <h2>Match History</h2>
-      <div className="match-history">
+      <h2 className="match-history-title">Match History</h2>
+      <div className="match-history-grid">
         {matchHistory.map((match, index) => {
           const blueTeam = match.participants.filter(participant => participant.teamId === 100);
           const redTeam = match.participants.filter(participant => participant.teamId === 200);
-          const userTeamId = findUserTeamId(match.participants, riotId.split('#')[0]); // Find the correct user by summoner name
+          const userTeamId = findUserTeamId(match.participants, riotId.split('#')[0]);
 
           if (userTeamId === null) {
             return <div key={index}>User not found in match.</div>;
           }
+
           return (
-            <div className="match-card" key={match.matchId || index}>
-              <div className="match-header" onClick={() => toggleMatch(index)}>
-                <h3>Champion: {match.champion}</h3>
-                <img 
-                  src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${match.champion}.png`} 
-                  alt={match.champion}
-                  className="champion-icon"
-                />
-                <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
-                <p>Game Duration: {Math.floor(match.gameDuration / 60)} minutes</p>
-                <p className="match-result">
-                  {determineWinStatus(userTeamId, match.teams) ? 'Victory' : 'Defeat'}
-                </p>
-              </div>
-              <QueueInfo queueId={match.queueId} />
-              
-              {openMatch === index && (
-                <div className="match-details">
-                  <div className="team-section flex-row">
-                    <div className="red-side">
-                      <h4>Red Side</h4>
-                      <ul>
-                        {redTeam.map((participant, pIndex) => (
-                        <li key={pIndex}>
-                        <img 
-                          src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
-                          alt={participant.championName}
-                          className="champion-icon"
-                        />
-                        <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
-                         <p className="match-kda">K/D/A: {participant.kills}/{participant.deaths}/{participant.assists}</p> {/* KDA on its own line */}
-                        <p className="match-stats">
-                          Gold: {participant.goldEarned} | Damage: {participant.totalDamageDealtToChampions} | Wards: {participant.wardsPlaced}
-                        </p>
-                        <div className="item-icons">
-                          {generateItemSlots(participant.items).map((item, iIndex) => (
-                            item !== 0 ? (
-                              <img
-                                key={iIndex}
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
-                                alt={`Item ${item}`}
-                                className="item-icon"
-                                title={itemData[item]?.description || 'No description available'}
-                              />
-                            ) : (
-                               <div key={iIndex} className="item-icon empty-item"></div> // Empty item box
-                            )
-                          ))}
-                        </div>
-                      </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="blue-side">
-                      <h4>Blue Side</h4>
-                      <ul>
-                        {blueTeam.map((participant, pIndex) => (
-                          <li key={pIndex}>
+            <div className="match-card" key={match.matchId || index} onClick={() => toggleMatch(index)}>
+              <div className="match-header">
+                {/* Champion and user info */}
+                <div className="match-champion">
+                  <img 
+                    src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${match.champion}.png`} 
+                    alt={match.champion}
+                    className="champion-icon"
+                  />
+                  <h3>{match.champion}</h3>
+                </div>
+
+                {/* Match participants (blue and red teams) */}
+                <div className="match-participants">
+                  <div className="team blue-team">
+                    <ul className="participant-list">
+                      {blueTeam.map((participant, pIndex) => (
+                        <li key={pIndex} className="participant">
                           <img 
                             src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
                             alt={participant.championName}
-                            className="champion-icon"
+                            className="participant-icon"
                           />
-                          <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
-                          <p className="match-kda">K/D/A: {participant.kills}/{participant.deaths}/{participant.assists}</p>
-                          <p className="match-stats">
-                            Gold: {participant.goldEarned} | Damage: {participant.totalDamageDealtToChampions} | Wards: {participant.wardsPlaced}
-                          </p>
-                          <div className="item-icons">
-                            {generateItemSlots(participant.items).map((item, iIndex) => (
-                              item !== 0 ? (
-                                <img
-                                  key={iIndex}
-                                  src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
-                                  alt={`Item ${item}`}
-                                  className="item-icon"
-                                  title={itemData[item]?.description || 'No description available'}
-                                />
-                              ) : (
-                                <div key={iIndex} className="item-icon empty-item"></div> // Empty item box
-                              )
-                            ))}
-                          </div>
+                          <span>{participant.summonerName}#{participant.riotIdTagline}</span>
                         </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="team red-team">
+                    <ul className="participant-list">
+                      {redTeam.map((participant, pIndex) => (
+                        <li key={pIndex} className="participant">
+                          <img 
+                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
+                            alt={participant.championName}
+                            className="participant-icon"
+                          />
+                          <span>{participant.summonerName}#{participant.riotIdTagline}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Match summary and queue info */}
+                <div className="match-details-summary">
+                  <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
+                  <p>Game Duration: {Math.floor(match.gameDuration / 60)} minutes</p>
+                  <p className="match-result">
+                    {determineWinStatus(userTeamId, match.teams) ? 'Victory' : 'Defeat'}
+                  </p>
+                  <QueueInfo queueId={match.queueId} className="queue-info" />
+                </div>
+              </div>
+              
+              {openMatch === index && (
+                <div className="match-details">
+                  <div className="team-section">
+                    {/* Red and Blue side expanded details */}
+                    <div className="team red-side">
+                      <h4>Red Side</h4>
+                      <ul className="participant-grid">
+                      <li className="participant-grid-row">
+                            <div className="participant-grid-champion">
+                              <strong>Champion</strong>
+                            </div>
+                            <div className="participant-grid-summoner">
+                              <strong>Summoner</strong>
+                            </div>
+                            <div className="participant-grid-kda">
+                              <strong>K/D/A</strong>
+                            </div>
+                            <div className="participant-grid-damage">
+                              <strong>Damage</strong>
+                            </div>
+                            <div className="participant-grid-gold">
+                              <strong>Gold</strong>
+                            </div>
+                            <div className="participant-grid-wards">
+                              <strong>Wards</strong>
+                            </div>
+                            <div className="participant-grid-cs">
+                              <strong>CS</strong>
+                            </div>
+                            <div className="participant-grid-items">
+                              <strong>Items</strong>
+                            </div>
+                          </li>
+                        {redTeam.map((participant, pIndex) => (
+                          <li key={pIndex} className="participant-grid-row">
+                            <div className="participant-grid-champion">
+                              <img 
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
+                                alt={participant.championName}
+                                className="champion-icon"
+                              />
+                            </div>
+                            <div className="participant-grid-summoner">
+                              <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
+                            </div>
+                            <div className="participant-grid-kda">
+                              <p>{participant.kills}/{participant.deaths}/{participant.assists}</p>
+                            </div>
+                            <div className="participant-grid-damage">
+                              <p>{participant.totalDamageDealtToChampions}</p>
+                            </div>
+                            <div className="participant-grid-gold">
+                              <p>{participant.goldEarned}</p>
+                            </div>
+                            <div className="participant-grid-wards">
+                              <p>{participant.wardsPlaced}</p>
+                            </div>
+                            <div className="participant-grid-cs">
+                              <p>{participant.totalMinionsKilled}</p>
+                            </div>
+                            <div className="participant-grid-items">
+                              <div className="item-icons">
+                                {generateItemSlots(participant.items).map((item, iIndex) => (
+                                  item !== 0 ? (
+                                    <img
+                                      key={iIndex}
+                                      src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
+                                      alt={`Item ${item}`}
+                                      className="item-icon"
+                                    />
+                                  ) : (
+                                    <div key={iIndex} className="item-icon empty-item"></div>
+                                  )
+                                ))}
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="team blue-side">
+                      <h4>Blue Side</h4>
+                      <ul className="participant-grid">
+                          <li className="participant-grid-row">
+                            <div className="participant-grid-champion">
+                              <strong>Champion</strong>
+                            </div>
+                            <div className="participant-grid-summoner">
+                              <strong>Summoner</strong>
+                            </div>
+                            <div className="participant-grid-kda">
+                              <strong>K/D/A</strong>
+                            </div>
+                            <div className="participant-grid-damage">
+                              <strong>Damage</strong>
+                            </div>
+                            <div className="participant-grid-gold">
+                              <strong>Gold</strong>
+                            </div>
+                            <div className="participant-grid-wards">
+                              <strong>Wards</strong>
+                            </div>
+                            <div className="participant-grid-cs">
+                              <strong>CS</strong>
+                            </div>
+                            <div className="participant-grid-items">
+                              <strong>Items</strong>
+                            </div>
+                          </li>
+                          {blueTeam.map((participant, pIndex) => (
+                          <li key={pIndex} className="participant-grid-row">
+                            <div className="participant-grid-champion">
+                              <img 
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
+                                alt={participant.championName}
+                                className="champion-icon"
+                              />
+                            </div>
+                            <div className="participant-grid-summoner">
+                              <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
+                            </div>
+                            <div className="participant-grid-kda">
+                              <p>{participant.kills}/{participant.deaths}/{participant.assists}</p>
+                            </div>
+                            <div className="participant-grid-damage">
+                              <p>{participant.totalDamageDealtToChampions}</p>
+                            </div>
+                            <div className="participant-grid-gold">
+                              <p>{participant.goldEarned}</p>
+                            </div>
+                            <div className="participant-grid-wards">
+                              <p>{participant.wardsPlaced}</p>
+                            </div>
+                            <div className="participant-grid-cs">
+                              <p>{participant.totalMinionsKilled}</p>
+                            </div>
+                            <div className="participant-grid-items">
+                              <div className="item-icons">
+                                {generateItemSlots(participant.items).map((item, iIndex) => (
+                                  item !== 0 ? (
+                                    <img
+                                      key={iIndex}
+                                      src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
+                                      alt={`Item ${item}`}
+                                      className="item-icon"
+                                    />
+                                  ) : (
+                                    <div key={iIndex} className="item-icon empty-item"></div>
+                                  )
+                                ))}
+                              </div>
+                            </div>
+                          </li>
                         ))}
                       </ul>
                     </div>

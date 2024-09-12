@@ -24,6 +24,7 @@ const riotResolvers = {
             assists: participant.assists,
             goldEarned: participant.goldEarned,
             totalDamageDealtToChampions: participant.totalDamageDealtToChampions,
+            totalMinionsKilled: participant.totalMinionsKilled,
             wardsPlaced: participant.wardsPlaced,
             items: [
               participant.item0,
@@ -43,6 +44,10 @@ const riotResolvers = {
           }));
           console.log('teams info:', teams);
 
+          const { queueId } = matchDetails.info;
+
+          console.log('Fected queueId from match details:', queueId);
+
           return {
             matchId: matchDetails.metadata.matchId,
             gameStartTimestamp: matchDetails.info.gameStartTimestamp,
@@ -53,7 +58,7 @@ const riotResolvers = {
             assists: userParticipant ? userParticipant.assists : null,
             participants,
             teams,
-            queueId
+            queueId,
           };
         });
 
@@ -77,7 +82,7 @@ const riotResolvers = {
         const summonerResponse = await axios.get(summonerUrl);
         const summonerData = summonerResponse.data;
 
-        console.log('Fetched Summoner Data:', summonerData);
+        console.log('Fetched Summoner Data=======>', summonerData);
 
         // Step 3: Fetch league data using the summoner ID
         const leagueUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=${process.env.RIOT_API_KEY}`;
@@ -108,22 +113,24 @@ const riotResolvers = {
     },
     queueType: async (_, { queueId }) => {
       try {
-        console.log(`Fetching queue type for queueId: ${queueId}`);
+        console.log(`Queue ID received from frontend: ${queueId}`); // Log received queueId
+        
         const queueData = await riotApiService.queueTypes();  // Fetch static JSON
-
+        console.log('Queue Data fetched:', queueData.map(q => q.queueId)); // Log all available queue IDs for comparison
+    
         // Find the queue information that matches the provided queueId
         const queueInfo = queueData.find(queue => queue.queueId === queueId);
         if (!queueInfo) {
           throw new Error(`Queue with ID ${queueId} not found.`);
         }
-
-        console.log(`Fetched queue info:`, queueInfo);
+    
+        console.log('Fetched queue info:', queueInfo); // This should log the correct queue info
         return queueInfo;
       } catch (error) {
         console.error('Error fetching queue type:', error);
         throw new Error('Failed to fetch queue type');
       }
-    }
+    },
   }
 };
 

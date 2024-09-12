@@ -2,7 +2,7 @@
   --background-color: #121212;
   --card-background-color: #1e1e1e;
   --text-color: #ffffff;
-  --accent-color: #ff2e2e;  /* Dark red accent */
+  --accent-color: #ff2e2e;
   --border-color: #333333;
   --highlight-color: #ff5656;
   --neutral-color: #999999;
@@ -12,10 +12,13 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 h1, h2, h3, h4 {
   color: var(--accent-color);
+  margin: 0;
 }
 
 #root {
@@ -23,50 +26,6 @@ h1, h2, h3, h4 {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.card {
-  background-color: var(--card-background-color);
-  padding: 2em;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.match-header {
-  color: var(--highlight-color);
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-ul li {
-  background-color: var(--card-background-color);
-  padding: 1em;
-  margin: 0.5em 0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-ul li img {
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-ul li strong {
-  color: var(--accent-color);
-}
-
-.match-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--neutral-color);
-  border-radius: 6px;
 }
 
 button {

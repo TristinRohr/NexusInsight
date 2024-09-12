@@ -22,6 +22,11 @@ const userSchema = new Schema({
         required: true,
         trim: true,
         minlength: 6
+    },
+
+    favoritePlayers: {
+        type: [String],
+        default: []
     }
 }, {
     timestamps: true

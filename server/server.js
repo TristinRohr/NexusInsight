@@ -1,49 +1,48 @@
 require('dotenv').config({ path: './.env' });
-// console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-
-
+const cookieParser = require('cookie-parser');
 
 // Import GraphQL type definitions and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 
-// Initialize express app
 const app = express();
 const API_PORT = process.env.API_PORT || 3001;
 
-// Start Apollo Server
+// Use cookie-parser to parse cookies from the request
+app.use(cookieParser());
+
+// Set up Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
-    const token = req.headers.authorization || '';
+  context: ({ req, res }) => {
+    const token = req.cookies.token || ''; // Get the token from the cookie
     if (token) {
       try {
         const user = jwt.verify(token, process.env.JWT_SECRET);
-        return { user };
+        return { user, res }; // Pass response to set cookies if needed
       } catch (error) {
         console.log('Invalid token');
       }
     }
-    return {};
+    return { res }; // Pass response even if no token
   },
 });
 
-// Apply middlewares and start the server
+// Apply CORS and Apollo middleware
 async function startServer() {
   await server.start();
   
-  // Use CORS middleware before applying Apollo middleware
-  app.use(cors());
+  app.use(cors({
+    origin: 'http://localhost:3000', // Adjust origin as necessary
+    credentials: true, // Allow credentials (cookies)
+  }));
   
-  // Apply Apollo middleware
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   app.listen(API_PORT, () => {
     console.log(`Server ready at http://localhost:${API_PORT}${server.graphqlPath}`);
@@ -54,5 +53,5 @@ startServer();
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log('MongoDB connection error:', err));
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log('MongoDB connection error:', err));

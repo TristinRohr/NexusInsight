@@ -5,9 +5,9 @@ import MatchHistory from './components/MatchHistory';
 import LiveMatch from './components/LiveMatch';
 import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
-import Feed from './components/Feed';
-import FavoritePlayers from './components/FavoritePlayers';
-import Search from './components/Search'; // New search component
+import FavoriteFeed from './components/FavoriteFeed'; // Combined component
+import Search from './components/Search'; // Search component
+import axios from 'axios';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
@@ -24,10 +24,17 @@ const App = () => {
     setTagLine(tag);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await axios.post('/graphql', {
+        query: `mutation logout { logout }`
+      }, { withCredentials: true }); // Send cookie to clear the token
+
+      setIsLoggedIn(false);
+      navigate('/');
+    } catch (err) {
+      console.error('Failed to logout:', err);
+    }
   };
 
   return (
@@ -37,8 +44,7 @@ const App = () => {
         <nav>
           <Link to="/profile">Profile</Link> |{' '}
           <Link to="/match-history">Match History</Link> |{' '}
-          <Link to="/feed">Feed</Link> |{' '}
-          <Link to="/favorite-players">Favorite Players</Link> |{' '}
+          <Link to="/favorite-feed">Favorite Feed</Link> |{' '}
           <button onClick={handleLogout}>Logout</button>
         </nav>
       )}
@@ -72,11 +78,7 @@ const App = () => {
           }
         />
         <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
-        <Route path="/feed" element={isLoggedIn ? <Feed /> : <Navigate to="/" />} />
-        <Route
-          path="/favorite-players"
-          element={isLoggedIn ? <FavoritePlayers /> : <Navigate to="/" />}
-        />
+        <Route path="/favorite-feed" element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} />
       </Routes>
     </div>
   );

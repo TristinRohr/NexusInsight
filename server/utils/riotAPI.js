@@ -109,25 +109,13 @@ exports.fetchUserStats = async (gameName, tagLine) => {
   }
 };
 
-exports.queueTypes = async (queueId) => {
-  console.log(`Fetching queue types for queue ID: ${queueId}`);
+exports.queueTypes = async () => {
+  console.log(`Fetching queue types from static JSON`);
   const url = `https://static.developer.riotgames.com/docs/lol/queues.json`;
-  console.log(`Request URL: ${url}`);
 
   const response = await fetch(url);
-  const responseBody = await response.text();
+  const data = await response.json(); // Make sure this is parsed as an array
 
-  if (!response.ok) {
-    console.error('Failed to fetch queue types', response.status, responseBody);
-    throw new Error('Failed to fetch queue types');
-  }
-
-  const data = JSON.parse(responseBody);
-  console.log('Fetched queue types:', data);
-  return {
-    queueId: data.queueId,
-    map: data.map,
-    description: data.description,
-    notes: data.notes,
-  };
-}
+  console.log('Fetched queue types:', data); // This should now log the entire array of queues
+  return data; // Return the full list of queues
+};

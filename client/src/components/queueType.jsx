@@ -1,13 +1,24 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 const QueueInfo = ({ queueId }) => {
     const [queueData, setQueueData] = useState(null);
     const [error, setError] = useState(null);
   
     useEffect(() => {
+      console.log('Received queueId:', queueId); // This should log the correct queueId from the frontend
+  
       const fetchQueueInfo = async () => {
+        if (!queueId) {
+          console.error('No queueId provided');
+          setError('Invalid queue ID');
+          return;
+        }
+  
         try {
           const graphqlQuery = `
             query getQueueType($queueId: Int!) {
-              queueType(queueId: $queueId) {  # Ensure this matches the schema
+              queueType(queueId: $queueId) {
                 queueId
                 map
                 description
@@ -21,6 +32,7 @@ const QueueInfo = ({ queueId }) => {
             variables: { queueId }
           });
   
+          console.log('GraphQL response:', response.data); // Log the response to verify if correct queue data is returned
           setQueueData(response.data.data.queueType);
         } catch (error) {
           console.error('Error fetching queue type:', error);
@@ -46,4 +58,4 @@ const QueueInfo = ({ queueId }) => {
     );
   };
 
-  export default QueueInfo;
+export default QueueInfo;

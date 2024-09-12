@@ -1,35 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null); // Track error state
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('/graphql', {
-          query: `
-            query getUser {
-              getUser {
-                username
-                email
-                favoritePlayers
+        const response = await axios.post(
+          '/graphql',
+          {
+            query: `
+              query getUser {
+                getUser {
+                  username
+                  email
+                  favoritePlayers
+                }
               }
-            }
-          `,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            `,
           },
-        });
+          { withCredentials: true } // Send cookies automatically
+        );
+
         setUserData(response.data.data.getUser);
       } catch (error) {
         console.error('Error fetching profile data:', error);
+        setError('Failed to fetch profile data. Please try again.');
       }
     };
 
     fetchProfile();
   }, []);
+
+  if (error) {
+    return <div>{error}</div>; // Display the error message if any
+  }
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -38,14 +45,18 @@ const Profile = () => {
   return (
     <div>
       <h2>Profile</h2>
-      <p>Username: {userData.username}</p>
-      <p>Email: {userData.email}</p>
+      <p><strong>Username:</strong> {userData.username}</p>
+      <p><strong>Email:</strong> {userData.email}</p>
       <h3>Favorite Players</h3>
-      <ul>
-        {userData.favoritePlayers.map((player) => (
-          <li key={player}>{player}</li>
-        ))}
-      </ul>
+      {userData.favoritePlayers.length > 0 ? (
+        <ul>
+          {userData.favoritePlayers.map((player) => (
+            <li key={player}>{player}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No favorite players added yet.</p>
+      )}
     </div>
   );
 };

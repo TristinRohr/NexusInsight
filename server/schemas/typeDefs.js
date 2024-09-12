@@ -91,6 +91,7 @@ const typeDefs = gql`
     register(username: String!, email: String!, password: String!): String
     login(email: String!, password: String!): String
     addFavoritePlayer(playerName: String!): User
+    logout: Boolean  # Add this line to define the logout mutation
   }
 `;
 

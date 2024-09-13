@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MatchHistory.css';
-import QueueInfo from './queueType';
+import QueueInfo from './QueueType';
 import { Link, useNavigate } from 'react-router-dom';
 
 const MatchHistory = ({ riotId, setSearchTerm }) => {

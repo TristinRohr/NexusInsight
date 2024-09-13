@@ -44,22 +44,7 @@ const App = () => {
   return (
     <div>
       <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={handleSearch} isHeader={isHeader} />
-      <header className="app-header">
-        <h1>League of Legends Tracker</h1>
-        {isLoggedIn && <Search onSearch={handleSearch} isHeader={isHeader} />}
-      </header>
-
-      {isLoggedIn && (
-        <nav>
-          <Link to="/profile">Profile</Link> |{' '}
-          <Link to="/match-history">Match History</Link> |{' '}
-          <Link to="/favorite-feed">Favorite Feed</Link> |{' '}
-          <Link to="/about-donation">About Us & Donations</Link> |{' '}
-          <button onClick={handleLogout}>Logout</button>
-        </nav>
-      )}
-      
-      <Routes>
+        <Routes>
         <Route
           path="/"
           element={isLoggedIn ? <Navigate to="/match-history" /> : <LoginRegister />}
@@ -73,7 +58,7 @@ const App = () => {
                 <MatchHistory riotId={`${summonerName}#${tagLine}`} />
               </div>
             ) : (
-              <Navigate to="/search" />
+              <Navigate to="/Search" />
             )
           }
         />

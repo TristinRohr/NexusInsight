@@ -4,11 +4,13 @@ import './UserStats.css';
 
 const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
+        setLoading(true); // Set loading to true before fetching
         const [gameName, tagLine] = riotId.split('#');
         console.log('gameName:', gameName, 'tagLine:', tagLine); // Showing gameName and tagLine properly
 
@@ -47,23 +49,26 @@ const UserStats = ({ riotId }) => {
         } else {
           setError('No user stats found');
         }
+
+        setLoading(false); // Set loading to false after fetching
       } catch (error) {
         console.error('Error fetching user stats:', error);
         setError('Failed to fetch user stats');
+        setLoading(false);
       }
     };
 
     // Trigger the data fetching on component mount or riotId change
     fetchUserStats();
-  }, [riotId]);
+  }, [riotId]); // Re-fetch data when riotId changes
 
   // Handle loading and error states
-  if (error) {
-    return <div className="user-stats-container">{error}</div>;
+  if (loading) {
+    return <div className="user-stats-container">Loading user stats...</div>;
   }
 
-  if (!userStats) {
-    return <div className="user-stats-container">Loading user stats...</div>;
+  if (error) {
+    return <div className="user-stats-container">{error}</div>;
   }
 
   // Display the fetched user stats
@@ -80,21 +85,25 @@ const UserStats = ({ riotId }) => {
 
       <div className="rank-info">
         <h3>Ranked</h3>
-        {userStats.leagueInfo.map((league, index) => (
-          <div key={index} className="rank-info-item">
-            <p>{league.queueType.replace(/_/g, ' ')}</p>
-            <img
-              className="rank-icon"
-              src={`/public/rankedEmblems/rank=${league.tier}.png`}
-              alt="tier"
-              width="50"
-              height="50"
-            />
-            <p>{league.tier} {league.rank}</p>
-            <p>{league.leaguePoints} LP</p>
-            <p>{league.wins}W / {league.losses}L</p>
-          </div>
-        ))}
+        {userStats.leagueInfo.length > 0 ? (
+          userStats.leagueInfo.map((league, index) => (
+            <div key={index} className="rank-info-item">
+              <p>{league.queueType.replace(/_/g, ' ')}</p>
+              <img
+                className="rank-icon"
+                src={`/public/rankedEmblems/rank=${league.tier}.png`}
+                alt={league.tier}
+                width="50"
+                height="50"
+              />
+              <p>{league.tier} {league.rank}</p>
+              <p>{league.leaguePoints} LP</p>
+              <p>{league.wins}W / {league.losses}L</p>
+            </div>
+          ))
+        ) : (
+          <p>No ranked data available</p>
+        )}
       </div>
     </div>
   );

@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Search.css';
 
 const Search = ({ onSearch, isHeader }) => {
-  const [summonerName, setSummonerName] = useState('');
-  const [tagLine, setTagLine] = useState('');
+  const { summonerName: paramSummonerName, tagLine: paramTagLine } = useParams(); // Get URL params
+  const [summonerName, setSummonerName] = useState(paramSummonerName || ''); // Initialize with URL param
+  const [tagLine, setTagLine] = useState(paramTagLine || ''); // Initialize with URL param
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Update input fields when the URL parameters change
+    if (paramSummonerName) setSummonerName(paramSummonerName);
+    if (paramTagLine) setTagLine(paramTagLine);
+  }, [paramSummonerName, paramTagLine]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (summonerName && tagLine) {
       onSearch(summonerName, tagLine);
-      navigate('/match-history');
+      navigate(`/match-history/${summonerName}/${tagLine}`);
     }
   };
 
@@ -42,7 +49,6 @@ const Search = ({ onSearch, isHeader }) => {
             placeholder="Tag Line"
           />
         </div>
-        {/* Replace button with search icon */}
         <button type="submit" className="search-icon">
           <FontAwesomeIcon icon={faSearch} />
         </button>

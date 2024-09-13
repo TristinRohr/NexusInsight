@@ -116,6 +116,6 @@ exports.queueTypes = async () => {
   const response = await fetch(url);
   const data = await response.json(); // Make sure this is parsed as an array
 
-  console.log('Fetched queue types:', data); // This should now log the entire array of queues
+  
   return data; // Return the full list of queues
 };

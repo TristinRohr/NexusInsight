@@ -26,6 +26,7 @@
 
 .user-profile h2 {
   color: var(--highlight-color);
+  text-transform: none; /* This will override any global text-transform rule */
 }
 
 .rank-info {
@@ -47,7 +48,7 @@
   margin-right: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .user-stats-container {
     grid-template-columns: 1fr; /* Stack profile and rank info vertically on smaller screens */
   }

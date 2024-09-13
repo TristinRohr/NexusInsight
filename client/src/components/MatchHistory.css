@@ -24,6 +24,7 @@
   margin-bottom: 15px;
   transition: box-shadow 0.3s ease;
   cursor: pointer;
+  overflow-x: auto;
 }
 
 .match-card:hover {
@@ -134,7 +135,7 @@
 
 .participant-grid-row {
   display: grid;
-  grid-template-columns: 50px 150px 100px 100px 80px 80px 60px 250px;
+  grid-template-columns: 6% 18% 7% 9% 9% 4% 6% 33%;
   align-items: center;
   gap: 10px;
   padding: 10px 0;
@@ -187,11 +188,13 @@
 .team.blue-team {
   background-color: rgba(11, 11, 182, 0.350); /* Light blue background */
   border-radius: 8px;
+  overflow-x: auto;
 }
 
 .team.red-team {
   background-color: rgba(182, 11, 11, 0.350); /* Light red background */
   border-radius: 8px;
+  overflow-x: auto;
 }
 
 .team.red-side {
@@ -221,6 +224,25 @@
   color: var(--neutral-color);
 }
 
+.toggle-button:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.toggle-button {
+  background-color: var(--accent-color);
+  border: none;
+  color: var(--text-color);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-left: 3%;
+}
+
 h2, h4 {
   color: var(--accent-color);
 }
@@ -246,16 +268,52 @@ body {
 }
 
 /* Small screen (Mobile & Tablets) */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .participant {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    overflow-x: auto;
+    overflow-x: clip;
+  }
+
+  .participant-grid-row {
+    grid-template-columns: 50px 150px 100px 100px 80px 80px 60px 250px;
+  }
+
+  .participant-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .item-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .match-card {
+    padding: 10px;
+  }
+
+  .match-header {
+    padding: 5px;
+  }
+
+  .match-champion {
+    gap: 5px;
+    display:block;
+    margin: 3%;
+  }
+
+  .team-section {
+    gap: 5%;
+  }
+
+  .participant-list {
+    gap: 5%;
   }
 }
 
 /* Larger screens */
-@media (min-width: 769px) {
+@media (min-width: 900px) {
   .participant-grid-row {
     grid-template-columns: 6% 18% 7% 9% 9% 4% 6% 33%;
   }

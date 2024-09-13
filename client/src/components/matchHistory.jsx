@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MatchHistory.css';
 import QueueInfo from './queueType';
+import { Link, useNavigate } from 'react-router-dom';
 
-const MatchHistory = ({ riotId }) => {
+const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [matchHistory, setMatchHistory] = useState(null);
   const [error, setError] = useState(null);
   const [itemData, setItemData] = useState(null);
   const [openMatch, setOpenMatch] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMatchHistory = async () => {
       try {
+        setLoading(true);
         const [gameName, tagLine] = riotId.split('#');
 
         const graphqlQuery = `
@@ -49,17 +53,21 @@ const MatchHistory = ({ riotId }) => {
 
         const response = await axios.post('/graphql', {
           query: graphqlQuery,
-          variables: { gameName, tagLine }
+          variables: { gameName, tagLine },
         });
-
+        console.log('Match history response:', response.data.data.matchHistory);
         setMatchHistory(response.data.data.matchHistory);
+        setLoading(false);
+        window.scrollTo(0, 0);
       } catch (error) {
         console.error('Error fetching match history:', error);
         setError('Failed to fetch match history');
+        setLoading(false);
       }
     };
 
     fetchMatchHistory();
+    setOpenMatch(null);
   }, [riotId]);
 
   useEffect(() => {
@@ -78,9 +86,19 @@ const MatchHistory = ({ riotId }) => {
     setOpenMatch(openMatch === index ? null : index);
   };
 
-  const findUserTeamId = (participants, summonerName) => {
-    const userParticipant = participants.find(p => p.summonerName === summonerName);
-    return userParticipant ? userParticipant.teamId : null;
+  const handleParticipantClick = (summonerName, tagLine) => {
+    const searchValue = `${summonerName}#${tagLine}`;
+    setSearchTerm(searchValue); // Update the search bar state if you have one
+  
+    // Programmatically navigate to the new URL with summonerName and tagLine
+    navigate(`/match-history/${summonerName}/${tagLine}`);
+  };
+
+  const findUserTeamId = (participants, riotId) => {
+    return participants.find(participant => {
+      const riotIdWithTag = `${participant.summonerName}#${participant.riotIdTagline}`;
+      return riotIdWithTag.toLowerCase() === riotId.toLowerCase();
+    });
   };
 
   const determineWinStatus = (teamId, teams) => {
@@ -111,14 +129,14 @@ const MatchHistory = ({ riotId }) => {
         {matchHistory.map((match, index) => {
           const blueTeam = match.participants.filter(participant => participant.teamId === 100);
           const redTeam = match.participants.filter(participant => participant.teamId === 200);
-          const userTeamId = findUserTeamId(match.participants, riotId.split('#')[0]);
+          const userTeamId = findUserTeamId(match.participants, riotId);
 
           if (userTeamId === null) {
             return <div key={index}>User not found in match.</div>;
           }
 
           return (
-            <div className="match-card" key={match.matchId || index} onClick={() => toggleMatch(index)}>
+            <div className="match-card" key={match.matchId || index}>
               <div className="match-header">
                 {/* Champion and user info */}
                 <div className="match-champion">
@@ -172,41 +190,69 @@ const MatchHistory = ({ riotId }) => {
                   </p>
                   <QueueInfo queueId={match.queueId} className="queue-info" />
                 </div>
+                {/* Toggle Button */}
+                  <button className="toggle-button" onClick={() => toggleMatch(index)}>
+                    {openMatch === index ? 'Hide Details' : 'Show Details'}
+                  </button>
               </div>
-              
+
               {openMatch === index && (
-                <div className="match-details">
+                    <div className="team blue-side">
+                      <h4>Blue Side</h4>
+                      <ul className="participant-grid">
+                        {blueTeam.map((participant, pIndex) => (
+                          <li key={pIndex} className="participant-grid-row">
+                            <div className="blue-participant-grid-champion">
+                              <img 
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
+                                alt={participant.championName}
+                                className="champion-icon"
+                              />
+                            </div>
+                            <div className="participant-grid-summoner">
+                            <span onClick={() => handleParticipantClick(participant.summonerName, participant.riotIdTagline)}>{participant.summonerName}#{participant.riotIdTagline}
+                            </span>
+                            </div>
+                            <div className="participant-grid-kda">
+                              <span className="kda-kills">{participant.kills}</span>/<span className="kda-deaths">{participant.deaths}</span>/<span className="kda-assists">{participant.assists}</span>
+                            </div>
+                            <div className="participant-grid-damage">
+                              <p className="damage">{participant.totalDamageDealtToChampions}</p>
+                            </div>
+                            <div className="participant-grid-gold">
+                              <p className="gold">{participant.goldEarned}</p>
+                            </div>
+                            <div className="participant-grid-wards">
+                              <p className="wards">{participant.wardsPlaced}</p>
+                            </div>
+                            <div className="participant-grid-cs">
+                              <p className="cs">{participant.totalMinionsKilled}</p>
+                            </div>
+                            <div className="participant-grid-items">
+                              <div className="item-icons">
+                                {generateItemSlots(participant.items).map((item, iIndex) => (
+                                  item !== 0 ? (
+                                    <img
+                                      key={iIndex}
+                                      src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
+                                      alt={`Item ${item}`}
+                                      className="item-icon"
+                                    />
+                                  ) : (
+                                    <div key={iIndex} className="item-icon empty-item"></div>
+                                  )
+                                ))}
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="match-details">
                   <div className="team-section">
                     {/* Red and Blue side expanded details */}
                     <div className="team red-side">
                       <h4>Red Side</h4>
                       <ul className="participant-grid">
-                      <li className="participant-grid-row">
-                            <div className="participant-grid-champion">
-                              <strong>Champion</strong>
-                            </div>
-                            <div className="participant-grid-summoner">
-                              <strong>Summoner</strong>
-                            </div>
-                            <div className="participant-grid-kda">
-                              <strong>K/D/A</strong>
-                            </div>
-                            <div className="participant-grid-damage">
-                              <strong>Damage</strong>
-                            </div>
-                            <div className="participant-grid-gold">
-                              <strong>Gold</strong>
-                            </div>
-                            <div className="participant-grid-wards">
-                              <strong>Wards</strong>
-                            </div>
-                            <div className="participant-grid-cs">
-                              <strong>CS</strong>
-                            </div>
-                            <div className="participant-grid-items">
-                              <strong>Items</strong>
-                            </div>
-                          </li>
                         {redTeam.map((participant, pIndex) => (
                           <li key={pIndex} className="participant-grid-row">
                             <div className="red-participant-grid-champion">
@@ -217,7 +263,8 @@ const MatchHistory = ({ riotId }) => {
                               />
                             </div>
                             <div className="participant-grid-summoner">
-                              <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
+                            <span onClick={() => handleParticipantClick(participant.summonerName, participant.riotIdTagline)}>{participant.summonerName}#{participant.riotIdTagline}
+                            </span>
                             </div>
                             <div className="participant-grid-kda">
                               <span className="kda-kills">{participant.kills}</span>/<span className="kda-deaths">{participant.deaths}</span>/<span className="kda-assists">{participant.assists}</span>
@@ -254,82 +301,6 @@ const MatchHistory = ({ riotId }) => {
                         ))}
                       </ul>
                     </div>
-
-                    <div className="team blue-side">
-                      <h4>Blue Side</h4>
-                      <ul className="participant-grid">
-                      <li className="participant-grid-row">
-                            <div className="participant-grid-champion">
-                              <strong>Champion</strong>
-                            </div>
-                            <div className="participant-grid-summoner">
-                              <strong>Summoner</strong>
-                            </div>
-                            <div className="participant-grid-kda">
-                              <strong>K/D/A</strong>
-                            </div>
-                            <div className="participant-grid-damage">
-                              <strong>Damage</strong>
-                            </div>
-                            <div className="participant-grid-gold">
-                              <strong>Gold</strong>
-                            </div>
-                            <div className="participant-grid-wards">
-                              <strong>Wards</strong>
-                            </div>
-                            <div className="participant-grid-cs">
-                              <strong>CS</strong>
-                            </div>
-                            <div className="participant-grid-items">
-                              <strong>Items</strong>
-                            </div>
-                          </li>                        
-                        {blueTeam.map((participant, pIndex) => (
-                          <li key={pIndex} className="participant-grid-row">
-                            <div className="blue-participant-grid-champion">
-                              <img 
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
-                                alt={participant.championName}
-                                className="champion-icon"
-                              />
-                            </div>
-                            <div className="participant-grid-summoner">
-                              <strong>{participant.summonerName}#{participant.riotIdTagline}</strong>
-                            </div>
-                            <div className="participant-grid-kda">
-                              <span className="kda-kills">{participant.kills}</span>/<span className="kda-deaths">{participant.deaths}</span>/<span className="kda-assists">{participant.assists}</span>
-                            </div>
-                            <div className="participant-grid-damage">
-                              <p className="damage">{participant.totalDamageDealtToChampions}</p>
-                            </div>
-                            <div className="participant-grid-gold">
-                              <p className="gold">{participant.goldEarned}</p>
-                            </div>
-                            <div className="participant-grid-wards">
-                              <p className="wards">{participant.wardsPlaced}</p>
-                            </div>
-                            <div className="participant-grid-cs">
-                              <p className="cs">{participant.totalMinionsKilled}</p>
-                            </div>
-                            <div className="participant-grid-items">
-                              <div className="item-icons">
-                                {generateItemSlots(participant.items).map((item, iIndex) => (
-                                  item !== 0 ? (
-                                    <img
-                                      key={iIndex}
-                                      src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
-                                      alt={`Item ${item}`}
-                                      className="item-icon"
-                                    />
-                                  ) : (
-                                    <div key={iIndex} className="item-icon empty-item"></div>
-                                  )
-                                ))}
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   </div>
                 </div>

@@ -139,7 +139,7 @@ const MatchHistory = ({ riotId }) => {
                           <img 
                             src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
                             alt={participant.championName}
-                            className="participant-icon"
+                            className="blue-participant-icon"
                           />
                           <span>{participant.summonerName}#{participant.riotIdTagline}</span>
                         </li>
@@ -154,7 +154,7 @@ const MatchHistory = ({ riotId }) => {
                           <img 
                             src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
                             alt={participant.championName}
-                            className="participant-icon"
+                            className="red-participant-icon"
                           />
                           <span>{participant.summonerName}#{participant.riotIdTagline}</span>
                         </li>
@@ -209,7 +209,7 @@ const MatchHistory = ({ riotId }) => {
                           </li>
                         {redTeam.map((participant, pIndex) => (
                           <li key={pIndex} className="participant-grid-row">
-                            <div className="participant-grid-champion">
+                            <div className="red-participant-grid-champion">
                               <img 
                                 src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
                                 alt={participant.championName}
@@ -286,7 +286,7 @@ const MatchHistory = ({ riotId }) => {
                           </li>                        
                         {blueTeam.map((participant, pIndex) => (
                           <li key={pIndex} className="participant-grid-row">
-                            <div className="participant-grid-champion">
+                            <div className="blue-participant-grid-champion">
                               <img 
                                 src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`} 
                                 alt={participant.championName}

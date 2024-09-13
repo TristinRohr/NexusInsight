@@ -6,6 +6,9 @@ import MatchHistory from './components/matchHistory';
 import axios from 'axios';
 import AboutDonation from './components/AboutDonation';
 import './App.css';  // Importing the CSS file
+import LoginRegister from './components/LoginRegister';
+import Profile from './components/Profile';
+import FavoriteFeed from './components/FavoriteFeed';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');

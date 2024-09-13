@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import './Search.css';
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch, isHeader }) => {
   const [summonerName, setSummonerName] = useState('');
   const [tagLine, setTagLine] = useState('');
   const navigate = useNavigate();
@@ -10,34 +13,39 @@ const Search = ({ onSearch }) => {
     event.preventDefault();
 
     if (summonerName && tagLine) {
-      onSearch(summonerName, tagLine);  // Pass summonerName and tagLine to App component
-      navigate('/match-history');       // Navigate to the match history page after search
+      onSearch(summonerName, tagLine);
+      navigate('/match-history');
     }
   };
 
+  const searchClass = isHeader ? "search-container header" : "search-container";
+
   return (
-    <div>
-      <h2>Enter Summoner Info</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Summoner Name:</label>
+    <div className={searchClass}>
+      <form onSubmit={handleSubmit} className="search-form">
+        <div className="form-group">
           <input
             type="text"
             value={summonerName}
             onChange={(e) => setSummonerName(e.target.value)}
             required
+            placeholder="Summoner Name"
           />
         </div>
-        <div>
-          <label>Tag Line:</label>
+        <div className="hash-symbol">#</div>
+        <div className="form-group">
           <input
             type="text"
             value={tagLine}
             onChange={(e) => setTagLine(e.target.value)}
             required
+            placeholder="Tag Line"
           />
         </div>
-        <button type="submit">Search</button>
+        {/* Replace button with search icon */}
+        <button type="submit" className="search-icon">
+          <FontAwesomeIcon icon={faSearch} />
+        </button>
       </form>
     </div>
   );

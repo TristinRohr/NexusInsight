@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "eslint.config.js",
   "dependencies": {
+<<<<<<< Updated upstream
     "@stripe/stripe-js": "^4.4.0",
+=======
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+>>>>>>> Stashed changes
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "react": "^18.3.1",

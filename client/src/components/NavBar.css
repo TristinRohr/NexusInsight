@@ -1,0 +1,95 @@
+/* Navbar Styles */
+.navbar {
+    background-color: var(--background-color); /* Background color from root */
+    padding: 10px 20px;
+    border-bottom: 2px solid var(--highlight-color); /* Border highlight */
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between; /* Align the title on the left and nav links on the right */
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    color: var(--accent-color); /* Accent color for the brand */
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.navbar-brand:hover {
+    color: var(--highlight-color); /* Lighter color on hover */
+    text-decoration: none;
+}
+
+/* Navbar Nav Container */
+.navbar-nav-container {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+/* Navbar Links */
+.nav-link {
+    color: var(--text-color); /* Text color from root variables */
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: var(--highlight-color); /* Highlight color on hover */
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* Logout button styling */
+.nav-item button.nav-link {
+    background-color: var(--highlight-color); /* Highlight color for button */
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.nav-item button.nav-link:hover {
+    background-color: var(--accent-color); /* Accent color on hover */
+}
+
+/* Responsive Navbar for smaller screens */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column; /* Stack the title and the nav links vertically on smaller screens */
+        align-items: center;
+    }
+
+    .navbar-nav {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-item {
+        margin-left: 10px;
+    }
+}

@@ -8,7 +8,8 @@ import AboutDonation from './components/AboutDonation';
 import './App.css';  // Importing the CSS file
 import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
-import FavoriteFeed from './components/FavoriteFeed';
+import FavoriteFeed from './components/FavoriteFeed'; // Combined component
+import NavBar from './components/NavBar'; // NavBar component
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
@@ -42,6 +43,7 @@ const App = () => {
 
   return (
     <div>
+      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={handleSearch} isHeader={isHeader} />
       <header className="app-header">
         <h1>League of Legends Tracker</h1>
         {isLoggedIn && <Search onSearch={handleSearch} isHeader={isHeader} />}

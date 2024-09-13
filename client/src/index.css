@@ -2,9 +2,12 @@
   --background-color: #121212;
   --card-background-color: #1e1e1e;
   --text-color: #ffffff;
-  --accent-color: #ff2e2e;
+  --accent-color: #ff5656;
+  --champion-color: #E2BE2A;
+  --red-accent-color: #ff5656;
+  --blue-accent-color: #56b4ff;
   --border-color: #333333;
-  --highlight-color: #ff5656;
+  --highlight-color: #E2BE2A;
   --neutral-color: #999999;
 }
 
@@ -17,7 +20,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-  color: var(--accent-color);
+  color: var(--champion-color);
   margin: 0;
 }
 

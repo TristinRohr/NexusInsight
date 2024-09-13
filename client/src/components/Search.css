@@ -1,0 +1,96 @@
+/* Container for the search component */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+    background-color: var(--card-background-color); /* Using your existing background color */
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  /* When the search moves to the header */
+  .search-container.header {
+    max-width: 300px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  /* Search form layout */
+  .search-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Input field styling */
+  input {
+    padding: 10px;
+    border: 1px solid var(--border-color); /* Using your existing border color */
+    border-radius: 4px;
+    font-size: 16px;
+    width: 150px;
+    background-color: var(--background-color); /* Slightly darker background */
+    color: var(--text-color); /* Using your existing text color */
+    transition: all 0.5s ease;
+  }
+  
+  /* Hash symbol styling */
+  .hash-symbol {
+    font-size: 20px;
+    color: var(--text-color);
+    padding: 0 5px;
+  }
+  
+  /* Magnifying glass icon styling */
+  .search-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--neutral-color); /* Using your existing neutral color */
+    font-size: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+  }
+  
+  /* Hover effect for the icon */
+  .search-icon:hover {
+    color: var(--highlight-color); /* Use highlight color on hover */
+  }
+  
+  /* Header-specific search */
+  .search-container.header input {
+    padding: 5px;
+    font-size: 12px;
+    width: 100px;
+  }
+  
+  /* Responsive design for mobile */
+  @media (max-width: 768px) {
+    .search-container.header {
+      position: relative;
+      top: 0;
+      right: 0;
+      max-width: 100%;
+    }
+  
+    .search-form {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .search-container.header input {
+      width: 100%;
+    }
+  }
+  

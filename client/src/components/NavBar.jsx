@@ -4,12 +4,12 @@ import './NavBar.css';
 import './Search';
 import Search from './Search';
 
-const NavBar = ({ isLoggedIn, handleLogout }) => {
+const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
     return (
         <nav className="navbar">
             <div className="navbar-container">
                 <Link className="navbar-brand" to="/">League of Legends Tracker</Link>
-                {/* <Search /> */}
+                <Search onSearch={handleSearch} isHeader={isHeader} />
                 <div className="navbar-nav-container">
                     <ul className="navbar-nav">
                         {isLoggedIn && (

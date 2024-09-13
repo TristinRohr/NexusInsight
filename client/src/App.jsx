@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import FavoriteFeed from './components/FavoriteFeed'; // Combined component
 import Search from './components/Search'; // Search component
 import axios from 'axios';
+import AboutDonation from './components/AboutDonation';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
@@ -45,6 +46,7 @@ const App = () => {
           <Link to="/profile">Profile</Link> |{' '}
           <Link to="/match-history">Match History</Link> |{' '}
           <Link to="/favorite-feed">Favorite Feed</Link> |{' '}
+          <Link to="/about-donation">About Us & Donations</Link> |{' '}
           <button onClick={handleLogout}>Logout</button>
         </nav>
       )}
@@ -79,6 +81,7 @@ const App = () => {
         />
         <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
         <Route path="/favorite-feed" element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} />
+        <Route path="/about-donation" element={<AboutDonation />} />
       </Routes>
     </div>
   );

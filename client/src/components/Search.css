@@ -4,8 +4,7 @@
     justify-content: center;
     align-items: center;
     max-width: 400px;
-    width: 100%;
-    background-color: var(--card-background-color); /* Using your existing background color */
+    width: 50%;
     border-radius: 8px;
   }
   
@@ -30,7 +29,7 @@
   .hash-symbol {
     font-size: 20px;
     color: var(--text-color);
-    padding: 0 5px;
+    margin-right: 5%;
   }
   
   /* Magnifying glass icon styling */
@@ -53,7 +52,7 @@
   
   
   /* Responsive design for mobile */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .search-container.header {
       position: relative;
       top: 0;
@@ -68,6 +67,30 @@
   
     .search-container.header input {
       width: 100%;
+    }
+
+    .search-container.header button {
+      width: 100%;
+    }
+
+    .search-container.header .hash-symbol {
+      display: none;
+    }
+
+    .search-container.header .search-icon {
+      padding: 10px 0;
+    }
+
+    .search-container.header .search-icon:hover {
+      color: var(--highlight-color);
+    }
+
+    .search-container.header {
+      border-radius: 0;
+    }
+
+    .search-container.header input {
+      border-radius: 0;
     }
   }
   

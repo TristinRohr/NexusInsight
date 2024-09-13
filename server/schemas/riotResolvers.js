@@ -16,7 +16,7 @@ const riotResolvers = {
           );
 
           const participants = matchDetails.info.participants.map(participant => ({
-            summonerName: participant.summonerName,
+            summonerName: participant.riotIdGameName,
             riotIdTagline: participant.riotIdTagline,
             championName: participant.championName,
             kills: participant.kills,

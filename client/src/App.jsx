@@ -8,8 +8,10 @@ import AboutDonation from './components/AboutDonation';
 import './App.css';  // Importing the CSS file
 import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
-import FavoriteFeed from './components/FavoriteFeed'; // Combined component
-import NavBar from './components/NavBar'; // NavBar component
+import FavoriteFeed from './components/FavoriteFeed';
+import NavBar from './components/NavBar';
+import LandingSearch from './components/LandingSearch';
+import MatchHistoryWrapper from './components/MatchHistoryWrapper';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
@@ -22,10 +24,11 @@ const App = () => {
     setIsLoggedIn(!!localStorage.getItem('token'));
   }, []);
 
-  const handleSearch = (name, tag) => {
-    setSummonerName(name);
+  const searchHandler = (gameName, tag) => {
+    setSummonerName(gameName);
     setTagLine(tag);
     setIsHeader(true);  // Trigger the animation when the search is performed
+    navigate(`/match-history/${gameName}/${tag}`);
   };
 
   const handleLogout = async () => {
@@ -43,28 +46,44 @@ const App = () => {
 
   return (
     <div>
-      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={handleSearch} isHeader={isHeader} />
+      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={searchHandler} isHeader={isHeader} />
         <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Navigate to="/match-history" /> : <LoginRegister />}
+          element={
+            isLoggedIn ? <Navigate to="/LandingSearch" /> : <LoginRegister />
+          }
+        />
+        <Route
+          path="/LandingSearch"
+          element={<LandingSearch onSearch={searchHandler}/>}
         />
         <Route
           path="/match-history"
           element={
             isLoggedIn && summonerName && tagLine ? (
-              <div>
-                <UserStats riotId={`${summonerName}#${tagLine}`} />
-                <MatchHistory riotId={`${summonerName}#${tagLine}`} />
-              </div>
-            ) : (
-              <Navigate to="/Search" />
-            )
+            <Navigate to={`/match-history/${summonerName}/${tagLine}`} />
+          ) : (
+            <Navigate to="/LandingSearch" />
+          )
           }
         />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
-        <Route path="/favorite-feed" element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} />
-        <Route path="/about-donation" element={<AboutDonation />} />
+        <Route
+         path="/match-history/:summonerName/:tagLine"
+         element={<MatchHistoryWrapper />}
+        />
+        <Route 
+          path="/profile" 
+          element={isLoggedIn ? <Profile /> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/favorite-feed" 
+          element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/about-donation" 
+          element={<AboutDonation />} 
+        />
       </Routes>
     </div>
   );

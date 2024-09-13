@@ -30,6 +30,7 @@
 .navbar-nav-container {
     display: flex;
     align-items: center;
+    margin-left: 2%;
 }
 
 .navbar-nav {
@@ -52,6 +53,7 @@
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
+    display: contents;
 }
 
 .nav-link:hover {

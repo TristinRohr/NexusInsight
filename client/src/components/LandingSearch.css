@@ -1,0 +1,121 @@
+/* This ensures that only the search form in LandingSearch is styled */
+.landing-search-container {
+    display: flex;
+    justify-content: center; /* Centers the search form horizontally */
+    align-items: center;     /* Centers the search form vertically */
+    height: 10vh;           /* Make the container take full screen height */
+    background-color: var(--background-color); /* Use the background color from the root */
+}
+
+/* Styling the form inside LandingSearch */
+.landing-search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;               /* Add space between form elements */
+    width: 100%;             /* Make the form take full width */
+    max-width: 600px;        /* Set a max-width for larger screens */
+    background-color: var(--card-background-color); /* Form background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
+    border: 1px solid var(--border-color); /* Border around the form */
+
+}
+
+/* Form input field styles */
+.landing-search-form input[placeholder="Summoner Name"] {
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 1px solid var(--border-color); /* Border that matches your theme */
+    border-radius: 8px;
+    background-color: var(--background-color); /* Input background */
+    color: var(--text-color); /* Text color */
+    width: 100%;
+}
+
+.landing-search-form input[placeholder="Tag Line"] {
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 1px solid var(--border-color); /* Border that matches your theme */
+    border-radius: 8px;
+    background-color: var(--background-color); /* Input background */
+    color: var(--text-color); /* Text color */
+    width: 75%;
+}
+
+/* Hash symbol design */
+.hash-symbol {
+    font-size: 2.2rem;
+    color: var(--neutral-color); /* Make the symbol slightly less visible */
+    margin-left: 5%;
+}
+
+/* Search button */
+.landing-search-form button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.landing-search-form button:hover {
+    background-color: var(--highlight-color);
+}
+
+/* Landing page title */
+.landing-search-title {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+/* Landing page subtitle */
+.landing-search-description {
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+.landing-hash-symbol {
+    font-size: 2.2rem;
+    color: var(--neutral-color);
+    margin-left: 5%;
+    margin-right: -2%;
+}
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+    .landing-search-form {
+        flex-direction: column; /* Stack form elements vertically */
+        gap: 15px;
+    }
+
+    .landing-search-form input[type="text"] {
+        width: 100%; /* Ensure the input takes full width */
+    }
+
+    .landing-search-form input[type="submit"] {
+        width: 100%; /* Ensure the button takes full width */
+    }
+
+    .hash-symbol {
+        display: none; /* Hide the hash symbol on smaller screens */
+    }
+
+    .landing-search-title {
+        font-size: 1.5rem; /* Reduce the title font size */
+    }
+
+    .landing-search-description {
+        font-size: 1.5rem; /* Reduce the description font size */
+    }
+
+    .landing-search-container {
+        height: 20vh; /* Increase the container height */
+    }
+}

@@ -3,25 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    max-width: 600px;
+    max-width: 400px;
     width: 100%;
     background-color: var(--card-background-color); /* Using your existing background color */
     border-radius: 8px;
-    transition: all 0.5s ease-in-out;
-  }
-  
-  /* When the search moves to the header */
-  .search-container.header {
-    max-width: 300px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
   }
   
   /* Search form layout */
@@ -39,7 +24,6 @@
     width: 150px;
     background-color: var(--background-color); /* Slightly darker background */
     color: var(--text-color); /* Using your existing text color */
-    transition: all 0.5s ease;
   }
   
   /* Hash symbol styling */
@@ -60,7 +44,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.3s ease;
   }
   
   /* Hover effect for the icon */
@@ -68,12 +51,6 @@
     color: var(--highlight-color); /* Use highlight color on hover */
   }
   
-  /* Header-specific search */
-  .search-container.header input {
-    padding: 5px;
-    font-size: 12px;
-    width: 100px;
-  }
   
   /* Responsive design for mobile */
   @media (max-width: 768px) {

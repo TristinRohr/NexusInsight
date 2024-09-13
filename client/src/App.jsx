@@ -7,6 +7,7 @@ import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
 import FavoriteFeed from './components/FavoriteFeed'; // Combined component
 import Search from './components/Search'; // Search component
+import NavBar from './components/NavBar'; // NavBar component
 import axios from 'axios';
 
 const App = () => {
@@ -39,15 +40,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>League of Legends Tracker</h1>
-      {isLoggedIn && (
-        <nav>
-          <Link to="/profile">Profile</Link> |{' '}
-          <Link to="/match-history">Match History</Link> |{' '}
-          <Link to="/favorite-feed">Favorite Feed</Link> |{' '}
-          <button onClick={handleLogout}>Logout</button>
-        </nav>
-      )}
+      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       <Routes>
         <Route
           path="/"

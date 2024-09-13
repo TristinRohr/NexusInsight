@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
-import Search from './components/Search';
-import UserStats from './components/UserStats';
-import MatchHistory from './components/matchHistory';
 import axios from 'axios';
 import AboutDonation from './components/AboutDonation';
 import './App.css';  // Importing the CSS file

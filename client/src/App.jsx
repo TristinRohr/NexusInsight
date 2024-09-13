@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
 import Search from './components/Search';
 import UserStats from './components/UserStats';
-import MatchHistory from './components/MatchHistory';
+import MatchHistory from './components/matchHistory';
 import axios from 'axios';
-<<<<<<< Updated upstream
 import AboutDonation from './components/AboutDonation';
-=======
 import './App.css';  // Importing the CSS file
->>>>>>> Stashed changes
 
 const App = () => {
   const [summonerName, setSummonerName] = useState('');
@@ -51,11 +48,8 @@ const App = () => {
         <nav>
           <Link to="/profile">Profile</Link> |{' '}
           <Link to="/match-history">Match History</Link> |{' '}
-<<<<<<< Updated upstream
           <Link to="/favorite-feed">Favorite Feed</Link> |{' '}
           <Link to="/about-donation">About Us & Donations</Link> |{' '}
-=======
->>>>>>> Stashed changes
           <button onClick={handleLogout}>Logout</button>
         </nav>
       )}
@@ -78,12 +72,9 @@ const App = () => {
             )
           }
         />
-<<<<<<< Updated upstream
         <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/" />} />
         <Route path="/favorite-feed" element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} />
         <Route path="/about-donation" element={<AboutDonation />} />
-=======
->>>>>>> Stashed changes
       </Routes>
     </div>
   );

@@ -8,7 +8,7 @@ import Profile from './components/Profile';
 import FavoriteFeed from './components/FavoriteList';
 import LandingSearch from './components/LandingSearch';
 import MatchHistoryWrapper from './components/MatchHistoryWrapper';
-import AboutDonation1 from './components/AboutDonation1';
+import AboutDonation1 from './components/AboutDonation';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState(localStorage.getItem('summonerName') || '');  // Load from localStorage initially

@@ -24,9 +24,6 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
                             <Link className="nav-link" to="/match-history">Match History</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/favorite-feed">Favorite Feed</Link>
-                        </li>
-                        <li className="nav-item">
                             <Link className="nav-link" to="/about">About</Link>
                         </li>
 

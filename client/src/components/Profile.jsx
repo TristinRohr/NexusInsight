@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Profile.css'; // Import the CSS file
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -21,7 +22,7 @@ const Profile = () => {
               }
             `,
           },
-          { withCredentials: true } // Send cookies automatically
+          { withCredentials: true }
         );
 
         setUserData(response.data.data.getUser);
@@ -35,27 +36,31 @@ const Profile = () => {
   }, []);
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="profile-error">{error}</div>;
   }
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div className="profile-loading">Loading...</div>;
   }
 
   return (
-    <div>
-      <h2>Profile</h2>
-      <p><strong>Username:</strong> {userData.username}</p>
-      <p><strong>Email:</strong> {userData.email}</p>
-      <h3>Favorite Players</h3>
+    <div className="profile-container">
+      <h2 className="profile-title">Profile</h2>
+      <p className="profile-info">
+        <strong>Username:</strong> {userData.username}
+      </p>
+      <p className="profile-info">
+        <strong>Email:</strong> {userData.email}
+      </p>
+      <h3 className="favorite-players-title">Favorite Players</h3>
       {userData.favoritePlayers.length > 0 ? (
-        <ul>
+        <ul className="favorite-players-list">
           {userData.favoritePlayers.map((player) => (
-            <li key={player}>{player}</li>
+            <li key={player} className="favorite-player-item">{player}</li>
           ))}
         </ul>
       ) : (
-        <p>No favorite players added yet.</p>
+        <p className="no-favorites-message">No favorite players added yet.</p>
       )}
     </div>
   );

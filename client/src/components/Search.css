@@ -92,5 +92,9 @@
     .search-container.header input {
       border-radius: 0;
     }
+
+    .hash-symbol {
+      display: none;
+    }
   }
   

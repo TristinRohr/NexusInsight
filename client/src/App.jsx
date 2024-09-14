@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import FavoriteFeed from './components/FavoriteFeed';
 import LandingSearch from './components/LandingSearch';
 import MatchHistoryWrapper from './components/MatchHistoryWrapper';
+import AboutDonation1 from './components/AboutDonation1';
 
 const App = () => {
   const [summonerName, setSummonerName] = useState(localStorage.getItem('summonerName') || '');  // Load from localStorage initially
@@ -81,6 +82,7 @@ const App = () => {
 
         {/* Catch-all: Redirect to LandingSearch if no route matches */}
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/about" element={<AboutDonation1 />} />
       </Routes>
     </div>
   );

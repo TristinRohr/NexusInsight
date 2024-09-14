@@ -26,6 +26,9 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/favorite-feed">Favorite Feed</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/about">About</Link>
+                        </li>
 
                         {/* Conditionally show Login/Register or Logout */}
                         {isLoggedIn ? (

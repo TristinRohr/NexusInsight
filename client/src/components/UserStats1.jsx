@@ -5,17 +5,18 @@ import './UserStats.css';
 // UserStats component to fetch and display user stats
 const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
-        setLoading(true); // Set loading to true before fetching
+        setLoading(true);
         const [gameName, tagLine] = riotId.split('#');
-        console.log('gameName:', gameName, 'tagLine:', tagLine); // Showing gameName and tagLine properly
+        console.log('gameName:', gameName, 'tagLine:', tagLine);
 
-        // GraphQL query to fetch the full user stats
+        // GraphQL query to fetch user stats
         const graphqlQuery = `
           query getUserStats($gameName: String!, $tagLine: String!) {
             userStats(gameName: $gameName, tagLine: $tagLine) {
@@ -42,16 +43,12 @@ const UserStats = ({ riotId }) => {
           variables: { gameName, tagLine }
         });
 
-        console.log('GraphQL Response:', response.data);
-
-        // Check if the data exists and update state
         if (response.data && response.data.data && response.data.data.userStats) {
           setUserStats(response.data.data.userStats);
         } else {
           setError('No user stats found');
         }
-
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching user stats:', error);
         setError('Failed to fetch user stats');
@@ -59,11 +56,46 @@ const UserStats = ({ riotId }) => {
       }
     };
 
-    // Trigger the data fetching on component mount or riotId change
     fetchUserStats();
-  }, [riotId]); // Re-fetch data when riotId changes
+    
+    // Check if the user is already in favorites
+  //   const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  //   setIsFavorite(favorites.includes(riotId));
+  }, [riotId]);
 
-  // Handle loading and error states
+  // const handleToggleFavorite = async () => {
+  //   try {
+  //     let mutation = '';
+  //     if (isFavorite) {
+  //       mutation = `
+  //         mutation removeFavoritePlayer($playerName: String!) {
+  //           removeFavoritePlayer(playerName: $playerName) {
+  //             favoritePlayers
+  //           }
+  //         }
+  //       `;
+  //     } else {
+  //       mutation = `
+  //         mutation addFavoritePlayer($playerName: String!) {
+  //           addFavoritePlayer(playerName: $playerName) {
+  //             favoritePlayers
+  //           }
+  //         }
+  //       `;
+  //     }
+
+  //     const response = await axios.post('/graphql', {
+  //       query: mutation,
+  //       variables: { playerName: riotId },
+  //     });
+
+      // Update the favorite status based on the response
+  //     setIsFavorite(!isFavorite);
+  //   } catch (err) {
+  //     console.error('Error toggling favorite:', err);
+  //   }
+  // };
+
   if (loading) {
     return <div className="user-stats-container">Loading user stats...</div>;
   }
@@ -72,7 +104,6 @@ const UserStats = ({ riotId }) => {
     return <div className="user-stats-container">{error}</div>;
   }
 
-  // Display the fetched user stats
   return (
     <div className="user-stats-container">
       <div className="user-profile">
@@ -82,6 +113,11 @@ const UserStats = ({ riotId }) => {
         />
         <h2>{riotId.split('#')[0]}#{riotId.split('#')[1]}</h2>
         <p>Summoner Level: {userStats.summonerLevel}</p>
+        {/* <div className="favorite-toggle">
+          <button onClick={handleToggleFavorite}>
+            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+          </button>
+        </div> */}
       </div>
 
       <div className="rank-info">

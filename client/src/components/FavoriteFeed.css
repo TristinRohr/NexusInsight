@@ -1,0 +1,48 @@
+.favorite-feed-container {
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .favorite-feed-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--champion-color);
+    margin-bottom: 20px;
+  }
+  
+  .favorite-players-list-container {
+    margin-top: 20px;
+  }
+  
+  .favorite-players-title {
+    font-size: 20px;
+    color: var(--champion-color);
+    margin-bottom: 10px;
+  }
+  
+  .favorite-players-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .favorite-player-item {
+    background-color: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--text-color);
+  }
+  
+  .favorite-feed-error {
+    color: #ff5656;
+  }
+  
+  .no-favorite-players-message {
+    font-size: 16px;
+    color: var(--neutral-color);
+  }

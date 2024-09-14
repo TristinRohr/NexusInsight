@@ -7,19 +7,17 @@ const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [summonerName, tagLine] = riotId.split('#'); // Correct summonerName and tagLine
 
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
         setLoading(true);
-        const [gameName, tagLine] = riotId.split('#');
-        console.log('gameName:', gameName, 'tagLine:', tagLine);
-
         // GraphQL query to fetch user stats
         const graphqlQuery = `
-          query getUserStats($gameName: String!, $tagLine: String!) {
-            userStats(gameName: $gameName, tagLine: $tagLine) {
+          query getUserStats($summonerName: String!, $tagLine: String!) {
+            userStats(gameName: $summonerName, tagLine: $tagLine) {
               id
               accountId
               puuid
@@ -40,7 +38,7 @@ const UserStats = ({ riotId }) => {
 
         const response = await axios.post('/graphql', {
           query: graphqlQuery,
-          variables: { gameName, tagLine }
+          variables: { summonerName, tagLine }
         });
 
         if (response.data && response.data.data && response.data.data.userStats) {
@@ -57,44 +55,44 @@ const UserStats = ({ riotId }) => {
     };
 
     fetchUserStats();
-    
+
     // Check if the user is already in favorites
-  //   const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-  //   setIsFavorite(favorites.includes(riotId));
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setIsFavorite(favorites.includes(riotId));
   }, [riotId]);
 
-  // const handleToggleFavorite = async () => {
-  //   try {
-  //     let mutation = '';
-  //     if (isFavorite) {
-  //       mutation = `
-  //         mutation removeFavoritePlayer($playerName: String!) {
-  //           removeFavoritePlayer(playerName: $playerName) {
-  //             favoritePlayers
-  //           }
-  //         }
-  //       `;
-  //     } else {
-  //       mutation = `
-  //         mutation addFavoritePlayer($playerName: String!) {
-  //           addFavoritePlayer(playerName: $playerName) {
-  //             favoritePlayers
-  //           }
-  //         }
-  //       `;
-  //     }
+  const handleToggleFavorite = async () => {
+    try {
+      let mutation = '';
+      if (isFavorite) {
+        mutation = `
+          mutation removeFavoritePlayer($summonerName: String!, $tagLine: String!) {
+            removeFavoritePlayer(summonerName: $summonerName, tagLine: $tagLine) {
+              favoritePlayers
+            }
+          }
+        `;
+      } else {
+        mutation = `
+          mutation addFavoritePlayer($summonerName: String!, $tagLine: String!) {
+            addFavoritePlayer(summonerName: $summonerName, tagLine: $tagLine) {
+              favoritePlayers
+            }
+          }
+        `;
+      }
 
-  //     const response = await axios.post('/graphql', {
-  //       query: mutation,
-  //       variables: { playerName: riotId },
-  //     });
+      const response = await axios.post('/graphql', {
+        query: mutation,
+        variables: { summonerName, tagLine },
+      });
 
       // Update the favorite status based on the response
-  //     setIsFavorite(!isFavorite);
-  //   } catch (err) {
-  //     console.error('Error toggling favorite:', err);
-  //   }
-  // };
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+    }
+  };
 
   if (loading) {
     return <div className="user-stats-container">Loading user stats...</div>;
@@ -113,11 +111,11 @@ const UserStats = ({ riotId }) => {
         />
         <h2>{riotId.split('#')[0]}#{riotId.split('#')[1]}</h2>
         <p>Summoner Level: {userStats.summonerLevel}</p>
-        {/* <div className="favorite-toggle">
+        <div className="favorite-toggle">
           <button onClick={handleToggleFavorite}>
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </button>
-        </div> */}
+        </div>
       </div>
 
       <div className="rank-info">

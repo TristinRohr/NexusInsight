@@ -63,29 +63,39 @@ const userResolvers = {
       return 'Logged out successfully';
     },
 
-    addFavoritePlayer: async (_, { playerName }, { user }) => {
+    addFavoritePlayer: async (_, { summonerName, tagLine }, { user }) => {
       if (!user) throw new Error('Authentication required');
-  
+      const playerName = `${summonerName}#${tagLine}`; // Concatenate summonerName and tagLine
+
       const existingUser = await User.findById(user._id);
-      if (!existingUser) {
-        throw new Error('User not found');
-      }
-  
+      if (!existingUser) throw new Error('User not found');
+
       const isFavorite = existingUser.favoritePlayers.includes(playerName);
-  
       if (isFavorite) {
-        // If the player is already in the list, remove them
-        existingUser.favoritePlayers = existingUser.favoritePlayers.filter(fav => fav !== playerName);
-      } else {
-        // If the player is not in the list, add them
-        existingUser.favoritePlayers.push(playerName);
+        throw new Error('Player is already in favorites');
       }
-  
-      // Save the updated user
+
+      existingUser.favoritePlayers.push(playerName);
       await existingUser.save();
-  
       return existingUser;
     },
+
+    removeFavoritePlayer: async (_, { summonerName, tagLine }, { user }) => {
+      if (!user) throw new Error('Authentication required');
+      const playerName = `${summonerName}#${tagLine}`;
+
+      const existingUser = await User.findById(user._id);
+      if (!existingUser) throw new Error('User not found');
+
+      const isFavorite = existingUser.favoritePlayers.includes(playerName);
+      if (!isFavorite) {
+        throw new Error('Player is not in favorites');
+      }
+
+      existingUser.favoritePlayers = existingUser.favoritePlayers.filter(fav => fav !== playerName);
+      await existingUser.save();
+      return existingUser;
+    }
   },
 };
 

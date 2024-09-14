@@ -5,9 +5,17 @@ const User = require('../models/User');
 const userResolvers = {
   Query: {
     getUser: async (_, args, { user }) => {
-      if (!user) throw new Error('Authentication required');
-      return await User.findById(user._id);
-    },
+      if (!user) {
+        console.error('User not authenticated');
+        throw new Error('Authentication required');
+      }
+      const userData = await User.findById(user._id);
+      if (!userData) {
+        console.error('User not found in the database');
+        throw new Error('User not found');
+      }
+      return userData ? { ...userData.toObject(), favoritePlayers: userData.favoritePlayers || [] } : null;
+    }
   },
   Mutation: {
     register: async (_, { username, email, password }, { res }) => {
@@ -54,6 +62,40 @@ const userResolvers = {
       res.clearCookie('token');
       return 'Logged out successfully';
     },
+
+    addFavoritePlayer: async (_, { summonerName, tagLine }, { user }) => {
+      if (!user) throw new Error('Authentication required');
+      const playerName = `${summonerName}#${tagLine}`; // Concatenate summonerName and tagLine
+
+      const existingUser = await User.findById(user._id);
+      if (!existingUser) throw new Error('User not found');
+
+      const isFavorite = existingUser.favoritePlayers.includes(playerName);
+      if (isFavorite) {
+        throw new Error('Player is already in favorites');
+      }
+
+      existingUser.favoritePlayers.push(playerName);
+      await existingUser.save();
+      return existingUser;
+    },
+
+    removeFavoritePlayer: async (_, { summonerName, tagLine }, { user }) => {
+      if (!user) throw new Error('Authentication required');
+      const playerName = `${summonerName}#${tagLine}`;
+
+      const existingUser = await User.findById(user._id);
+      if (!existingUser) throw new Error('User not found');
+
+      const isFavorite = existingUser.favoritePlayers.includes(playerName);
+      if (!isFavorite) {
+        throw new Error('Player is not in favorites');
+      }
+
+      existingUser.favoritePlayers = existingUser.favoritePlayers.filter(fav => fav !== playerName);
+      await existingUser.save();
+      return existingUser;
+    }
   },
 };
 

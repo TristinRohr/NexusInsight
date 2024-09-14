@@ -102,7 +102,8 @@ const typeDefs = gql`
   type Mutation {
     register(username: String!, email: String!, password: String!): String
     login(email: String!, password: String!): String
-    addFavoritePlayer(playerName: String!): User
+    addFavoritePlayer(summonerName: String!, tagLine: String!): User
+    removeFavoritePlayer(summonerName: String!, tagLine: String!): User
     logout: Boolean  # Add this line to define the logout mutation
   }
 `;

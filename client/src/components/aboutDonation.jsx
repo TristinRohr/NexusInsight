@@ -3,7 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
 // Load your Stripe publishable key
-const stripePromise = loadStripe('your-publishable-key-from-stripe');
+const stripePromise = loadStripe('pk_test_51PyygE00jwMy2lh8bGauAqmhLPzvZ4ooe4GgKa9sp9t1srxZBXg3PzNCw1XhziT7wxBSjTAwaPcaZZ1t5n8UIBnp00sviYjs83');
 
 const AboutDonation = () => {
   const handleDonation = async () => {

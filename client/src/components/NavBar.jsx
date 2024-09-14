@@ -36,6 +36,7 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/login">Login/Register</Link>
                             </li>
+
                         )}
                     </ul>
                 </div>

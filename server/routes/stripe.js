@@ -14,20 +14,22 @@ router.post('/create-checkout-session', async (req, res) => {
             product_data: {
               name: 'Donation',
             },
-            unit_amount: 1000,
+            unit_amount: 1000, // e.g., $10 donation
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      // Use dynamic success and cancel URLs from environment variables
+      success_url: `${process.env.CLIENT_URL}/success`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
 
+    // Send the session ID to the client
     res.json({ id: session.id });
   } catch (error) {
-    console.error('Error creating Stripe checkout session:', error);
-    res.status(500).send('Server error');
+    console.error('Error creating Stripe checkout session:', error.message);
+    res.status(500).json({ error: 'Failed to create checkout session' });
   }
 });
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './UserStats.css';
 
+// UserStats component to fetch and display user stats
 const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
   const [loading, setLoading] = useState(true); // Add loading state

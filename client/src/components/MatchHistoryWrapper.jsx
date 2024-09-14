@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import UserStats from './UserStats'; // Assuming you have a UserStats component
+import UserStats from './UserStats1.jsx'; // Assuming you have a UserStats component
 import MatchHistory from './MatchHistory'; // MatchHistory component
+
 
 const MatchHistoryWrapper = () => {
   const { summonerName, tagLine } = useParams();

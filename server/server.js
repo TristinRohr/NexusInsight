@@ -1,5 +1,5 @@
 require('dotenv').config({ path: './.env' });
-// client/server.js
+
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
@@ -7,15 +7,16 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const stripeRoutes = require('./routes/stripe'); // Import stripe routes
+const path = require('path');
 
 // Import GraphQL type definitions and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 
 const app = express();
-const API_PORT = process.env.API_PORT || 3001;
+const PORT = process.env.PORT || 3001; // Use process.env.PORT for deployment environments like Render
 
 app.use(cookieParser());
-app.use(express.json()); // Make sure you can parse JSON requests
+app.use(express.json()); // Parse JSON requests
 
 // Set up Apollo Server
 const server = new ApolloServer({
@@ -38,23 +39,35 @@ const server = new ApolloServer({
 async function startServer() {
   await server.start();
 
+  // Set up CORS for production and development
   app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: process.env.CLIENT_URL || 'http://localhost:3000',
       credentials: true,
     })
   );
 
+  // Apply middleware for Apollo server
   server.applyMiddleware({ app, cors: false });
 
-  app.listen(API_PORT, () => {
-    console.log(`Server ready at http://localhost:${API_PORT}${server.graphqlPath}`);
+  // Serve the frontend files from /client/dist if in production
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+
+    // Handle React routing, return index.html for all unhandled routes
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+    });
+  }
+
+  // Listen on the appropriate port
+  app.listen(PORT, () => {
+    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
   });
 }
 
 // Use the Stripe routes
-app.use('/api/stripe', stripeRoutes); // Prefix the Stripe routes with /api/stripe
-
+app.use('/api/stripe', stripeRoutes);
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URI)

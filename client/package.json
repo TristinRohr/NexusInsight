@@ -14,7 +14,8 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "4.0.3"
+    "react-scripts": "4.0.3",
+    "vite": "^5.4.5"
   },
   "scripts": {
     "dev": "vite",

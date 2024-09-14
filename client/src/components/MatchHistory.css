@@ -54,14 +54,18 @@
 /* KDA with color */
 .kda-kills {
   color: #288A6F;
+  margin-right: 5%;
 }
 
 .kda-deaths {
   color: #FF4E50;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 .kda-assists {
   color: #3273FA;
+  margin-left: 5%;
 }
 
 /* Damage */
@@ -200,11 +204,13 @@
 .team.red-side {
   border-radius: 8px;
   background-color: rgba(182, 11, 11, 0.350);
+  overflow-x: auto;
 }
 
 .team.blue-side {
   border-radius: 8px;
   background-color: hsla(240, 89%, 38%, 0.350);
+  overflow-x: auto;
 }
 
 .team.red-side h4,
@@ -268,7 +274,7 @@ body {
 }
 
 /* Small screen (Mobile & Tablets) */
-@media (max-width: 700px) {
+@media (max-width: 850px) {
   .participant {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -309,6 +315,14 @@ body {
 
   .participant-list {
     gap: 5%;
+  }
+
+  .team.blue-side {
+    overflow-x: auto;
+  }
+
+  .team.red-side {
+    overflow-x: auto;
   }
 }
 

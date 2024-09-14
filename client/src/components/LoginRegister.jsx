@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './LoginRegister.css';  // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);  // Toggle between login/register
@@ -30,17 +32,18 @@ const LoginRegister = () => {
 
       const token = response.data.data.login || response.data.data.register;
       localStorage.setItem('token', token);
-      window.location.reload();  // Reload the page to apply the login state
+      window.location.reload();
+      Navigate('/LandingSearch');
     } catch (err) {
       setError('Authentication failed');
     }
   };
 
   return (
-    <div>
+    <div className="login-register-container">
       <h2>{isLogin ? 'Login' : 'Register'}</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      {error && <p className="error-message">{error}</p>}
+      <form className="login-register-form" onSubmit={handleSubmit}>
         {!isLogin && (
           <div>
             <label>Username:</label>
@@ -49,6 +52,7 @@ const LoginRegister = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required={!isLogin}
+              placeholder='Username'
             />
           </div>
         )}
@@ -59,6 +63,7 @@ const LoginRegister = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder='Email'
           />
         </div>
         <div>
@@ -68,11 +73,12 @@ const LoginRegister = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder='Password'
           />
         </div>
         <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
       </form>
-      <button onClick={() => setIsLogin(!isLogin)}>
+      <button className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
         {isLogin ? 'Switch to Register' : 'Switch to Login'}
       </button>
     </div>

@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AboutDonation from './components/AboutDonation';
 import './App.css';  // Importing the CSS file
+import NavBar from './components/NavBar';
 import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
 import FavoriteFeed from './components/FavoriteFeed';
-import NavBar from './components/NavBar';
 import LandingSearch from './components/LandingSearch';
 import MatchHistoryWrapper from './components/MatchHistoryWrapper';
 
 const App = () => {
-  const [summonerName, setSummonerName] = useState('');
-  const [tagLine, setTagLine] = useState('');
+  const [summonerName, setSummonerName] = useState(localStorage.getItem('summonerName') || '');  // Load from localStorage initially
+  const [tagLine, setTagLine] = useState(localStorage.getItem('tagLine') || '');  // Load from localStorage initially
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   const [isHeader, setIsHeader] = useState(false);
   const navigate = useNavigate();
@@ -22,10 +21,13 @@ const App = () => {
   }, []);
 
   const searchHandler = (gameName, tag) => {
+    // Save search terms in both state and localStorage
     setSummonerName(gameName);
     setTagLine(tag);
+    localStorage.setItem('summonerName', gameName);
+    localStorage.setItem('tagLine', tag);
     setIsHeader(true);  // Trigger the animation when the search is performed
-    navigate(`/match-history/${gameName}/${tag}`);
+    navigate(`/match-history/${gameName}/${tag}`);  // Navigate to the match history route
   };
 
   const handleLogout = async () => {
@@ -34,7 +36,11 @@ const App = () => {
         query: `mutation logout { logout }`
       }, { withCredentials: true });
 
+      // Clear stored data upon logout
       setIsLoggedIn(false);
+      localStorage.removeItem('token');
+      localStorage.removeItem('summonerName');
+      localStorage.removeItem('tagLine');
       navigate('/');
     } catch (err) {
       console.error('Failed to logout:', err);
@@ -44,43 +50,37 @@ const App = () => {
   return (
     <div>
       <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={searchHandler} isHeader={isHeader} />
-        <Routes>
+      <Routes>
+        {/* Landing Page */}
+        <Route path="/" element={<LandingSearch onSearch={searchHandler} />} />
+        <Route path="/LandingSearch" element={<LandingSearch onSearch={searchHandler} />} />
+
+        {/* Match History */}
         <Route
-          path="/"
-          element={
-            isLoggedIn ? <Navigate to="/LandingSearch" /> : <LoginRegister />
-          }
+          path="/match-history/:summonerName/:tagLine"
+          element={<MatchHistoryWrapper summonerName={summonerName} tagLine={tagLine} />}
         />
+
+        {/* Profile Route (protected) */}
         <Route
-          path="/LandingSearch"
-          element={<LandingSearch onSearch={searchHandler}/>}
+          path="/profile"
+          element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
         />
+
+        {/* Favorite Feed Route (protected) */}
         <Route
-          path="/match-history"
-          element={
-            isLoggedIn && summonerName && tagLine ? (
-            <Navigate to={`/match-history/${summonerName}/${tagLine}`} />
-          ) : (
-            <Navigate to="/LandingSearch" />
-          )
-          }
+          path="/favorite-feed"
+          element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/login" />}
         />
+
+        {/* Login/Register */}
         <Route
-         path="/match-history/:summonerName/:tagLine"
-         element={<MatchHistoryWrapper />}
+          path="/login"
+          element={<LoginRegister />}
         />
-        <Route 
-          path="/profile" 
-          element={isLoggedIn ? <Profile /> : <Navigate to="/" />} 
-        />
-        <Route 
-          path="/favorite-feed" 
-          element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/" />} 
-        />
-        <Route 
-          path="/about-donation" 
-          element={<AboutDonation />} 
-        />
+
+        {/* Catch-all: Redirect to LandingSearch if no route matches */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );

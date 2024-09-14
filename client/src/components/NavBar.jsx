@@ -11,28 +11,31 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
             <div className="navbar-container">
                 <Link className="navbar-brand" to="/">Nexus Insight</Link>
                 
-                {/* Only show the Search bar if not on the LandingSearch page */}
-                {location.pathname !== '/LandingSearch' && (
-                    <Search onSearch={handleSearch} isHeader={isHeader} />
-                )}
-                
+                {/* Only show the Search bar if not on the LandingSearch or root ('/') page */}
+                {location.pathname !== '/LandingSearch' && location.pathname !== '/' && (
+                <Search onSearch={handleSearch} isHeader={isHeader} />)}
                 <div className="navbar-nav-container">
                     <ul className="navbar-nav">
-                        {isLoggedIn && (
-                            <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/profile">Profile</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/match-history">Match History</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/favorite-feed">Favorite Feed</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <button className="nav-link" onClick={handleLogout}>Logout</button>
-                                </li>
-                            </>
+                        {/* Always show these navigation links */}
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/profile">Profile</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/match-history">Match History</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/favorite-feed">Favorite Feed</Link>
+                        </li>
+
+                        {/* Conditionally show Login/Register or Logout */}
+                        {isLoggedIn ? (
+                            <li className="nav-item">
+                                <button className="nav-link logout-button" onClick={handleLogout}>Logout</button>
+                            </li>
+                        ) : (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">Login/Register</Link>
+                            </li>
                         )}
                     </ul>
                 </div>

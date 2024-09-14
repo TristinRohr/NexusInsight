@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css'; // Import the CSS file
+import FavoriteList from './FavoriteList'; // Import the FavoriteList component
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -52,16 +53,7 @@ const Profile = () => {
       <p className="profile-info">
         <strong>Email:</strong> {userData.email}
       </p>
-      <h3 className="favorite-players-title">Favorite Players</h3>
-      {userData.favoritePlayers.length > 0 ? (
-        <ul className="favorite-players-list">
-          {userData.favoritePlayers.map((player) => (
-            <li key={player} className="favorite-player-item">{player}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="no-favorites-message">No favorite players added yet.</p>
-      )}
+      <FavoriteList />
     </div>
   );
 };

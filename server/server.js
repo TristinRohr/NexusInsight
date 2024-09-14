@@ -13,10 +13,22 @@ const path = require('path');
 const { typeDefs, resolvers } = require('./schemas');
 
 const app = express();
-const PORT = process.env.PORT || 3001; // Use process.env.PORT for deployment environments like Render
+const PORT = process.env.PORT || 3001;
 
+// Middleware
 app.use(cookieParser());
 app.use(express.json()); // Parse JSON requests
+
+// CORS Setup
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true,
+  })
+);
+
+// Use the Stripe routes
+app.use('/api/stripe', stripeRoutes); // Ensure Stripe routes are set before serving static files
 
 // Set up Apollo Server
 const server = new ApolloServer({
@@ -39,18 +51,10 @@ const server = new ApolloServer({
 async function startServer() {
   await server.start();
 
-  // Set up CORS for production and development
-  app.use(
-    cors({
-      origin: process.env.CLIENT_URL || 'http://localhost:3000',
-      credentials: true,
-    })
-  );
-
-  // Apply middleware for Apollo server
+  // Apply Apollo middleware
   server.applyMiddleware({ app, cors: false });
 
-  // Serve the frontend files from /client/dist if in production
+  // Serve static files in production
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -60,15 +64,13 @@ async function startServer() {
     });
   }
 
-  // Listen on the appropriate port
+  // Start server on the defined port
   app.listen(PORT, () => {
     console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
   });
 }
 
-// Use the Stripe routes
-app.use('/api/stripe', stripeRoutes);
-// MongoDB connection
+// Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))

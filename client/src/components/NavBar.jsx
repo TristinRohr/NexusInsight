@@ -30,6 +30,9 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
                                     <Link className="nav-link" to="/favorite-feed">Favorite Feed</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link" to="/about-donation">About Us & Donations</Link> {/* Add this line */}
+                                </li>
+                                <li className="nav-item">
                                     <button className="nav-link" onClick={handleLogout}>Logout</button>
                                 </li>
                             </>

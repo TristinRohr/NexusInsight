@@ -5,7 +5,7 @@ import './App.css';  // Importing the CSS file
 import NavBar from './components/NavBar';
 import LoginRegister from './components/LoginRegister';
 import Profile from './components/Profile';
-import FavoriteFeed from './components/FavoriteFeed';
+import FavoriteFeed from './components/FavoriteList';
 import LandingSearch from './components/LandingSearch';
 import MatchHistoryWrapper from './components/MatchHistoryWrapper';
 import AboutDonation1 from './components/AboutDonation1';

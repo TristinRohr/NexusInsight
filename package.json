@@ -2,7 +2,7 @@
   "name": "nexusinsight",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
@@ -12,14 +12,6 @@
     "render-build": "npm install && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "concurrently": "^8.2.2",
-    "dotenv": "^16.4.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "watch": "^1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -31,6 +23,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "vite": "^5.4.3"
+    "vite": "^5.4.3",
+    "concurrently": "^8.2.2"
   }
 }

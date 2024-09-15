@@ -238,6 +238,16 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
       <div className="team blue-side">
         <h4>Blue Side</h4>
         <ul className="participant-grid">
+        <li className="participant-grid-titles participant-grid-row">
+            <div className="grid-title">Champion</div>
+            <div className="grid-title">Summoner</div>
+            <div className="grid-title">KDA</div>
+            <div className="grid-title">Damage</div>
+            <div className="grid-title">Gold</div>
+            <div className="grid-title">Wards</div>
+            <div className="grid-title">CS</div>
+            <div className="grid-title">Items</div>
+          </li>
           {blueTeam.map((participant, pIndex) => (
             <li key={pIndex} className="participant-grid-row">
               <div className="blue-participant-grid-champion">
@@ -292,6 +302,16 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
       <div className="team red-side">
         <h4>Red Side</h4>
         <ul className="participant-grid">
+          <li className="participant-grid-titles participant-grid-row">
+            <div className="grid-title">Champion</div>
+            <div className="grid-title">Summoner</div>
+            <div className="grid-title">KDA</div>
+            <div className="grid-title">Damage</div>
+            <div className="grid-title">Gold</div>
+            <div className="grid-title">Wards</div>
+            <div className="grid-title">CS</div>
+            <div className="grid-title">Items</div>
+          </li>
           {redTeam.map((participant, pIndex) => (
             <li key={pIndex} className="participant-grid-row">
               <div className="red-participant-grid-champion">

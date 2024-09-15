@@ -126,7 +126,7 @@ const UserStats = ({ riotId }) => {
               <p>{league.queueType.replace(/_/g, ' ')}</p>
               <img
                 className="rank-icon"
-                src={`/rankedEmblems/rank=${league.tier}.png`}
+                src={`/Rank=${league.tier}.png`}
                 alt={league.tier}
                 width="50"
                 height="50"

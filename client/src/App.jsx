@@ -22,14 +22,22 @@ const App = () => {
   }, []);
 
   const searchHandler = (gameName, tag) => {
-    // Save search terms in both state and localStorage
+    const summoner = `${gameName}#${tag}`;
+  
+    // Load and update the recently searched summoners in localStorage
+    let recentSearches = JSON.parse(localStorage.getItem('recentSummoners')) || [];
+    recentSearches = [summoner, ...recentSearches.filter(s => s !== summoner)].slice(0, 5);
+    localStorage.setItem('recentSummoners', JSON.stringify(recentSearches));
+  
+    // Continue with the search
     setSummonerName(gameName);
     setTagLine(tag);
     localStorage.setItem('summonerName', gameName);
     localStorage.setItem('tagLine', tag);
-    setIsHeader(true);  // Trigger the animation when the search is performed
-    navigate(`/match-history/${gameName}/${tag}`);  // Navigate to the match history route
+    setIsHeader(true);
+    navigate(`/match-history/${gameName}/${tag}`);
   };
+  
 
   const handleLogout = async () => {
     try {

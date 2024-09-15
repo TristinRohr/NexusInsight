@@ -10,8 +10,16 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [itemData, setItemData] = useState(null);
   const [openMatch, setOpenMatch] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [recentSummoners, setRecentSummoners] = useState([]);
   const navigate = useNavigate();
 
+  // Load recent summoners from localStorage
+  useEffect(() => {
+    const storedSummoners = JSON.parse(localStorage.getItem('recentSummoners')) || [];
+    setRecentSummoners(storedSummoners);
+  }, []);
+
+  // Fetch match history
   useEffect(() => {
     const fetchMatchHistory = async () => {
       try {
@@ -58,6 +66,10 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
         console.log('Match history response:', response.data.data.matchHistory);
         setMatchHistory(response.data.data.matchHistory);
         setLoading(false);
+
+        // Add to recent searches
+        const newSummoner = `${gameName}#${tagLine}`;
+        updateRecentSummoners(newSummoner);
         window.scrollTo(0, 0);
       } catch (error) {
         console.error('Error fetching match history:', error);
@@ -85,12 +97,19 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   const toggleMatch = (index) => {
     setOpenMatch(openMatch === index ? null : index);
   };
+  
+  // Update the recent summoners list and save to localStorage
+  const updateRecentSummoners = (summoner) => {
+    const updatedSummoners = [summoner, ...recentSummoners.filter(s => s !== summoner)].slice(0, 5);
+    setRecentSummoners(updatedSummoners);
+    localStorage.setItem('recentSummoners', JSON.stringify(updatedSummoners));
+  };
 
   const handleParticipantClick = (summonerName, tagLine) => {
     const searchValue = `${summonerName}#${tagLine}`;
-    setSearchTerm(searchValue); // Update the search bar state if you have one
-  
-    // Programmatically navigate to the new URL with summonerName and tagLine
+    setSearchTerm(searchValue); // Update search bar state
+
+    // Navigate to the summoner's match history
     navigate(`/match-history/${summonerName}/${tagLine}`);
   };
 
@@ -125,6 +144,21 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   return (
     <div className="match-history-container">
       <h2 className="match-history-title">Match History</h2>
+
+      {/* Display Recently Searched Summoners */}
+      <div className="recent-summoners">
+        <h4>Recently Searched Summoners:</h4>
+        <ul>
+          {recentSummoners.map((summoner, index) => (
+            <li key={index}>
+              <button onClick={() => handleParticipantClick(...summoner.split('#'))}>
+                {summoner}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="match-history-grid">
         {matchHistory.map((match, index) => {
           const blueTeam = match.participants.filter(participant => participant.teamId === 100);
@@ -138,7 +172,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
           return (
             <div className="match-card" key={match.matchId || index}>
               <div className="match-header">
-                {/* Champion and user info */}
+                                {/* Champion and user info */}
+
                 <div className="match-champion">
                   <img 
                     src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${match.champion}.png`} 
@@ -147,8 +182,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                   />
                   <h3>{match.champion}</h3>
                 </div>
-
                 {/* Match participants (blue and red teams) */}
+
                 <div className="match-participants">
                   <div className="team blue-team">
                     <ul className="participant-list">
@@ -180,8 +215,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                     </ul>
                   </div>
                 </div>
-
                 {/* Match summary and queue info */}
+
                 <div className="match-details-summary">
                   <p>K/D/A: <span className="kda-kills">{match.kills}</span>/<span className="kda-deaths">{match.deaths}</span>/<span className="kda-assists">{match.assists}</span></p>
                   <p>Game Duration: {Math.floor(match.gameDuration / 60)} minutes</p>
@@ -190,15 +225,15 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                   </p>
                   <QueueInfo queueId={match.queueId} className="queue-info" />
                 </div>
-                {/* Toggle Button */}
-                  <button className="toggle-button" onClick={() => toggleMatch(index)}>
-                    {openMatch === index ? 'Hide Details' : 'Show Details'}
-                  </button>
+                                      {/* Toggle Button */}
+                <button className="toggle-button" onClick={() => toggleMatch(index)}>
+                  {openMatch === index ? 'Hide Details' : 'Show Details'}
+                </button>
               </div>
 
               {openMatch === index && (
-  <div className="match-details">
-    <div className="team-section">
+                <div className="match-details">
+                  <div className="team-section">
       {/* Blue Team */}
       <div className="team blue-side">
         <h4>Blue Side</h4>
@@ -307,8 +342,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
         </ul>
       </div>
     </div>
-  </div>
-)}
+                </div>
+              )}
             </div>
           );
         })}
@@ -318,3 +353,4 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
 };
 
 export default MatchHistory;
+

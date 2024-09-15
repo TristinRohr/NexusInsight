@@ -343,3 +343,35 @@ body {
   }
 }
 
+.recent-summoners {
+  margin-bottom: 20px;
+}
+
+.recent-summoners h4 {
+  color: var(--accent-color);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.recent-summoners ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-summoners li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.recent-summoners button {
+  background-color: var(--button-color);
+  color: var(--text-color);
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.recent-summoners button:hover {
+  background-color: var(--button-hover-color);
+}

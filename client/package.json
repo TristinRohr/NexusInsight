@@ -4,11 +4,15 @@
   "main": "eslint.config.js",
   "proxy": "https://nexusinsight.onrender.com",
   "type": "module",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint src --ext js, jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+  "dev": "vite",
+  "start": "vite",
+  "build": "vite build",
+  "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+  "preview": "vite preview"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",

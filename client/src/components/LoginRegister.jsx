@@ -9,6 +9,7 @@ const LoginRegister = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();  // Initialize navigate from react-router-dom
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,9 +32,15 @@ const LoginRegister = () => {
       });
 
       const token = response.data.data.login || response.data.data.register;
-      localStorage.setItem('token', token);
-      window.location.reload();
-      Navigate('/LandingSearch');
+      if (token) {
+        localStorage.setItem('token', token);  // Store the token in localStorage
+        setError(null);  // Clear any previous errors
+        // Trigger storage event to update `isLoggedIn` in App component
+        window.dispatchEvent(new Event('storage'));
+        setTimeout(() => navigate('/profile'), 100);  // Redirect to profile page after login
+      } else {
+        setError('Authentication failed');  // Show error if no token is returned
+      }
     } catch (err) {
       setError('Authentication failed');
     }

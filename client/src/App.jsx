@@ -9,6 +9,8 @@ import FavoriteFeed from './components/FavoriteList';
 import LandingSearch from './components/LandingSearch';
 import MatchHistoryWrapper from './components/MatchHistoryWrapper';
 import AboutDonation1 from './components/AboutDonation';
+import StripeSuccess from './components/StripeSuccess';  // Import SuccessPage
+import StripeCancel from './components/StripeCancel';   // Import CancelPage
 
 const App = () => {
   const [summonerName, setSummonerName] = useState(localStorage.getItem('summonerName') || '');  // Load from localStorage initially
@@ -87,6 +89,10 @@ const App = () => {
           path="/login"
           element={<LoginRegister />}
         />
+
+        {/* Success and Cancel Routes for Stripe */}
+        <Route path="/success" element={<StripeSuccess />} />
+        <Route path="/cancel" element={<StripeCancel />} />
 
         {/* Catch-all: Redirect to LandingSearch if no route matches */}
         <Route path="*" element={<Navigate to="/" />} />

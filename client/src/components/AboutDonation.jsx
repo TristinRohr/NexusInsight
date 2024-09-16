@@ -23,10 +23,12 @@ const AboutDonation = () => {
         return;
       }
     }
-
+    
     try {
+      // Use environment variables for CLIENT_URL and API_PORT
+      const apiUrl = `${import.meta.env.VITE_CLIENT_URL}:${import.meta.env.VITE_API_PORT}/api/stripe/create-checkout-session`;
       // Create a checkout session on your backend
-      const { data } = await axios.post('http://localhost:3001/api/stripe/create-checkout-session', {
+      const { data } = await axios.post(apiUrl, {
         amount: finalAmount, // Send the selected or custom amount to the server
       });
 

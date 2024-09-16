@@ -27,6 +27,15 @@ app.use(
   })
 );
 
+// Set Content Security Policy (CSP) to work with Stripe
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' https://js.stripe.com 'unsafe-eval'; frame-src 'self' https://js.stripe.com; connect-src 'self' https://api.stripe.com;"
+  );
+  next();
+});
+
 // Use the Stripe routes
 app.use('/api/stripe', stripeRoutes); // Ensure Stripe routes are set before serving static files
 

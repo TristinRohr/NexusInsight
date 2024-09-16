@@ -8,6 +8,7 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
 
     return (
         <nav className="navbar">
+                <img className="navbar-logo" src="/nexusinsight.png" alt="Nexus Insight Logo" />
             <div className="navbar-container">
                 <Link className="navbar-brand" to="/">Nexus Insight</Link>
                 

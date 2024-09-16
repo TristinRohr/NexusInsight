@@ -63,8 +63,8 @@
   font-size: 30px; /* Adjust the size of the heart */
   outline: none;
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 0px;
+  left: 0px;
 }
 
 .favorite-button:hover {

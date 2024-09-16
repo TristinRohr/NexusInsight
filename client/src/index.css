@@ -1,14 +1,14 @@
 :root {
-  --background-color: #121212;
-  --card-background-color: #1e1e1e;
-  --text-color: #ffffff;
-  --accent-color: #ff5656;
-  --champion-color: #E2BE2A;
-  --red-accent-color: #ff5656;
-  --blue-accent-color: #56b4ff;
-  --border-color: #333333;
-  --highlight-color: #E2BE2A;
-  --neutral-color: #999999;
+  --background-color: #0D1F2D; /* Dark navy from the outer edges */
+  --card-background-color: #1C2F3C; /* Deep blue for card background */
+  --text-color: #EAEAEA; /* Off-white text color */
+  --accent-color: #D4AF65; /* Light gold from the central ring */
+  --champion-color: #D4AF65; /* Gold, used for champion elements */
+  --red-accent-color: #BF6161; /* Muted red accent for contrast */
+  --blue-accent-color: #6E9EBF; /* Light blue from the outer ring */
+  --border-color: #A5A5A5; /* Neutral silver-gray for borders */
+  --highlight-color: #D4AF65; /* Gold used for highlights */
+  --neutral-color: #8C8C8C; /* Neutral gray for subtle elements */
 }
 
 body {

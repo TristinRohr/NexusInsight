@@ -141,7 +141,7 @@ const UserStats = ({ riotId }) => {
         <div className="summoner-icon-container">
           <div className="level-badge">{userStats.summonerLevel}</div>
           <img
-            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/profileicon/${userStats.profileIconId}.png`}
+            src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/profileicon/${userStats.profileIconId}.png`}
             alt="Profile Icon"
             className="summoner-icon"
           />

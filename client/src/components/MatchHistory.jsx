@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MatchHistory.css";
 import QueueInfo from "./QueueType1";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Tooltip from "./Tooltip";
 
 const MatchHistory = ({ riotId, setSearchTerm }) => {
@@ -11,15 +11,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [itemData, setItemData] = useState(null);
   const [openMatch, setOpenMatch] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [recentSummoners, setRecentSummoners] = useState([]);
   const navigate = useNavigate();
-
-  // Load recent summoners from localStorage
-  useEffect(() => {
-    const storedSummoners =
-      JSON.parse(localStorage.getItem("recentSummoners")) || [];
-    setRecentSummoners(storedSummoners);
-  }, []);
 
   // Fetch match history
   useEffect(() => {
@@ -68,10 +60,6 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
         console.log("Match history response:", response.data.data.matchHistory);
         setMatchHistory(response.data.data.matchHistory);
         setLoading(false);
-
-        // Add to recent searches
-        const newSummoner = `${gameName}#${tagLine}`;
-        updateRecentSummoners(newSummoner);
         window.scrollTo(0, 0);
       } catch (error) {
         console.error("Error fetching match history:", error);
@@ -102,16 +90,6 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
     setOpenMatch(openMatch === index ? null : index);
   };
 
-  // Update the recent summoners list and save to localStorage
-  const updateRecentSummoners = (summoner) => {
-    const updatedSummoners = [
-      summoner,
-      ...recentSummoners.filter((s) => s !== summoner),
-    ].slice(0, 5);
-    setRecentSummoners(updatedSummoners);
-    localStorage.setItem("recentSummoners", JSON.stringify(updatedSummoners));
-  };
-
   const handleParticipantClick = (summonerName, tagLine) => {
     const searchValue = `${summonerName}#${tagLine}`;
     setSearchTerm(searchValue); // Update search bar state
@@ -125,10 +103,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
       (p) => p.summonerName === summonerName
     );
     if (userParticipant) {
-      console.log("User found:", userParticipant);
       return userParticipant.teamId;
     }
-    console.error("User not found in participants list");
     return null; // Return null if user is not found
   };
 
@@ -164,20 +140,6 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   return (
     <div className="match-history-container">
       <h2 className="match-history-title">Match History</h2>
-      <div className="recent-summoners">
-        <h4>Recently Searched Summoners:</h4>
-        <ul>
-          {recentSummoners.map((summoner, index) => (
-            <li key={index}>
-              <button
-                onClick={() => handleParticipantClick(...summoner.split("#"))}
-              >
-                {summoner}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
 
       <div className="match-history-grid">
         {matchHistory.map((match, index) => {
@@ -377,9 +339,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                       <ul className="participant-grid">
                         <li className="participant-grid-titles participant-grid-row">
                           <div className="grid-title">Champion</div>
-                          <div class Name="grid-title">
-                            Summoner
-                          </div>
+                          <div className="grid-title">Summoner</div>
                           <div className="grid-title">KDA</div>
                           <div className="grid-title">Damage</div>
                           <div className="grid-title">Gold</div>

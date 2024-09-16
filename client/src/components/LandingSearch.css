@@ -89,7 +89,7 @@
     margin-right: -2%;
 }
 /* Adjustments for smaller screens */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
     .landing-search-form {
         flex-direction: column; /* Stack form elements vertically */
         gap: 15px;
@@ -103,7 +103,7 @@
         width: 100%; /* Ensure the button takes full width */
     }
 
-    .hash-symbol {
+    .landing-hash-symbol {
         display: none; /* Hide the hash symbol on smaller screens */
     }
 
@@ -112,10 +112,11 @@
     }
 
     .landing-search-description {
-        font-size: 1.5rem; /* Reduce the description font size */
+        display: none; /* Hide the description on smaller screens */
     }
 
     .landing-search-container {
-        height: 20vh; /* Increase the container height */
+        height: 20%; /* Increase the container height */
+        width: 100%; /* Reduce the container width */;
     }
 }

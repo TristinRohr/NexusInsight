@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './FavoriteList.css'; // Assuming you have a CSS file for styling
+import './FavoriteList.css';
 
 const FavoriteFeed = () => {
   const [favoritePlayers, setFavoritePlayers] = useState([]);
@@ -10,7 +10,6 @@ const FavoriteFeed = () => {
   useEffect(() => {
     const fetchFavoritePlayers = async () => {
       try {
-        // Replace this with the correct API call to fetch favorite players
         const response = await axios.post('/graphql', {
           query: `
             query {

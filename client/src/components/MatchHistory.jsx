@@ -185,7 +185,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
           );
           const userTeamId = findUserTeamId(
             match.participants,
-            riotId.split("#")[(0)]
+            riotId.split("#")[0]
           );
           if (userTeamId === null) {
             return <div key={index}>User not found in match.</div>;
@@ -195,7 +195,11 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
               <div className="match-header">
                 <div className="match-champion">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${match.champion}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                      match.champion === "FiddleSticks"
+                        ? "Fiddlesticks"
+                        : match.champion
+                    }.png`}
                     alt={match.champion}
                     className="champion-icon"
                   />
@@ -207,9 +211,13 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                       {blueTeam.map((participant, pIndex) => (
                         <li key={pIndex} className="participant">
                           <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`}
+                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                              participant.championName === "FiddleSticks"
+                                ? "Fiddlesticks"
+                                : participant.championName
+                            }.png`}
                             alt={participant.championName}
-                            className="blue-participant-icon"
+                            className="champion-icon"
                           />
                           <span>
                             {participant.summonerName}#
@@ -224,9 +232,13 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                       {redTeam.map((participant, pIndex) => (
                         <li key={pIndex} className="participant">
                           <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`}
+                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                              participant.championName === "FiddleSticks"
+                                ? "Fiddlesticks"
+                                : participant.championName
+                            }.png`}
                             alt={participant.championName}
-                            className="red-participant-icon"
+                            className="champion-icon"
                           />
                           <span>
                             {participant.summonerName}#
@@ -282,7 +294,11 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                           <li key={pIndex} className="participant-grid-row">
                             <div className="blue-participant-grid-champion">
                               <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`}
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                                  participant.championName === "FiddleSticks"
+                                    ? "Fiddlesticks"
+                                    : participant.championName
+                                }.png`}
                                 alt={participant.championName}
                                 className="champion-icon"
                               />
@@ -372,7 +388,11 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                           <li key={pIndex} className="participant-grid-row">
                             <div className="red-participant-grid-champion">
                               <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${participant.championName}.png`}
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                                  participant.championName === "FiddleSticks"
+                                    ? "Fiddlesticks"
+                                    : participant.championName
+                                }.png`}
                                 alt={participant.championName}
                                 className="champion-icon"
                               />

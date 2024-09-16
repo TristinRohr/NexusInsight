@@ -46,3 +46,17 @@
     font-size: 16px;
     color: var(--neutral-color);
   }
+
+  a {
+    color: white; /* Default color for links */
+    text-decoration: none; /* Remove underline if desired */
+  }
+  
+  a:visited {
+    color: white; /* Color for visited links */
+  }
+  
+  a:hover {
+    color: var(--highlight-color); /* Optional: Change color on hover */
+    text-decoration: underline; /* Optional: Add underline on hover */
+  }

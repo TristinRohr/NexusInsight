@@ -3,6 +3,7 @@ import axios from "axios";
 import "./MatchHistory.css";
 import QueueInfo from "./QueueType1";
 import { Link, useNavigate } from "react-router-dom";
+import Tooltip from "./Tooltip";
 
 const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [matchHistory, setMatchHistory] = useState(null);
@@ -87,7 +88,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
     const fetchItemData = async () => {
       try {
         const response = await axios.get(
-          "https://ddragon.leagueoflegends.com/cdn/14.17.1/data/en_US/item.json"
+          "https://ddragon.leagueoflegends.com/cdn/14.18.1/data/en_US/item.json"
         );
         setItemData(response.data.data);
       } catch (error) {
@@ -153,8 +154,11 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
     return <div>{error}</div>;
   }
 
-  if (!matchHistory) {
+  if (loading) {
     return <div>Loading match history...</div>;
+  }
+  if (!matchHistory) {
+    return <div>No match history found.</div>;
   }
 
   return (
@@ -195,7 +199,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
               <div className="match-header">
                 <div className="match-champion">
                   <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                    src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/champion/${
                       match.champion === "FiddleSticks"
                         ? "Fiddlesticks"
                         : match.champion
@@ -211,7 +215,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                       {blueTeam.map((participant, pIndex) => (
                         <li key={pIndex} className="participant">
                           <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                            src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/champion/${
                               participant.championName === "FiddleSticks"
                                 ? "Fiddlesticks"
                                 : participant.championName
@@ -232,7 +236,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                       {redTeam.map((participant, pIndex) => (
                         <li key={pIndex} className="participant">
                           <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                            src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/champion/${
                               participant.championName === "FiddleSticks"
                                 ? "Fiddlesticks"
                                 : participant.championName
@@ -294,7 +298,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                           <li key={pIndex} className="participant-grid-row">
                             <div className="blue-participant-grid-champion">
                               <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/champion/${
                                   participant.championName === "FiddleSticks"
                                     ? "Fiddlesticks"
                                     : participant.championName
@@ -350,11 +354,10 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                                 {generateItemSlots(participant.items).map(
                                   (item, iIndex) =>
                                     item !== 0 ? (
-                                      <img
+                                      <Tooltip
                                         key={iIndex}
-                                        src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
-                                        alt={`Item ${item}`}
-                                        className="item-icon"
+                                        itemId={item}
+                                        itemData={itemData}
                                       />
                                     ) : (
                                       <div
@@ -388,7 +391,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                           <li key={pIndex} className="participant-grid-row">
                             <div className="red-participant-grid-champion">
                               <img
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/champion/${
+                                src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/champion/${
                                   participant.championName === "FiddleSticks"
                                     ? "Fiddlesticks"
                                     : participant.championName
@@ -446,7 +449,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                                     item !== 0 ? (
                                       <img
                                         key={iIndex}
-                                        src={`https://ddragon.leagueoflegends.com/cdn/14.17.1/img/item/${item}.png`}
+                                        src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/item/${item}.png`}
                                         alt={`Item ${item}`}
                                         className="item-icon"
                                       />

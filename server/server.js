@@ -32,7 +32,7 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' https://js.stripe.com; frame-src 'self' https://js.stripe.com; connect-src 'self' https://api.stripe.com https://nexusinsight.onrender.com; img-src 'self' data: https://ddragon.leagueoflegends.com; style-src 'self' 'unsafe-inline';"
+    "default-src 'self'; script-src 'self' https://js.stripe.com; frame-src 'self' https://js.stripe.com; connect-src 'self' https://api.stripe.com https://nexusinsight.onrender.com https://ddragon.leagueoflegends.com; img-src 'self' data: https://ddragon.leagueoflegends.com; style-src 'self' 'unsafe-inline';"
   );
   next();
 });

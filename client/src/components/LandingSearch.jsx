@@ -18,7 +18,7 @@ const LandingSearch = ({ onSearch }) => {
       console.log('onSearch called');  // Debugging log for onSearch
       onSearch(summonerName, tagLine);  // Call the search function
       console.log('Navigating to /match-history');  // Check if navigate is being called
-      navigate(`/match-history/${gameName}/${tagLine}`);  // Navigate to match history page
+      navigate(`/match-history/${summonerName}/${tagLine}`);  // Navigate to match history page
     } else {
       console.log('Summoner Name or Tag Line missing');  // Check if fields are missing
     }

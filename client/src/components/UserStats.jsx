@@ -3,6 +3,7 @@ import axios from "axios";
 import "./UserStats.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
@@ -10,12 +11,12 @@ const UserStats = ({ riotId }) => {
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [summonerName, tagLine] = riotId.split("#");
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
         setLoading(true);
-        // GraphQL query to fetch user stats
         const graphqlQuery = `
           query getUserStats($summonerName: String!, $tagLine: String!) {
             userStats(gameName: $summonerName, tagLine: $tagLine) {
@@ -36,12 +37,10 @@ const UserStats = ({ riotId }) => {
             }
           }
         `;
-
         const response = await axios.post("/graphql", {
           query: graphqlQuery,
           variables: { summonerName, tagLine },
         });
-
         if (response.data && response.data.data && response.data.data.userStats) {
           setUserStats(response.data.data.userStats);
         } else {
@@ -55,9 +54,6 @@ const UserStats = ({ riotId }) => {
       }
     };
 
-    fetchUserStats();
-
-    // Fetch the user's favorite players from the backend
     const fetchFavorites = async () => {
       try {
         const favoritesResponse = await axios.post("/graphql", {
@@ -69,24 +65,34 @@ const UserStats = ({ riotId }) => {
             }
           `,
         });
-
-        const favoritePlayers = favoritesResponse.data.data.getUser.favoritePlayers;
-
-        // Check if the current summoner is in the favorite players list
-        setIsFavorite(favoritePlayers.includes(riotId));
+  
+        // Ensure favoritePlayers is present in the response
+        const favoritePlayers = favoritesResponse.data?.data?.getUser?.favoritePlayers;
+  
+        if (favoritePlayers) {
+          setIsFavorite(favoritePlayers.includes(riotId));
+        } else {
+          setIsFavorite(false); // Or handle case for no favorites
+        }
       } catch (err) {
         console.error("Error fetching favorite players:", err);
       }
     };
 
+    fetchUserStats();
     fetchFavorites();
   }, [riotId, summonerName, tagLine]);
 
   const handleToggleFavorite = async () => {
+    const isLoggedIn = !!localStorage.getItem('token');
+    if (!isLoggedIn) {
+      navigate('/login', { state: { message: 'Please log in to favorite players' } });
+      return;
+    }
+
     try {
       let mutation = "";
       if (isFavorite) {
-        // Mutation to remove the player from favorites
         mutation = `
           mutation removeFavoritePlayer($summonerName: String!, $tagLine: String!) {
             removeFavoritePlayer(summonerName: $summonerName, tagLine: $tagLine) {
@@ -95,7 +101,6 @@ const UserStats = ({ riotId }) => {
           }
         `;
       } else {
-        // Mutation to add the player to favorites
         mutation = `
           mutation addFavoritePlayer($summonerName: String!, $tagLine: String!) {
             addFavoritePlayer(summonerName: $summonerName, tagLine: $tagLine) {
@@ -105,13 +110,11 @@ const UserStats = ({ riotId }) => {
         `;
       }
 
-      // Send the mutation to the server
       await axios.post("/graphql", {
         query: mutation,
         variables: { summonerName, tagLine },
       });
 
-      // Update the favorite status based on the response
       setIsFavorite(!isFavorite);
     } catch (err) {
       console.error("Error toggling favorite:", err);
@@ -129,12 +132,11 @@ const UserStats = ({ riotId }) => {
   return (
     <div className="user-stats-container">
       <div className="user-profile">
-        {/* Favorite button with filled heart icon */}
         <div className="favorite-toggle">
           <button onClick={handleToggleFavorite} className="favorite-button">
             <FontAwesomeIcon
-              icon={solidHeart} // Always use the solid (filled) heart icon
-              style={{ color: isFavorite ? "red" : "black" }} // Red if favorite, black if not
+              icon={solidHeart}
+              style={{ color: isFavorite ? "red" : "black" }}
             />
           </button>
         </div>
@@ -145,38 +147,32 @@ const UserStats = ({ riotId }) => {
             alt="Profile Icon"
             className="summoner-icon"
           />
-          </div>
-        <h2>
-          {riotId.split("#")[0]}#{riotId.split("#")[1]}
-        </h2>
+        </div>
+        <h2>{summonerName}#{tagLine}</h2>
       </div>
 
       <div className="rank-info-header">
         <h3>Ranked</h3>
         <div className="rank-info-container">
-        {userStats.leagueInfo.length > 0 ? (
-          userStats.leagueInfo.map((league, index) => (
-            <div key={index} className="rank-info-item">
-              <p>{league.queueType.replace(/_/g, " ")}</p>
-              <img
-                className="rank-icon"
-                src={`/Rank=${league.tier}.png`}
-                alt={league.tier}
-                width="50"
-                height="50"
-              />
-              <p>
-                {league.tier} {league.rank}
-              </p>
-              <p>{league.leaguePoints} LP</p>
-              <p>
-                {league.wins}W / {league.losses}L
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>No ranked data available</p>
-        )}
+          {userStats.leagueInfo.length > 0 ? (
+            userStats.leagueInfo.map((league, index) => (
+              <div key={index} className="rank-info-item">
+                <p>{league.queueType.replace(/_/g, " ")}</p>
+                <img
+                  className="rank-icon"
+                  src={`/Rank=${league.tier}.png`}
+                  alt={league.tier}
+                  width="50"
+                  height="50"
+                />
+                <p>{league.tier} {league.rank}</p>
+                <p>{league.leaguePoints} LP</p>
+                <p>{league.wins}W / {league.losses}L</p>
+              </div>
+            ))
+          ) : (
+            <p>No ranked data available</p>
+          )}
         </div>
       </div>
     </div>

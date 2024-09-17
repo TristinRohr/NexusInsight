@@ -8,8 +8,8 @@ const NavBar = ({ isLoggedIn, handleLogout, handleSearch, isHeader }) => {
 
     return (
         <nav className="navbar">
-                <img className="navbar-logo" src="/nexusinsight.png" alt="Nexus Insight Logo" />
             <div className="navbar-container">
+                <img className="navbar-logo" src="/nexusinsight.png" alt="Nexus Insight Logo" />
                 <Link className="navbar-brand" to="/">Nexus Insight</Link>
                 
                 {/* Only show the Search bar if not on the LandingSearch or root ('/') page */}

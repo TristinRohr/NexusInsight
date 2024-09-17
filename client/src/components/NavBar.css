@@ -5,12 +5,8 @@
 }
 
 .navbar-logo {
-    width: 100px;
-    height: 100px;
-    margin-right: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 10%;
+    height: 10%;
 
 }
 
@@ -28,7 +24,8 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     text-decoration: none;
-    margin-left: 5%;
+    margin-left: -1%;
+    margin-right: 1%;
 }
 
 .navbar-brand:hover {

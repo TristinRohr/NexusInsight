@@ -48,6 +48,8 @@ const riotResolvers = {
 
           console.log('Fected queueId from match details:', queueId);
 
+          const gameStartTimestamp = matchDetails.info.gameStartTimestamp;
+
           return {
             matchId: matchDetails.metadata.matchId,
             gameStartTimestamp: matchDetails.info.gameStartTimestamp,

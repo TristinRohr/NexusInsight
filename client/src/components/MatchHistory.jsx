@@ -4,6 +4,8 @@ import "./MatchHistory.css";
 import QueueInfo from "./QueueType1";
 import { useNavigate } from "react-router-dom";
 import Tooltip from "./Tooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [matchHistory, setMatchHistory] = useState(null);
@@ -217,18 +219,31 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                 </div>
 
                 <div className="match-details-summary">
+                  <p className= 'time-stamp'>
+                    {new Date(match.gameStartTimestamp).toLocaleString(
+                      "en-US",
+                      {
+                        dateStyle: "short",
+                        timeStyle: "short",
+                      }
+                    )}
+                  </p>
                   <p>
                     K/D/A: <span className="kda-kills">{match.kills}</span>/
                     <span className="kda-deaths">{match.deaths}</span>/
                     <span className="kda-assists">{match.assists}</span>
                   </p>
-                  <p>
-                    Game Duration: {Math.floor(match.gameDuration / 60)} minutes
-                  </p>
-                  <p className="match-result">
+                  <p
+                    className={`match-result ${
+                      determineWinStatus(userTeamId, match.teams)
+                        ? "victory"
+                        : "defeat"
+                    }`}
+                  >
                     {determineWinStatus(userTeamId, match.teams)
-                      ? "Victory"
-                      : "Defeat"}
+                      ? "Victory "
+                      : "Defeat "}
+                       {Math.floor(match.gameDuration / 60)} minutes
                   </p>
                   <QueueInfo queueId={match.queueId} className="queue-info" />
                 </div>
@@ -236,7 +251,10 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                   className="toggle-button"
                   onClick={() => toggleMatch(index)}
                 >
-                  {openMatch === index ? "Hide Details" : "Show Details"}
+                  <FontAwesomeIcon
+                    icon={openMatch === index ? faChevronUp : faChevronDown}
+                    className="arrow-icon"
+                  />
                 </button>
               </div>
 

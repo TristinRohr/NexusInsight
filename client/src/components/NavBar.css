@@ -54,7 +54,7 @@
 
 /* Navbar Links */
 .nav-link {
-    color: var(--text-color); /* Text color from root variables */
+    color: var(--accent-color); /* Text color from root variables */
     font-size: 1rem;
     font-weight: 500;
     padding: 8px 12px;

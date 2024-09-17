@@ -61,3 +61,9 @@
     color: var(--highlight-color); /* Optional: Change color on hover */
     text-decoration: underline; /* Optional: Add underline on hover */
   }
+
+  @media (max-width: 1180px){
+    .favorite-feed-container {
+      margin-top: 0;
+    }
+  }

@@ -85,3 +85,13 @@
     text-align: center;
     color: #555;
   }
+
+  @media (max-width: 1180px){
+    .profile-content {
+      display: block;
+      margin-top: 0
+    }
+    .profile-container {
+      margin-top: 0;
+    }
+  }

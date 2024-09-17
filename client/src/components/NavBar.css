@@ -20,7 +20,7 @@
 .navbar-brand {
     color: var(--accent-color); /* Accent color for the brand */
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 375%;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-decoration: none;

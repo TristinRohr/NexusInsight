@@ -5,12 +5,38 @@
     margin-top: 20px;       /* Add some spacing at the top */
   }
   
-  .custom-amount-input {
+.custom-amount-input {
     margin-top: 10px;       /* Add space between label and input */
     padding: 10px;
     width: 200px;           /* You can adjust the width as needed */
     text-align: center;     /* Center the text inside the input */
     border-radius: 5px;
     border: 1px solid #ccc; /* Add a border */
-  }
-  
+}
+
+.about-donation-container {
+    background-color: var(--background-color);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin-top: 5%;
+    padding: 20px;
+}
+
+.about-donation-container p {
+    color: var(--text-color);
+}
+
+.donation-button {
+    background-color: var(--button-color);
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    padding: 10px 20px;
+}

@@ -3,8 +3,7 @@
     display: flex;
     justify-content: center; /* Centers the search form horizontally */
     align-items: center;     /* Centers the search form vertically */
-    height: 10vh;           /* Make the container take full screen height */
-    background-color: var(--background-color); /* Use the background color from the root */
+    height: 5%;           /* Make the container take full screen height */
 }
 
 /* Styling the form inside LandingSearch */

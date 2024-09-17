@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './LoginRegister.css';  // Import the CSS file
-import { useNavigate } from 'react-router-dom';
+import './LoginRegister.css';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 
 const LoginRegister = () => {
-  const [isLogin, setIsLogin] = useState(true);  // Toggle between login/register
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate();  // Initialize navigate from react-router-dom
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the location object
+  const message = location.state?.message; // Access the message passed from the previous page
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,13 +35,12 @@ const LoginRegister = () => {
 
       const token = response.data.data.login || response.data.data.register;
       if (token) {
-        localStorage.setItem('token', token);  // Store the token in localStorage
-        setError(null);  // Clear any previous errors
-        // Trigger storage event to update `isLoggedIn` in App component
+        localStorage.setItem('token', token);
+        setError(null);
         window.dispatchEvent(new Event('storage'));
-        setTimeout(() => navigate('/profile'), 100);  // Redirect to profile page after login
+        setTimeout(() => navigate('/profile'), 100);
       } else {
-        setError('Authentication failed');  // Show error if no token is returned
+        setError('Authentication failed');
       }
     } catch (err) {
       setError('Authentication failed');
@@ -49,6 +50,7 @@ const LoginRegister = () => {
   return (
     <div className="login-register-container">
       <h2>{isLogin ? 'Login' : 'Register'}</h2>
+      {message && <p className="login-message">{message}</p>} {/* Display the message */}
       {error && <p className="error-message">{error}</p>}
       <form className="login-register-form" onSubmit={handleSubmit}>
         {!isLogin && (
@@ -59,7 +61,7 @@ const LoginRegister = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required={!isLogin}
-              placeholder='Username'
+              placeholder="Username"
             />
           </div>
         )}
@@ -70,7 +72,7 @@ const LoginRegister = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder='Email'
+            placeholder="Email"
           />
         </div>
         <div>
@@ -80,7 +82,7 @@ const LoginRegister = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder='Password'
+            placeholder="Password"
           />
         </div>
         <button type="submit">{isLogin ? 'Login' : 'Register'}</button>

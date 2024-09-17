@@ -5,7 +5,7 @@
   background-color: var(--background-color);
   border-radius: 8px;
   overflow-x: hidden; /* Prevent horizontal overflow for the container */
-  max-width: 80%;
+  max-width: 95%;
 }
 
 .match-history-title {

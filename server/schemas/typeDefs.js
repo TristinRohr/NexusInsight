@@ -35,14 +35,14 @@ const typeDefs = gql`
   }
 
   type QueueType {
-    queueId: Int,
-    map: String,
-    description: String,
+    queueId: Int
+    map: String
+    description: String
     notes: String
   }
 
   type Team {
-    teamId: Int,
+    teamId: Int
     win: Boolean
   }
 
@@ -90,6 +90,18 @@ const typeDefs = gql`
     favoritePlayers: [String]
   }
 
+  type CheckoutSession {
+    sessionId: String!
+  }
+
+  input ProductInput {
+    name: String!
+    description: String
+    image: String
+    price: Int!
+    purchaseQuantity: Int!
+  }
+
   type Query {
     userStats(gameName: String!, tagLine: String!): UserStats
     matchHistory(gameName: String!, tagLine: String!): [MatchHistory]
@@ -104,7 +116,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): String
     addFavoritePlayer(summonerName: String!, tagLine: String!): User
     removeFavoritePlayer(summonerName: String!, tagLine: String!): User
-    logout: Boolean  # Add this line to define the logout mutation
+    logout: Boolean
+    checkout(amount: Int!): CheckoutSession!
   }
 `;
 

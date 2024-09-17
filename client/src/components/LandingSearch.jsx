@@ -10,14 +10,9 @@ const LandingSearch = ({ onSearch }) => {
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    console.log("Form Submitted"); // Debugging log to ensure submit is being triggered
-    console.log("Summoner Name:", summonerName); // Check the summoner name
-    console.log("Tag Line:", tagLine); // Check the tag line
-
+    
     if (summonerName && tagLine) {
-      console.log("onSearch called"); // Debugging log for onSearch
       onSearch(summonerName, tagLine); // Call the search function
-      console.log("Navigating to /match-history"); // Check if navigate is being called
       navigate(`/match-history/${summonerName}/${tagLine}`); // Navigate to match history page
     } else {
       console.log("Summoner Name or Tag Line missing"); // Check if fields are missing

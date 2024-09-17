@@ -13,8 +13,7 @@ const AboutDonation = () => {
 
   const handleDonation = async () => {
     const stripe = await stripePromise;
-    console.log("Stripe object: ", stripe);  // Log the Stripe object to ensure it is loaded correctly
-  
+    
     // If the user entered a custom amount, validate and convert it to cents
     let finalAmount = amount;
     if (customAmount) {
@@ -30,15 +29,11 @@ const AboutDonation = () => {
     try {
       // Use environment variables for the API URL
       const apiUrl = `${import.meta.env.VITE_API_URL}/api/stripe/create-checkout-session`;  // Single environment variable for full API URL
-      console.log("API URL: ", apiUrl);  // Log the URL to ensure it is correct
-  
+      
       // Create a checkout session on your backend
       const { data } = await axios.post(apiUrl, {
         amount: finalAmount, // Send the selected or custom amount to the server
       });
-  
-      // Check if the sessionId is received correctly
-      console.log("Received sessionId: ", data.sessionId);
   
       // Redirect the user to the Stripe checkout page
       const result = await stripe.redirectToCheckout({
@@ -55,7 +50,7 @@ const AboutDonation = () => {
   
 
   return (
-    <div class="about-donation-container">
+    <div className="about-donation-container">
       <h1>About Us</h1>
       <p>
         Welcome to our League of Legends Tracker! We are passionate about helping players track their game stats, history, and live matches.
@@ -70,9 +65,9 @@ const AboutDonation = () => {
       <div>
   <label>Select an amount:</label>
   <div>
-    <button class="donation-button" onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
-    <button class="donation-button" onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
-    <button class="donation-button" onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
+    <button className="donation-button" onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
+    <button className="donation-button" onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
+    <button className="donation-button" onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
   </div>
 </div>
 
@@ -94,7 +89,7 @@ const AboutDonation = () => {
         You are about to donate: <strong>{customAmount ? `$${customAmount}` : `$${amount / 100}`}</strong>
       </p>
 
-      <button class="donation-button" onClick={handleDonation}>
+      <button className="donation-button" onClick={handleDonation}>
         CLICK HERE to donate {customAmount ? `$${customAmount}` : `$${amount / 100}`} To Our Devs!
       </button>
     </div>

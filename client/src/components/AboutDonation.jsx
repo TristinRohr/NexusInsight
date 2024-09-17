@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+import './AboutDonation.css';  // Import the CSS file for styling
+
 
 // Load your Stripe publishable key
 const stripePromise = loadStripe('pk_test_51PyygE00jwMy2lh8bGauAqmhLPzvZ4ooe4GgKa9sp9t1srxZBXg3PzNCw1XhziT7wxBSjTAwaPcaZZ1t5n8UIBnp00sviYjs83');
@@ -66,26 +68,27 @@ const AboutDonation = () => {
       </p>
 
       <div>
-        <label>Select an amount:</label>
-        <div>
-          <button onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
-          <button onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
-          <button onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
-        </div>
-      </div>
+  <label>Select an amount:</label>
+  <div>
+    <button onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
+    <button onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
+    <button onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
+  </div>
+</div>
 
-      <div>
-        <label>Or enter a custom amount:</label>
-        <input
-          type="text"
-          value={customAmount}
-          placeholder="Enter amount in whole dollars"
-          onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
-            setCustomAmount(value);
-          }}
-        />
-      </div>
+<div className="custom-amount-wrapper">
+  <label>Or enter a custom amount:</label>
+  <input
+    type="text"
+    value={customAmount}
+    className="custom-amount-input"  // Add a class for styling
+    placeholder="Whole Dollars"
+    onChange={(e) => {
+      const value = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+      setCustomAmount(value);
+    }}
+  />
+</div>
 
       <p>
         You are about to donate: <strong>{customAmount ? `$${customAmount}` : `$${amount / 100}`}</strong>

@@ -1,0 +1,16 @@
+.custom-amount-wrapper {
+    display: flex;
+    flex-direction: column; /* Align label and input vertically */
+    align-items: center;    /* Center content horizontally */
+    margin-top: 20px;       /* Add some spacing at the top */
+  }
+  
+  .custom-amount-input {
+    margin-top: 10px;       /* Add space between label and input */
+    padding: 10px;
+    width: 200px;           /* You can adjust the width as needed */
+    text-align: center;     /* Center the text inside the input */
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Add a border */
+  }
+  

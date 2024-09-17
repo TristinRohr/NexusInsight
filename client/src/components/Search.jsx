@@ -29,6 +29,8 @@ const Search = ({ onSearch, isHeader }) => {
       onSearch(summonerName, tagLine); // Call the search function
       console.log("Navigating to /match-history"); // Check if navigate is being called
       navigate(`/match-history/${summonerName}/${tagLine}`); // Navigate to match history page
+      setSummonerName(""); // Reset the summoner name input field
+      setTagLine(""); // Reset the tag line input field
     } else {
       console.log("Summoner Name or Tag Line missing"); // Check if fields are missing
     }

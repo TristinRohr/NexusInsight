@@ -5,6 +5,7 @@
   --accent-color: #D4AF65; /* Light gold from the central ring */
   --champion-color: #D4AF65; /* Gold, used for champion elements */
   --red-accent-color: #BF6161; /* Muted red accent for contrast */
+  --green-accent-color: #A3BE8C; /* Muted green accent for contrast */
   --blue-accent-color: #6E9EBF; /* Light blue from the outer ring */
   --border-color: #A5A5A5; /* Neutral silver-gray for borders */
   --highlight-color: #d5bd8b; /* Gold used for highlights */
@@ -12,7 +13,9 @@
 }
 
 body {
-  background-image: url(../public/Nexus-Insight-Background-1.png);
+  background-image: url(/Nexus-Insight-Background-1.png);
+  background-size: cover;
+  background-attachment: fixed;
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: 'Roboto', sans-serif;

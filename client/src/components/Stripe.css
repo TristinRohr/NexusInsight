@@ -1,0 +1,24 @@
+.response-container {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin-top: 5%;
+    padding: 20px;
+}
+
+.response-container p {
+    color: var(--text-color);
+}
+
+.cancel-message {
+    color: var(--red-accent-color);
+}
+
+.success-message {
+    color: var(--green-accent-color);
+}   

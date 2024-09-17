@@ -6,8 +6,7 @@ const QueueInfo = ({ queueId }) => {
     const [error, setError] = useState(null);
   
     useEffect(() => {
-      console.log('Received queueId:', queueId); // This should log the correct queueId from the frontend
-  
+      
       const fetchQueueInfo = async () => {
         if (!queueId) {
           console.error('No queueId provided');
@@ -32,7 +31,6 @@ const QueueInfo = ({ queueId }) => {
             variables: { queueId }
           });
   
-          console.log('GraphQL response:', response.data); // Log the response to verify if correct queue data is returned
           setQueueData(response.data.data.queueType);
         } catch (error) {
           console.error('Error fetching queue type:', error);

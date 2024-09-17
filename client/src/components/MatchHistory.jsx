@@ -60,7 +60,6 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
           query: graphqlQuery,
           variables: { gameName, tagLine },
         });
-        console.log("Match history response:", response.data.data.matchHistory);
         setMatchHistory(response.data.data.matchHistory);
         setLoading(false);
         window.scrollTo(0, 0);

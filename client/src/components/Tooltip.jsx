@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Tooltip.css";
 
-const Tooltip = ({ itemId, itemData }) => {
-  const [isVisible, setIsVisible] = useState(false);
+const Tooltip = ({ uniqueKey, itemId, itemData, visibleTooltipId, onTooltipClick }) => {
   const [tooltipContent, setTooltipContent] = useState({ name: "", description: "" });
 
   useEffect(() => {
@@ -16,7 +15,7 @@ const Tooltip = ({ itemId, itemData }) => {
   }, [itemId, itemData]);
 
   const handleClick = () => {
-    setIsVisible(!isVisible); // Toggle tooltip visibility
+    onTooltipClick(uniqueKey); // Use the unique key (combination of participant and item) for toggling
   };
 
   return (
@@ -27,7 +26,7 @@ const Tooltip = ({ itemId, itemData }) => {
         className="item-icon"
         onClick={handleClick} // Toggle tooltip on click
       />
-      {isVisible && tooltipContent.description && (
+      {visibleTooltipId === uniqueKey && tooltipContent.description && (
         <div className="tooltip">
           <p>
             <strong>{tooltipContent.name}</strong> {/* Display the item name */}

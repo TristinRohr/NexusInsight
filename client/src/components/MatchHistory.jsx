@@ -13,6 +13,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   const [itemData, setItemData] = useState(null);
   const [openMatch, setOpenMatch] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [visibleTooltipId, setVisibleTooltipId] = useState(null); // Track which tooltip is open
   const navigate = useNavigate();
 
   // Fetch match history
@@ -111,21 +112,34 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
   };
 
   const determineWinStatus = (teamId, teams) => {
-    console.log("Team ID:", teamId, "Teams Data:", teams);
-    // Log the team the user is on
-    console.log("User is on team:", teamId);
-    // Log the teams data for further debugging
-    console.log("Teams Data:", teams);
     const team = teams.find((t) => t.teamId === teamId);
     return team ? team.win : false;
   };
 
-  const generateItemSlots = (items) => {
+  const generateItemSlots = (items, participantId) => {
     const itemSlots = [...items];
     while (itemSlots.length < 7) {
-      itemSlots.push(0);
+      itemSlots.push(0); // Fill empty item slots
     }
-    return itemSlots;
+    return itemSlots.map((item, index) => {
+      const uniqueKey = `${participantId}-${index}-${item}`; // Unique key based on participant and item index
+      return item !== 0 ? (
+        <Tooltip
+          key={uniqueKey} // Use unique key for each item slot
+          uniqueKey={uniqueKey}
+          itemId={item}
+          itemData={itemData}
+          visibleTooltipId={visibleTooltipId}
+          onTooltipClick={handleTooltipClick}
+        />
+      ) : (
+        <div key={uniqueKey} className="item-icon empty-item"></div>
+      );
+    });
+  };
+
+  const handleTooltipClick = (uniqueKey) => {
+    setVisibleTooltipId((prevId) => (prevId === uniqueKey ? null : uniqueKey)); // Toggle visibility
   };
 
   if (error) {
@@ -219,7 +233,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                 </div>
 
                 <div className="match-details-summary">
-                  <p className= 'time-stamp'>
+                  <p className="time-stamp">
                     {new Date(match.gameStartTimestamp).toLocaleString(
                       "en-US",
                       {
@@ -243,7 +257,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                     {determineWinStatus(userTeamId, match.teams)
                       ? "Victory "
                       : "Defeat "}
-                       {Math.floor(match.gameDuration / 60)} minutes
+                    {Math.floor(match.gameDuration / 60)} minutes
                   </p>
                   <QueueInfo queueId={match.queueId} className="queue-info" />
                 </div>
@@ -331,20 +345,9 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                             </div>
                             <div className="participant-grid-items">
                               <div className="item-icons">
-                                {generateItemSlots(participant.items).map(
-                                  (item, iIndex) =>
-                                    item !== 0 ? (
-                                      <Tooltip
-                                        key={iIndex}
-                                        itemId={item}
-                                        itemData={itemData}
-                                      />
-                                    ) : (
-                                      <div
-                                        key={iIndex}
-                                        className="item-icon empty-item"
-                                      ></div>
-                                    )
+                                {generateItemSlots(
+                                  participant.items,
+                                  participant.summonerName
                                 )}
                               </div>
                             </div>
@@ -422,21 +425,9 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                             </div>
                             <div className="participant-grid-items">
                               <div className="item-icons">
-                                {generateItemSlots(participant.items).map(
-                                  (item, iIndex) =>
-                                    item !== 0 ? (
-                                      <img
-                                        key={iIndex}
-                                        src={`https://ddragon.leagueoflegends.com/cdn/14.18.1/img/item/${item}.png`}
-                                        alt={`Item ${item}`}
-                                        className="item-icon"
-                                      />
-                                    ) : (
-                                      <div
-                                        key={iIndex}
-                                        className="item-icon empty-item"
-                                      ></div>
-                                    )
+                                {generateItemSlots(
+                                  participant.items,
+                                  participant.summonerName
                                 )}
                               </div>
                             </div>

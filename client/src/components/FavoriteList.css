@@ -48,12 +48,12 @@
   }
 
   a {
-    color: white; /* Default color for links */
+    color: var(--accent-color); /* Default color for links */
     text-decoration: none; /* Remove underline if desired */
   }
   
   a:visited {
-    color: white; /* Color for visited links */
+    color: var(--accent-color); /* Color for visited links */
   }
   
   a:hover {

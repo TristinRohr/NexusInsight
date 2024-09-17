@@ -30,8 +30,8 @@ router.post('/create-checkout-session', async (req, res) => {
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
 
-    // Send back the checkout session ID and URL
-    res.json({ id: session.id, url: session.url });
+    // Send back the checkout session ID (make sure this is correct)
+    res.json({ sessionId: session.id });
   } catch (error) {
     console.error('Error creating Stripe checkout session:', error.message);
     res.status(500).json({ error: 'Failed to create checkout session' });

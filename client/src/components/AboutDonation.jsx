@@ -11,7 +11,7 @@ const AboutDonation = () => {
 
   const handleDonation = async () => {
     const stripe = await stripePromise;
-
+  
     // If the user entered a custom amount, validate and convert it to cents
     let finalAmount = amount;
     if (customAmount) {
@@ -23,20 +23,25 @@ const AboutDonation = () => {
         return;
       }
     }
-    
+   
     try {
-      // Use environment variables for CLIENT_URL and API_PORT
-      const apiUrl = `${import.meta.env.VITE_CLIENT_URL}:${import.meta.env.VITE_API_PORT}/api/stripe/create-checkout-session`;
+      // Use environment variables for the API URL
+      const apiUrl = `${import.meta.env.VITE_API_URL}/api/stripe/create-checkout-session`;  // Single environment variable for full API URL
+      console.log("API URL: ", apiUrl);  // Log the URL to ensure it is correct
+  
       // Create a checkout session on your backend
       const { data } = await axios.post(apiUrl, {
         amount: finalAmount, // Send the selected or custom amount to the server
       });
-
+  
+      // Check if the sessionId is received correctly
+      console.log("Received sessionId: ", data.sessionId);
+  
       // Redirect the user to the Stripe checkout page
       const result = await stripe.redirectToCheckout({
-        sessionId: data.id, // ID from the session creation response
+        sessionId: data.sessionId, // Ensure sessionId is correctly received
       });
-
+  
       if (result.error) {
         console.error('Error redirecting to Stripe:', result.error.message);
       }
@@ -44,6 +49,7 @@ const AboutDonation = () => {
       console.error('Failed to initiate donation:', error);
     }
   };
+  
 
   return (
     <div>

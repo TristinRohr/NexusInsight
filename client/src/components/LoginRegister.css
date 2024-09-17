@@ -9,8 +9,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background-color);
     font-family: Arial, sans-serif;
+    margin-top: 5%
   }
   
   .login-register-container h2 {
@@ -71,11 +71,12 @@ body {
   }
   
   /* Toggle button */
-  .toggle-button {
-    margin-top: 10px;
-    background-color: transparent;
+  .login-toggle-button {
+    margin-top: 1%;
+    border-radius: 5px;
+    background-color: var(--accent-color);
     border: none;
-    color: var(--accent-color);
+    color: var(--text-color);
     cursor: pointer;
     font-size: 14px;
   }

@@ -115,7 +115,7 @@ const LoginRegister = () => {
         </div>
         <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
       </form>
-      <button className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
+      <button className="login-toggle-button" onClick={() => setIsLogin(!isLogin)}>
         {isLogin ? 'Switch to Register' : 'Switch to Login'}
       </button>
     </div>

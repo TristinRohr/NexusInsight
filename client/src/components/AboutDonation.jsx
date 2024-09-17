@@ -55,14 +55,14 @@ const AboutDonation = () => {
   
 
   return (
-    <div>
+    <div class="about-donation-container">
       <h1>About Us</h1>
       <p>
         Welcome to our League of Legends Tracker! We are passionate about helping players track their game stats, history, and live matches.
         Our mission is to provide a seamless experience to help you improve your skills and stay updated with your favorite players.
       </p>
 
-      <h2>Support Us</h2>
+      <h1>Support Us</h1>
       <p>
         If you appreciate our service, consider making a donation to support future development and features. Every contribution helps us keep the platform running and improve it for all players.
       </p>
@@ -70,9 +70,9 @@ const AboutDonation = () => {
       <div>
   <label>Select an amount:</label>
   <div>
-    <button onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
-    <button onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
-    <button onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
+    <button class="donation-button" onClick={() => { setAmount(500); setCustomAmount(''); }}>$5.00</button>
+    <button class="donation-button" onClick={() => { setAmount(1000); setCustomAmount(''); }}>$10.00</button>
+    <button class="donation-button" onClick={() => { setAmount(2000); setCustomAmount(''); }}>$20.00</button>
   </div>
 </div>
 
@@ -94,8 +94,8 @@ const AboutDonation = () => {
         You are about to donate: <strong>{customAmount ? `$${customAmount}` : `$${amount / 100}`}</strong>
       </p>
 
-      <button onClick={handleDonation}>
-        Donate {customAmount ? `$${customAmount}` : `$${amount / 100}`} To Our Devs!
+      <button class="donation-button" onClick={handleDonation}>
+        CLICK HERE to donate {customAmount ? `$${customAmount}` : `$${amount / 100}`} To Our Devs!
       </button>
     </div>
   );

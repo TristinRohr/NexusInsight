@@ -5,7 +5,7 @@ import './AboutDonation.css';  // Import the CSS file for styling
 
 
 // Load your Stripe publishable key
-const stripePromise = loadStripe('pk_test_51PyygE00jwMy2lh8bGauAqmhLPzvZ4ooe4GgKa9sp9t1srxZBXg3PzNCw1XhziT7wxBSjTAwaPcaZZ1t5n8UIBnp00sviYjs83');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const AboutDonation = () => {
   const [amount, setAmount] = useState(500); // Default to $5.00 in cents

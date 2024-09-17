@@ -3,7 +3,7 @@ import axios from "axios";
 import "./UserStats.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const UserStats = ({ riotId }) => {
   const [userStats, setUserStats] = useState(null);
@@ -41,7 +41,11 @@ const UserStats = ({ riotId }) => {
           query: graphqlQuery,
           variables: { summonerName, tagLine },
         });
-        if (response.data && response.data.data && response.data.data.userStats) {
+        if (
+          response.data &&
+          response.data.data &&
+          response.data.data.userStats
+        ) {
           setUserStats(response.data.data.userStats);
         } else {
           setError("No user stats found");
@@ -65,10 +69,11 @@ const UserStats = ({ riotId }) => {
             }
           `,
         });
-  
+
         // Ensure favoritePlayers is present in the response
-        const favoritePlayers = favoritesResponse.data?.data?.getUser?.favoritePlayers;
-  
+        const favoritePlayers =
+          favoritesResponse.data?.data?.getUser?.favoritePlayers;
+
         if (favoritePlayers) {
           setIsFavorite(favoritePlayers.includes(riotId));
         } else {
@@ -84,9 +89,11 @@ const UserStats = ({ riotId }) => {
   }, [riotId, summonerName, tagLine]);
 
   const handleToggleFavorite = async () => {
-    const isLoggedIn = !!localStorage.getItem('token');
+    const isLoggedIn = !!localStorage.getItem("token");
     if (!isLoggedIn) {
-      navigate('/login', { state: { message: 'Please log in to favorite players' } });
+      navigate("/login", {
+        state: { message: "Please log in to favorite players" },
+      });
       return;
     }
 
@@ -148,7 +155,9 @@ const UserStats = ({ riotId }) => {
             className="summoner-icon"
           />
         </div>
-        <h2>{summonerName}#{tagLine}</h2>
+        <h2>
+          {summonerName}#{tagLine}
+        </h2>
       </div>
 
       <div className="rank-info-header">
@@ -157,7 +166,6 @@ const UserStats = ({ riotId }) => {
           {userStats.leagueInfo.length > 0 ? (
             userStats.leagueInfo.map((league, index) => (
               <div key={index} className="rank-info-item">
-                <p>{league.queueType.replace(/_/g, " ")}</p>
                 <img
                   className="rank-icon"
                   src={`/Rank=${league.tier}.png`}
@@ -165,9 +173,31 @@ const UserStats = ({ riotId }) => {
                   width="50"
                   height="50"
                 />
-                <p>{league.tier} {league.rank}</p>
+                <p>{league.queueType.replace(/_/g, " ")}</p>
+                <p>
+                  {league.tier} {league.rank}
+                </p>
                 <p>{league.leaguePoints} LP</p>
-                <p>{league.wins}W / {league.losses}L</p>
+                <p>
+                  {league.wins}W / {league.losses}L
+                </p>
+                <p
+                  className={
+                    (league.wins / (league.wins + league.losses)) * 100 < 45
+                      ? "win-rate-red"
+                      : (league.wins / (league.wins + league.losses)) * 100 <=
+                        50
+                      ? "win-rate-yellow"
+                      : "win-rate-green"
+                  }
+                >
+                  {" "}
+                  {(
+                    (league.wins / (league.wins + league.losses)) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </p>
               </div>
             ))
           ) : (

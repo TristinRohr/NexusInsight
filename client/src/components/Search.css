@@ -48,8 +48,10 @@
   /* Hover effect for the icon */
   .search-icon:hover {
     color: var(--highlight-color); /* Use highlight color on hover */
+    background-color: none; /* Remove background color on hover */
   }
   
+
   
   /* Responsive design for mobile */
   @media (max-width: 900px) {

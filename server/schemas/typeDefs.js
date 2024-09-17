@@ -87,7 +87,16 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
+    gameName: String
+    tagLine: String
     favoritePlayers: [String]
+  }
+
+   input UpdateUserInput {
+    username: String
+    email: String
+    gameName: String
+    tagLine: String
   }
 
   type CheckoutSession {
@@ -112,8 +121,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    register(username: String!, email: String!, password: String!): String
+    register(username: String!, email: String!, password: String!, gameName: String!, tagLine: String!): String
     login(email: String!, password: String!): String
+    updateUser(input: UpdateUserInput!): User
     addFavoritePlayer(summonerName: String!, tagLine: String!): User
     removeFavoritePlayer(summonerName: String!, tagLine: String!): User
     logout: Boolean

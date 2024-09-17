@@ -155,6 +155,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
 
   return (
     <div className="match-history-container">
+      <div></div>
+      <div>
       <h2 className="match-history-title">Match History</h2>
 
       <div className="match-history-grid">
@@ -201,7 +203,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                             alt={participant.championName}
                             className="champion-icon"
                           />
-                          <span>
+                          <span className='participant-name'>
                             {participant.summonerName}#
                             {participant.riotIdTagline}
                           </span>
@@ -222,7 +224,7 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
                             alt={participant.championName}
                             className="champion-icon"
                           />
-                          <span>
+                          <span className='participant-name'>
                             {participant.summonerName}#
                             {participant.riotIdTagline}
                           </span>
@@ -442,6 +444,8 @@ const MatchHistory = ({ riotId, setSearchTerm }) => {
           );
         })}
       </div>
+      </div>
+      <div></div>
     </div>
   );
 };

@@ -11,6 +11,7 @@ const AboutDonation = () => {
 
   const handleDonation = async () => {
     const stripe = await stripePromise;
+    console.log("Stripe object: ", stripe);  // Log the Stripe object to ensure it is loaded correctly
   
     // If the user entered a custom amount, validate and convert it to cents
     let finalAmount = amount;

@@ -48,7 +48,7 @@
   /* Hover effect for the icon */
   .search-icon:hover {
     color: var(--highlight-color); /* Use highlight color on hover */
-    background-color: none; /* Remove background color on hover */
+    background-color: transparent; /* Remove background color on hover */
   }
   
 

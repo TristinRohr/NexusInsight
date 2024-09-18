@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Profile.css"; // Import the CSS file
 import FavoriteList from "./FavoriteList"; // Import the FavoriteList component
-import MatchHistoryWrapper from "./MatchHistoryWrapper"; // Import MatchHistoryWrapper component
+import ProfileMatchHistory from "./ProfileMatches"; // Import the ProfileMatchHistory component
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -117,95 +117,89 @@ const Profile = () => {
     <div>
       <h2 className="profile-title">Profile</h2>
       <div className="profile-content">
-      <div className="profile-container">
-        {isEditing ? (
-          <form className="profile-form" onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-              />
+        <div className="profile-container">
+          {isEditing ? (
+            <form className="profile-form" onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label htmlFor="username">Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="gameName">Game Name:</label>
+                <input
+                  type="text"
+                  id="gameName"
+                  name="gameName"
+                  value={formData.gameName}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="tagLine">Tag Line:</label>
+                <input
+                  type="text"
+                  id="tagLine"
+                  name="tagLine"
+                  value={formData.tagLine}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <button type="submit" className="profile-save-btn">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                className="profile-cancel-btn"
+                onClick={handleEditToggle}
+              >
+                Cancel
+              </button>
+            </form>
+          ) : (
+            <div className="profile-info-container">
+              <button className="profile-edit-btn" onClick={handleEditToggle}>
+                Edit Profile
+              </button>
+              <p className="profile-info">
+                <strong>Username:</strong> {userData.username}
+              </p>
+              <p className="profile-info">
+                <strong>Email:</strong> {userData.email}
+              </p>
+              <p className="profile-info">
+                <strong>Game Name:</strong> {userData.gameName}
+              </p>
+              <p className="profile-info">
+                <strong>Tag Line:</strong> {userData.tagLine}
+              </p>
             </div>
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="gameName">Game Name:</label>
-              <input
-                type="text"
-                id="gameName"
-                name="gameName"
-                value={formData.gameName}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="tagLine">Tag Line:</label>
-              <input
-                type="text"
-                id="tagLine"
-                name="tagLine"
-                value={formData.tagLine}
-                onChange={handleInputChange}
-              />
-            </div>
-            <button type="submit" className="profile-save-btn">
-              Save Changes
-            </button>
-            <button
-              type="button"
-              className="profile-cancel-btn"
-              onClick={handleEditToggle}
-            >
-              Cancel
-            </button>
-          </form>
-        ) : (
-          <div className="profile-info-container">
-            <button className="profile-edit-btn" onClick={handleEditToggle}>
-              Edit Profile
-            </button>
-            <p className="profile-info">
-              <strong>Username:</strong> {userData.username}
-            </p>
-            <p className="profile-info">
-              <strong>Email:</strong> {userData.email}
-            </p>
-            <p className="profile-info">
-              <strong>Game Name:</strong> {userData.gameName}
-            </p>
-            <p className="profile-info">
-              <strong>Tag Line:</strong> {userData.tagLine}
-            </p>
-          </div>
-        )}
-          
+          )}
+
           {/* Display FavoriteList using the user's favoritePlayers */}
           <FavoriteList />
         </div>
 
-        {/* Display MatchHistoryWrapper using the user's gameName and tagLine */}
-        {userData.gameName && userData.tagLine && (
-          <MatchHistoryWrapper
-            gameName={userData.gameName}
-            tagLine={userData.tagLine}
-          />
-        )}
-
-        {successMessage && (
-          <div className="profile-success">{successMessage}</div>
-        )}
+        {/* Pass the user's gameName and tagLine to ProfileMatchHistory */}
+        <ProfileMatchHistory
+          gameName={userData.gameName}
+          tagLine={userData.tagLine}
+        />
       </div>
     </div>
   );

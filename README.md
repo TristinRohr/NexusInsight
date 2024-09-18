@@ -1,6 +1,19 @@
 # NexusInsight
 
-### A powerful League of Legends Summoner Stats Tracker
+## A powerful League of Legends Summoner Stats Tracker
+
+---
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![Riot Games API](https://img.shields.io/badge/Riot%20Games%20API-red?style=for-the-badge&logo=riot-games&logoColor=white)
+![Data Dragon](https://img.shields.io/badge/Data%20Dragon-ffcc00?style=for-the-badge)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white)
+
 
 ---
 
@@ -13,6 +26,8 @@
 - [API Integrations](#api-integrations)
 - [Installation and Setup](#installation-and-setup)
 - [How to Use](#how-to-use)
+- [Screenshots](#screenshots)
+- [Acknowledgements](#acknowledgements)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -39,6 +54,8 @@ NexusInsight is a League of Legends tracker app designed to provide players with
 
 To get NexusInsight running on your local machine for development or personal use, follow the steps in the [Installation and Setup](#installation-and-setup) section.
 
+Or you can go to [NexusInsight on Render](https://nexusinsight.onrender.com/) and see the deployed app there. 
+
 ---
 
 ## Technologies Used
@@ -47,6 +64,8 @@ To get NexusInsight running on your local machine for development or personal us
 - **Backend**: Node.js, Express.js, GraphQL
 - **Data Management**: Riot Games API, Data Dragon API
 - **Styling**: Custom CSS (responsive design)
+- **Deployment**: [Render](https://nexusinsight.onrender.com/)
+- **Payments**: Stripe
 
 ---
 
@@ -107,6 +126,50 @@ Make sure you have the following installed:
 
 ---
 
+## Screenshots
+
+Here are some screenshots of NexusInsight in action:
+
+### Landing Page
+<img src="./client/public/screenshots/landing-screen.png" alt="Landing Screen" height="50%" width="50%">
+
+### Login Pane
+<img src="./client/public/screenshots/login-pane.png" alt="Login Pane" height="30%" width="50%">
+
+### Registration Pane
+<img src="./client/public/screenshots/registration-pane.png" alt="Registration Pane" height="30%" width="50%">
+
+### Summoner Search Results
+<img src="./client/public/screenshots/summoner-search-results.png" alt="Summoner Search Results" height="50%" width="50%">
+
+### Match Results
+<img src="./client/public/screenshots/match-results.png" alt="Match Results" height="50%" width="50%">
+
+### Profile Screen
+<img src="./client/public/screenshots/profile.png" alt="Profile Screen" height="50%" width="50%">
+
+### About Us (Donations)
+<img src="./client/public/screenshots/about-us-donations.png" alt="About Us Donations" height="50%" width="50%">
+
+### Stripe Integration
+<img src="./client/public/screenshots/stripe.png" alt="Stripe Integration" height="50%" width="50%">
+
+---
+
+## Acknowledgements
+
+We would like to express our sincere thanks to the following people for their invaluable support, contributions, and coding expertise in the development of NexusInsight:
+
+- [**Tristin Rohr**](https://github.com/TristinRohr)
+- [**Nick Zamboni**](https://github.com/ndzamboni)
+- [**Trevor Pena**](https://github.com/trevorapena)
+- [**Saia Fonua**](https://github.com/sfonua10)
+- [**Rob Wisniewski**](https://github.com/contra19?)
+
+Additionally, a special thanks to [ChatGPT](https://chat.openai.com/) for helping us solve code issues and get us out of sticky situations.
+
+---
+
 ## Contributing
 
 We welcome contributions from the community to enhance NexusInsight. If you'd like to contribute:
@@ -129,8 +192,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or feedback, please feel free to contact us:
 
-- **GitHub**: [NexusInsight GitHub Repository](https://github.com/your-username/nexusinsight)
-- **Email**: support@nexusinsight.com
+- **GitHub**: [NexusInsight GitHub Repository](https://github.com/TristinRohr/NexusInsight)
+- **Email**: support@nexusinsight.com(available in the future)
 
 ---
 

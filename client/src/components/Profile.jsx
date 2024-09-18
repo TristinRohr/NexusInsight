@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import "./Profile.css"; // Import the CSS file
 import FavoriteList from "./FavoriteList"; // Import the FavoriteList component
 import ProfileMatchHistory from "./ProfileMatches"; // Import the ProfileMatchHistory component
@@ -15,6 +16,7 @@ const Profile = () => {
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -46,13 +48,15 @@ const Profile = () => {
           tagLine: user.tagLine || "",
         });
       } catch (error) {
-        console.error("Error fetching profile data:", error);
         setError("Failed to fetch profile data. Please try again.");
+
+        // Redirect to login page if there is an error fetching profile data
+        navigate("/login");
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

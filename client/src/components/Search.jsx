@@ -13,8 +13,14 @@ const Search = ({ onSearch, isHeader }) => {
 
   useEffect(() => {
     // Update input fields when the URL parameters change
-    if (paramSummonerName) setSummonerName(paramSummonerName);
-    if (paramTagLine) setTagLine(paramTagLine);
+    if (paramSummonerName) {setSummonerName(paramSummonerName)};
+    if (paramTagLine) {setTagLine(paramTagLine)};
+
+    return () => {
+      // Cleanup function to reset the input fields when the component unmounts
+      setSummonerName("");
+      setTagLine("");
+    };
   }, [paramSummonerName, paramTagLine]);
 
   const handleSubmit = (event) => {
@@ -23,9 +29,6 @@ const Search = ({ onSearch, isHeader }) => {
     
     if (summonerName && tagLine) {
       onSearch(summonerName, tagLine); // Call the search function
-      navigate(`/match-history/${summonerName}/${tagLine}`); // Navigate to match history page
-      setSummonerName(""); // Reset the summoner name input field
-      setTagLine(""); // Reset the tag line input field
     } else {
       console.log("Summoner Name or Tag Line missing"); // Check if fields are missing
     }

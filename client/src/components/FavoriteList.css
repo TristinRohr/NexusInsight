@@ -16,6 +16,7 @@
   
   .favorite-players-list-container {
     margin-top: 20px;
+    list-style: none;
   }
   
   .favorite-players-title {
@@ -28,15 +29,18 @@
     list-style-type: none;
     padding-left: 0;
   }
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
   
   .favorite-player-item {
-    background-color: var(--card-background-color);
-    border: 1px solid var(--border-color);
-    padding: 10px;
+
     border-radius: 4px;
     margin-bottom: 10px;
     font-size: 16px;
     color: var(--text-color);
+    list-style: none;
   }
   
   .favorite-feed-error {

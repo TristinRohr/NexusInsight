@@ -103,7 +103,7 @@ const App = () => {
         {/* Favorite Feed Route (protected) */}
         <Route
           path="/favorite-feed"
-          element={isLoggedIn ? <FavoriteFeed /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <FavoriteFeed onSearch={searchHandler}/> : <Navigate to="/login" />}
         />
 
         {/* Login/Register Route */}

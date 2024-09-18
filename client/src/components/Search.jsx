@@ -29,6 +29,8 @@ const Search = ({ onSearch, isHeader }) => {
     
     if (summonerName && tagLine) {
       onSearch(summonerName, tagLine); // Call the search function
+      setSummonerName(""); // Reset the input fields
+      setTagLine(""); // Reset the input fields
     } else {
       console.log("Summoner Name or Tag Line missing"); // Check if fields are missing
     }

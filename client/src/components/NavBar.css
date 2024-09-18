@@ -102,3 +102,51 @@
         margin-left: 10px;
     }
 }
+
+@media (min-width: 970px) and (max-width: 1150px) {
+    .navbar-brand {
+        font-size: 250%; /* Reduce the font size of the brand */
+    }
+
+    .navbar-logo {
+        width: 8%; /* Scale down the logo */
+        height: 8%;
+    }
+
+    .nav-link {
+        font-size: 0.9rem; /* Adjust link font size */
+        padding: 6px 10px; /* Adjust padding to fit links */
+    }
+
+    .nav-item {
+        margin-left: 10px; /* Decrease space between nav items */
+    }
+
+    .navbar-container {
+        padding: 0 15px; /* Reduce padding to prevent overflow */
+    }
+}
+
+@media (min-width: 900px) and (max-width: 970px) {
+    .navbar-brand {
+        font-size: 220%; /* Further reduce the font size */
+    }
+
+    .navbar-logo {
+        width: 7%; /* Further scale down the logo */
+        height: 7%;
+    }
+
+    .nav-link {
+        font-size: 0.8rem; /* Reduce the font size more */
+        padding: 5px 8px; /* Reduce padding */
+    }
+
+    .nav-item {
+        margin-left: 8px; /* Further reduce space between nav items */
+    }
+
+    .navbar-container {
+        padding: 0 10px; /* Decrease padding to prevent overflow */
+    }
+}

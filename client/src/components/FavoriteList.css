@@ -37,6 +37,7 @@
     margin-bottom: 10px;
     font-size: 16px;
     color: var(--text-color);
+    cursor: pointer;
   }
   
   .favorite-feed-error {
@@ -46,6 +47,19 @@
   .no-favorite-players-message {
     font-size: 16px;
     color: var(--neutral-color);
+  }
+
+  .delete-player-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .delete-player-btn:hover {
+    color: darkred;
   }
 
   a {

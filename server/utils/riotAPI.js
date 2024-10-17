@@ -1,7 +1,9 @@
 const fetch = require('node-fetch');
 require('dotenv').config();
+let intervalId;
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
+const GAME_CLIENT_API_URL = 'https://127.0.0.1:2999';
 
 exports.fetchPuuidByRiotId = async (gameName, tagLine) => {
   console.log(`Fetching PUUID for Riot ID: ${gameName}#${tagLine}`);
@@ -118,4 +120,24 @@ exports.queueTypes = async () => {
 
   
   return data; // Return the full list of queues
+};
+
+exports.fetchLiveGameData = async () => {
+  try {
+    const url = 'https://127.0.0.1:2999/liveclientdata/allgamedata';
+
+    // Create an HTTPS agent that bypasses SSL certificate validation
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false, // Ignore self-signed certificate
+    });
+
+    // Make the GET request with the HTTPS agent
+    const response = await axios.get(url, { httpsAgent });
+
+    console.log('Fetched live game data:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching live game data:', error.response?.data || error.message);
+    throw error;
+  }
 };

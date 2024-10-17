@@ -34,6 +34,38 @@ li {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Tabs styling */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.tab-button.active {
+  background-color: var(--accent-color);
+  color: var(--highlight-color);
+}
+
+.tab-button:hover {
+  background-color: var(--highlight-color);
+  color: var(--text-color);
+}
+
+.tab-content {
+  margin-top: 20px;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

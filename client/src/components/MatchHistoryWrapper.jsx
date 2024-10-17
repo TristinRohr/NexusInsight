@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Routes, Route, Link } from 'react-router-dom';
 import UserStats from './UserStats.jsx';
 import MatchHistory from './MatchHistory';
+import LiveGame from './LiveGame'; // Import the LiveGame component
 
 const MatchHistoryWrapper = () => {
   const { summonerName: paramSummonerName, tagLine: paramTagLine } = useParams();
@@ -9,6 +10,7 @@ const MatchHistoryWrapper = () => {
   
   const [searchTerm, setSearchTerm] = useState('');
   const [recentSummoners, setRecentSummoners] = useState([]);
+  const [activeTab, setActiveTab] = useState('match-history'); // State to track active tab
 
   const summonerName = paramSummonerName;
   const tagLine = paramTagLine;
@@ -40,6 +42,11 @@ const MatchHistoryWrapper = () => {
     updateRecentSummoners(currentSummoner);
   }, [summonerName, tagLine]);
 
+  // Function to switch between tabs
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div>
       <div className="recent-summoners">
@@ -56,7 +63,31 @@ const MatchHistoryWrapper = () => {
       </div>
 
       <UserStats riotId={riotId} setSearchTerm={setSearchTerm} />
-      <MatchHistory riotId={riotId} setSearchTerm={setSearchTerm} />
+
+      {/* Tabs for switching between Match History and Live Game */}
+      <div className="tabs">
+        <button
+          className={`tab-button ${activeTab === 'match-history' ? 'active' : ''}`}
+          onClick={() => handleTabChange('match-history')}
+        >
+          Match History
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'live-game' ? 'active' : ''}`}
+          onClick={() => handleTabChange('live-game')}
+        >
+          Live Game
+        </button>
+      </div>
+
+      {/* Content based on active tab */}
+      <div className="tab-content">
+        {activeTab === 'match-history' ? (
+          <MatchHistory riotId={riotId} setSearchTerm={setSearchTerm} />
+        ) : (
+          <LiveGame riotId={riotId} setSearchTerm={setSearchTerm} />
+        )}
+      </div>
     </div>
   );
 };

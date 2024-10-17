@@ -113,6 +113,21 @@ const riotResolvers = {
         throw new Error('Failed to fetch user stats');
       }
     },
+
+    getLiveClientData: async () => {
+      try {
+        const response = await axios.get('https://127.0.0.1:2999/liveclientdata/allgamedata', {
+          httpsAgent: new (require('https').Agent)({
+            rejectUnauthorized: false, // Ignore SSL certificate errors
+          }),
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching live game data:', error);
+        throw new Error('Failed to fetch live game data from the League client.');
+      }
+    },
+    
     queueType: async (_, { queueId }) => {
       try {
         console.log(`Queue ID received from frontend: ${queueId}`); // Log received queueId

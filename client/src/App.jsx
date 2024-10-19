@@ -11,6 +11,8 @@ import MatchHistoryWrapper from './components/MatchHistoryWrapper';
 import AboutDonation1 from './components/AboutDonation';
 import StripeSuccess from './components/StripeSuccess';  // Import SuccessPage
 import StripeCancel from './components/StripeCancel';   // Import CancelPage
+import PrivacyPolicy from './components/PrivacyPolicy';  // Import Privacy Policy component
+import TermsOfService from './components/TermsOfService';  // Import Terms of Service component
 
 const App = () => {
   // State to store summonerName and tagLine, initially loading from localStorage
@@ -115,6 +117,10 @@ const App = () => {
         {/* Success and Cancel Routes for Stripe */}
         <Route path="/success" element={<StripeSuccess />} />
         <Route path="/cancel" element={<StripeCancel />} />
+
+        {/* Routes for Privacy Policy and Terms of Service */}
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
 
         {/* Catch-all: Redirect to LandingSearch if no route matches */}
         <Route path="*" element={<Navigate to="/" />} />
